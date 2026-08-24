@@ -1,0 +1,36 @@
+# Subject manifest — convention 2.0 (docs/CONTENT_CONVENTION.md §3.2).
+# Upstream: github.com/kevin-cazal/pacman-ghost-ai_new (the subject repo). This is
+# the vendored copy the platform syncs from, same as content/pypong.
+schema_version: "2.0"
+
+project:
+  name: "Pac-Man — IA du fantôme"
+  slug: "pacman"
+  summary: "Programmez l'intelligence du fantôme de Pac-Man, en Lua."
+  entrypoint: "intro.md"
+
+# The web app shown beside the instructions (PLAN.md §14). `id` + `version`
+# select a dist built by tools/build_runtime.sh and served same-origin at
+# /runtime/<id>/<version>/ — reading this block is enough to deploy the pane.
+runtime:
+  engine: "pacman-ghost-ai"
+  language: "lua"           # student code is Lua, executed by Fengari in-page
+  id: "pacman"
+  version: "00ffe3f"        # pacman-ghost-ai_runtime commit the dist was built from
+  title: "Pac-Man"
+  pane:
+    placement: side         # side | bottom
+    open: false             # let the participant read the intro first
+    size: 55                # percent of the viewport width
+
+platform:
+  mode_default: instructor_led
+  validation_default: checkpoint
+  points_default: 25
+
+# Reading order. Atelier 2 requires atelier 1, which the linear chain across
+# documents already enforces: every exercise gates the next, in this order.
+documents:
+  - intro.md
+  - atelier1.md
+  - atelier2.md
