@@ -1,305 +1,445 @@
-# Atelier 2 - Machine à états finis
+# Atelier 2 — Machine à états finis
 
-**Bienvenue dans l'Atelier 2 !** Tu vas programmer le fantôme avec 3 modes (`patrol`, `follow`, `scared`) qui changent selon la situation.
+Ton fantôme poursuit **tout le temps**, même à l’autre bout de la carte : impossible de le semer
+une seconde. Tu vas lui donner trois humeurs.
 
-**Prérequis :** termine l'**Atelier 1** d'abord (avec le fantôme qui poursuit Pac-Man).
+| `patrol` | `follow` | `scared` |
+| --- | --- | --- |
+| ![Fantôme orange](img/etat-patrol.png) | ![Fantôme rouge](img/etat-follow.png) | ![Fantôme bleu](img/etat-scared.png) |
+| Tu es loin : il erre au hasard. | Tu es proche : il utilise ton arbre de l’atelier 1. | Tu as mangé une super pac-gomme : il fuit. |
 
-**Objectif :** le fantôme a 3 modes - patrouille (`patrol`), poursuite (`follow`), peur (`scared`). Tu programmes d'abord la patrouille et la poursuite, puis la super pac-gomme. Les changements de mode vont dans `updateState`, le mouvement dans `chooseDirection`.
+**La couleur du fantôme te dit dans quel mode il est.** C’est comme ça que tu vérifieras ton code
+à chaque étape.
 
-**Super pac-gomme :** grosses pac-gommes blanches aux 4 coins - elles effraient le fantôme 8 secondes (il devient bleu).
+**Ce qu’il te faut :** un fantôme qui bouge, où que tu te sois arrêté dans l’atelier 1.
+L’atelier 2 enveloppe ton arbre **tel qu’il est** : même un fantôme qui ne sait aller qu’à gauche
+prendra les trois couleurs.
 
-**Méthodologie :** lis l'étape, modifie le code, clique le panneau **Jeu**, puis **Démarrer**.
+> 🛟 **Coincé ?** Les termes propres à cet atelier sont dans le glossaire juste en dessous.
 
-### Glossaire de l'atelier 2
+<details><summary><b>Glossaire de l’atelier 2</b></summary>
 
 | Terme | Signification |
 | --- | --- |
-| `updateState` | Fonction qui choisit le mode du fantôme : `patrol`, `follow` ou `scared` |
-| `'patrol'` | Mode patrouille - Pac-Man est loin, le fantôme erre au hasard sans le chercher (orange) |
-| `'follow'` | Mode poursuite - Pac-Man est proche, le fantôme utilise l'arbre de décision de l'Atelier 1 (rouge) |
-| `'scared'` | Mode peur - Pac-Man a mangé une super pac-gomme, le fantôme fuit (bleu) |
-| `super pac-gomme` | Grande pac-gomme blanche dans les 4 coins de la carte - effraie le fantôme 8 secondes |
+| `updateState` | Fonction qui choisit le mode : `patrol`, `follow` ou `scared` |
+| `'patrol'` | Le fantôme erre au hasard (orange) |
+| `'follow'` | Le fantôme utilise l’arbre de décision de l’atelier 1 (rouge) |
+| `'scared'` | Le fantôme fuit (bleu) |
+| `super pac-gomme` | Grande pac-gomme blanche dans les 4 coins — effraie le fantôme 8 secondes |
 | `game.scaredTimer` | Temps restant de la super pac-gomme (> 0 = peur active) |
-| `state` | Mode actuel du fantôme - tu le recopies dans `buildInfos` : `state = ghost.state` |
-| `currentDirection` | Dernière direction du fantôme - tu le recopies : `currentDirection = ghost.direction` |
-| `patrolLockTimer` | Temps restant (secondes) avant un nouveau choix aléatoire - tu le recopies : `patrolLockTimer = ghost.patrolLockTimer` |
-| `totalDistance` | Tu le calcules : `math.abs(distanceX) + math.abs(distanceY)` — nombre de cases entre fantôme et Pac-Man |
+| `state` | Mode actuel — tu le recopies : `state = ghost.state` |
+| `currentDirection` | Dernière direction — tu la recopies : `currentDirection = ghost.direction` |
+| `patrolLockTimer` | Compte à rebours géré par le jeu — tu le recopies : `patrolLockTimer = ghost.patrolLockTimer` |
+| `totalDistance` | Tu le calcules : le nombre de cases entre le fantôme et Pac-Man |
 
-## Étape 1 - L'état et le mode patrol
+</details>
+
+## Étape 1 — L’état du fantôme
 <!-- ws: {type: exercise, id: a2-etat-patrol} -->
 
-<!-- ws:resume -->
-- `state = ghost.state` dans `buildInfos`
-- `updateState` renvoie `'patrol'` pour l'instant
-- ne pas toucher `chooseDirection`
-<!-- /ws:resume -->
+Une **machine à états finis** est dans une seule humeur à la fois, et elle en change quand un
+événement arrive.
 
-### Concept
+![Les trois modes du fantôme, et ce qui le fait passer de l’un à l’autre.](img/machine-etats.png)
 
-Une **machine à états finis**, c'est un système qui :
+Ce diagramme est le plan de tout l’atelier : `updateState` écrit les **flèches**, celles qui font
+passer d’un mode à l’autre. `chooseDirection`, lui, décide comment bouger **une fois dans un
+mode**. Pour qu’il puisse lire le mode, il faut d’abord le faire passer par `infos`.
 
-1. Est toujours dans **un état** parmi une liste finie - ici : `patrol`, `follow`, `scared`
-2. **Change d'état** quand un événement arrive - ex. Pac-Man s'approche, ou mange une super pac-gomme
-3. **Se comporte différemment** selon l'état actuel
+### 🥸 Mise en application
 
-Dans ton code, deux fonctions travaillent ensemble :
-
-- `updateState` : décide **quel est le prochain mode** à adopter
-- `chooseDirection` : choisit **comment bouger** selon le mode (via `infos.state`)
-
-Pour que `chooseDirection` puisse lire le mode, tu dois d'abord l'ajouter dans `infos` via `buildInfos`. Pour cette étape, le fantôme reste en mode `'patrol'` par défaut - c'est le mode quand Pac-Man est loin.
-
-### Observe le jeu
-
-Le fantôme se comporte encore comme à la fin de l'Atelier 1 - il poursuit Pac-Man. C'est normal : tu n'as pas encore codé le mouvement par mode. À l'étape 2, tu ajouteras la patrouille.
-
-### À toi de jouer
-
-Dans `buildInfos`, ajoute :
+**Ton objectif :** brancher le fil. Rien ne changera à l’écran, c’est normal.
 
 ```lua
+-- dans buildInfos, une propriété de plus
 state = ghost.state,
 ```
 
-Dans `updateState`, laisse :
-
 ```lua
+-- dans updateState, laisse
 return 'patrol'
 ```
 
-Ne modifie pas `chooseDirection`.
+Tu dois obtenir ceci — il poursuit comme avant, et il est **orange**, la couleur de la patrouille.
 
-### Vérifie
+![Il poursuit comme à la fin de l’atelier 1, et il est orange — désormais cette couleur veut dire quelque chose.](img/a2-e1-orange.gif)
 
-Le fantôme poursuit encore Pac-Man (Atelier 1). Pas d'erreur sous l'éditeur.
-
-### Réflexion
-
-Pourquoi recopier `ghost.state` dans `infos` ? À quoi servira `infos.state` dans `chooseDirection` ?
-
-## Étape 2 - Patrouiller
+## Étape 2 — Patrouiller
 <!-- ws: {type: exercise, id: a2-patrouiller} -->
 
-<!-- ws:resume -->
-- `currentDirection` et `patrolLockTimer` dans `buildInfos`
-- bloc `if infos.state == 'patrol' then` au début de `chooseDirection`
-- garder la direction tant que le timer tourne, sinon tirer au hasard parmi les directions libres
-<!-- /ws:resume -->
+En `'patrol'`, le fantôme erre : il choisit au hasard, sans te chercher. Mais au hasard **à chaque
+case**, il tremblerait sur place — il garde donc sa direction un moment.
 
-### Concept
+Ce moment, c’est le jeu qui le compte, dans `patrolLockTimer`. Toi, tu le lis. Par exemple, d’une
+décision à la suivante :
 
-Quand Pac-Man est **loin**, le fantôme est en mode `'patrol'` : il **erre** sans le chercher, en choisissant des directions **au hasard**.
-
-Pour éviter un mouvement saccadé (changement à chaque case), le fantôme **garde sa direction pendant un moment** grâce à `patrolLockTimer` :
-
-```lua
-currentDirection = ghost.direction,
-patrolLockTimer = ghost.patrolLockTimer,
+```text
+1.5   1.2   0.8   0.5   0.1   0   puis il repart
 ```
 
-`ghost.direction` vaut `'left'`, `'right'`, `'up'`, `'down'` ou `nil` (immobile).
-`patrolLockTimer` compte les secondes restantes avant de pouvoir choisir une nouvelle direction au hasard.
+Il descend tant que le fantôme continue tout droit, il touche **0**, et le jeu le remonte tout
+seul. **C’est quand tu lis 0 que tu tires une nouvelle direction.**
 
-**Règles de patrouille :**
+Compte trois quarts d’heure : c’est le gros morceau de l’atelier. Les deux règles de la patrouille :
 
-1. Si `patrolLockTimer > 0` et `currentDirection` est libre : continue dans cette direction
-2. Sinon (timer fini ou mur devant) : choisis une direction **au hasard** parmi les directions valides
+1. `infos.patrolLockTimer > 0` **et** la case devant est libre → continue dans `infos.currentDirection`
+2. sinon → tire une direction **au hasard** parmi les directions libres
 
-**Astuce : tirer un élément aléatoire dans une liste** :
+### Boîte à outils
 
-Tu choisis un dessert au hasard dans un menu. Tu commences avec une **liste vide** `{}`, tu n'y mets que les desserts **encore disponibles** `if ... then table.insert(desserts, ...) end`, puis tu tires un **numéro au hasard** pour en sélectionner un (index **1**, **2**, **3**... selon la taille de la liste — en Lua, les tables commencent à **1**).
+> **Outil #1 : `==` demande « est-ce exactement ça ? »**
+> Un seul `=` range une valeur ; deux `==` posent une question.
+> ```lua
+> if dessert == 'glace' then
+>   print('parfait')
+> end
+> ```
+> 📘 [Les opérateurs relationnels](https://www.lua.org/manual/5.3/manual.html#3.4.4)
 
-```lua
-local desserts = {}
-if glaceDispo then table.insert(desserts, 'glace') end
-if gateauDispo then table.insert(desserts, 'gâteau') end
-if fruitDispo then table.insert(desserts, 'fruit') end
-if crepeDispo then table.insert(desserts, 'crêpe') end
-local index = math.random(1, #desserts)
-return desserts[index]
-```
+> **Outil #2 : construire une liste petit à petit.**
+> `{}` crée une liste vide, `table.insert` y ajoute un élément à la fin.
+> ```lua
+> local desserts = {}
+> if glaceDispo then table.insert(desserts, 'glace') end
+> if gateauDispo then table.insert(desserts, 'gâteau') end
+> ```
+> `local` crée une **variable** — un nom qui retient une valeur — et la range dans le bloc où tu
+> l’écris : ici, dans la fonction. Mets-le devant tes listes.
+> 📘 [`table.insert`](https://www.lua.org/manual/5.3/manual.html#pdf-table.insert)
 
-Imaginons qu'il n'y ait plus de gâteaux : la liste vaut `{'glace', 'fruit', 'crêpe'}` — **3** desserts, donc des index **1**, **2** ou **3**.
+> **Outil #3 : aller d’un mot à la bonne réponse.**
+> Tu as un mot d’un côté (`'left'`), et des réponses aux noms différents de l’autre
+> (`canGoLeft`…). Le plus direct est de poser la question cas par cas :
+> ```lua
+> if animal == 'chien' then return leChienAboie end
+> if animal == 'chat'  then return leChatMiaule end
+> ```
+> *(Il existe plus court, si tu ranges tes réponses autrement. Cherche, si ça t’amuse.)*
+> 📘 [Les opérateurs relationnels](https://www.lua.org/manual/5.3/manual.html#3.4.4)
 
-**Comment l'index aléatoire est calculé :**
+> **Outil #4 : tirer au hasard dans une liste.**
+> `#liste` donne le nombre d’éléments, `math.random(1, n)` tire un entier entre 1 et n inclus.
+> ```lua
+> local index = math.random(1, #desserts)
+> return desserts[index]
+> ```
+> **En Lua, les listes commencent à 1**, pas à 0. Et si la liste est vide (`#desserts == 0`), ne
+> fais pas ce calcul.
+> 📘 [`math.random`](https://www.lua.org/manual/5.3/manual.html#pdf-math.random) ·
+> [l’opérateur `#`](https://www.lua.org/manual/5.3/manual.html#3.4.7)
 
-1. `math.random(1, n)` tire un entier aléatoire entre **1** et **n** inclus (ex. `2` pour une liste de 3 desserts)
-2. `desserts[2]` renvoie le deuxième élément : `'fruit'`
+### 🥸 Mise en application
 
-Autre tirage possible : `math.random(1, 3)` donne **1**, puis `'glace'`.
-Si la liste est vide (`#desserts == 0`), ne fais pas ce calcul — il n'y a rien à choisir.
+**Ton objectif :** un fantôme qui erre sans te chercher, en tenant sa direction environ une
+seconde et demie.
 
-Adapte cette idée aux directions du fantôme.
+Ajoute `currentDirection = ghost.direction` et `patrolLockTimer = ghost.patrolLockTimer` dans
+`buildInfos`, puis un bloc `if infos.state == 'patrol' then` **au début** de `chooseDirection`,
+avant tes règles de poursuite, qui applique les deux règles ci-dessus.
 
-### Observe le jeu
+`ghost.direction` vaut `'left'`, `'right'`, `'up'`, `'down'` ou `nil` au premier tour.
 
-Sans patrouille, le fantôme **poursuit toujours** Pac-Man (Atelier 1) même quand il est loin. Après cette étape, il doit errer de façon imprévisible quand tu es loin.
+Tu dois obtenir ceci — il erre sans traverser un seul mur, et il ne te poursuit plus du tout,
+même collé à toi. C’est voulu et c’est
+temporaire : la poursuite revient à l’étape 3, en mieux.
 
-### À toi de jouer
+![Le fantôme orange erre : il tient sa direction environ une seconde et demie, puis tire la suivante au hasard.](img/a2-e2-patrouille.gif)
 
-Dans `buildInfos`, ajoute :
+<!-- ws: {type: hint} -->
+<details><summary>Si tu es bloqué</summary>
 
-```lua
-currentDirection = ghost.direction,
-patrolLockTimer = ghost.patrolLockTimer,
-```
+**Coupe l’étape en deux, teste au milieu.**
 
-Dans `chooseDirection`, ajoute **au début** (avant tes règles de poursuite) un bloc `if infos.state == 'patrol' then` :
+*Moitié 1, le hasard seul.* Oublie le timer : construis la liste des directions libres, tire
+dedans, renvoie. Voilà à quoi ça doit ressembler — c’est laid, et c’est exactement ce qu’on veut
+voir à ce stade :
 
-1. Si `patrolLockTimer > 0`, continue `currentDirection` tant que la case devant est libre (même principe que quatre `if` avec `canGoLeft`, `canGoRight`, etc.)
-2. Sinon, choisis une direction aléatoire parmi celles possibles
+![Sans le timer : il tire une direction à chaque case et tremble sur place.](img/a2-e2-hasard.gif)
 
-### Vérifie
+*Moitié 2, le timer.* Ajoute devant une règle qui renvoie `currentDirection` quand
+`patrolLockTimer > 0` et que la case devant est libre.
 
-Loin de Pac-Man, le fantôme erre (orange) au lieu de poursuivre.
+**Ta liste se construit-elle ?** `print(#directionsLibres)` juste avant le tirage, et regarde le
+panneau **Console**, sous l’éditeur. Si le nombre reste à 0, le problème est dans tes `if`, pas
+dans le tirage.
 
-### Réflexion
+**« La case devant est libre »** — tu as déjà les quatre réponses dans `infos` depuis l’atelier 1.
+À toi de choisir la bonne selon `currentDirection`.
 
-Pourquoi utilise-t-on un timer pour garder la direction au lieu de choisir au hasard à chaque carrefour ?
+**Il te poursuit encore, comme avant ?** Alors ton bloc `patrol` n’est jamais atteint : remonte
+à l’étape 1 et vérifie que `state = ghost.state,` est bien dans `buildInfos`. Sans cette ligne,
+`infos.state` ne vaut rien et ton test échoue en silence.
 
-## Étape 3 - Mode follow
+Le fantôme se fige d’un coup ? `currentDirection` vaut `nil` au premier tour, et `nil` n’est pas
+une direction valide.
+
+</details>
+
+## Étape 3 — Poursuivre seulement quand tu es proche
 <!-- ws: {type: exercise, id: a2-mode-follow} -->
 
-<!-- ws:resume -->
-- une propriété de distance en cases dans `buildInfos`
-- `updateState` : `'follow'` si Pac-Man est à 8 cases ou moins, sinon `'patrol'`
-- envelopper l'arbre de l'Atelier 1 dans un test sur `infos.state`
-<!-- /ws:resume -->
+Tu tiens les deux comportements. Maintenant, lequel s’applique quand : proche → `'follow'`, loin →
+`'patrol'`.
 
-### Concept
+« Proche » se mesure en **cases** : l’écart horizontal **plus** l’écart vertical. Pas la distance
+à vol d’oiseau. Le seuil de cet atelier est **8 cases**.
 
-Quand Pac-Man est **proche**, le fantôme passe en `'follow'` et utilise ton arbre de décision de l'Atelier 1. Loin, il reste en `'patrol'`.
+### Boîte à outils
 
-Mesure la distance en **cases** (horizontal + vertical, pas en diagonale).
+> **Outil : `math.abs` retire le signe.**
+> ```lua
+> print(math.abs(5))    -- 5
+> print(math.abs(-5))   -- 5
+> ```
+> Que Pac-Man soit trois cases à gauche ou trois cases à droite, il est à trois cases.
+> 📘 [`math.abs`](https://www.lua.org/manual/5.3/manual.html#pdf-math.abs)
+>
+> *(Si tu as fait l’étape 7 de l’atelier 1, tu le connais déjà.)*
 
-La poursuite Atelier 1 ne doit s'appliquer **que** en mode `'follow'`.
+### 🥸 Mise en application
 
-### Observe le jeu
+**Ton objectif :** un fantôme qui te lâche quand tu t’éloignes, et te repère quand tu reviens.
 
-Sans le mode `follow`, le fantôme patrouille même quand tu t'approches.
-
-### À toi de jouer
-
-1. `buildInfos` — ajoute une propriété pour la distance en cases entre fantôme et Pac-Man
-2. `updateState` — si Pac-Man est proche (<= 8 cases), `'follow'`, sinon `'patrol'`
-3. `chooseDirection` — enveloppe tout l'arbre de poursuite Atelier 1 dans un test sur `infos.state`
-
-### Vérifie
-
-- Pac-Man loin : `patrol` (orange)
-- Pac-Man proche : `follow` (rouge, poursuite)
-
-### Réflexion
-
-Pourquoi la poursuite ne doit-elle marcher qu'en mode `follow` et pas en `patrol` ?
-
-## Étape 4 - La super pac-gomme et le mode scared
-<!-- ws: {type: exercise, id: a2-super-pac-gomme} -->
-
-<!-- ws:resume -->
-- `updateState` teste les 3 modes dans l'ordre `scared`, puis `follow`, puis `patrol`
-- `game.scaredTimer > 0` déclenche `scared`
-- ne pas toucher `chooseDirection`
-<!-- /ws:resume -->
-
-### Concept
-
-Quand Pac-Man mange une **super pac-gomme** (grosse pac-gomme blanche), le fantôme a peur 8 secondes : `game.scaredTimer > 0`, mode `'scared'`.
-
-**Astuce (priorités)** : on teste d'abord l'urgence, puis le reste.
+1. `buildInfos` — une propriété `totalDistance` qui vaut la distance en cases
+2. `updateState` — `'follow'` si elle vaut 8 cases ou moins, sinon `'patrol'`
+3. `chooseDirection` — enveloppe tout ton arbre de l’atelier 1 dans un test sur `infos.state` :
 
 ```lua
-if urgence then return 'rouge' end
-if proche then return 'orange' end
-return 'vert'
+if infos.state == 'patrol' then
+  -- ta patrouille (étape 2)
+else
+  -- tout ton arbre de l'atelier 1, tel quel
+end
 ```
 
-Adapte à `scared` > `follow` > `patrol`.
+Tu dois obtenir ceci : **orange** de loin, **rouge** à 8 cases ou moins, orange à nouveau quand tu
+t’éloignes.
 
-### Observe le jeu
+![Pac-Man approche : le fantôme erre en orange, puis vire au rouge dès qu’il passe sous les huit cases.](img/a2-e3-bascule.gif)
 
-Après une super pac-gomme, le fantôme devient **bleu** mais patrouille ou poursuit encore — la fuite viendra à l'étape 5.
+![Le même instant, figé : à huit cases ou moins, le fantôme est rouge et fonce droit sur Pac-Man.](img/a2-e3-rouge.png)
 
-### Astuce
+<!-- ws: {type: hint} -->
+<details><summary>Si tu es bloqué</summary>
 
-Les petites pac-gommes orange ne comptent pas — cherche les **grosses pac-gommes blanches** aux 4 coins.
+Orange en permanence ? `print(infos.totalDistance)` au début de `chooseDirection`, et regarde le
+panneau **Console** : en te rapprochant, le nombre doit descendre vers 0 en restant **positif**.
+S’il devient négatif, il te manque la valeur absolue.
 
-### À toi de jouer
+Rouge en permanence ? Dans `updateState`, as-tu vraiment un cas qui renvoie `'patrol'` ?
 
-1. `updateState` — 3 modes avec priorité : `scared` avant `follow` avant `patrol`
-2. Ne modifie pas `chooseDirection`
+Rouge mais immobile ? Ton arbre de l’atelier 1 est resté **en dehors** du test sur `infos.state`,
+ou le `return nil` final est passé à l’intérieur.
 
-### Vérifie
+</details>
 
-1. Sans super pac-gomme : loin : `patrol`, proche : `follow`
-2. Super pac-gomme : fantôme **bleu** (`scared`)
-3. Fin du timer : retour `patrol` ou `follow`
-4. Approche puis éloignement : `follow` puis `patrol`
+## Étape 4 — La super pac-gomme
+<!-- ws: {type: exercise, id: a2-super-pac-gomme} -->
 
-### Réflexion
+Les quatre grosses pac-gommes blanches, dans les coins, sont des **super pac-gommes**. Quand tu en
+manges une, `game.scaredTimer` passe à 8 et redescend seconde après seconde. Au-dessus de 0, le
+fantôme a peur.
 
-Pourquoi tester `scared` avant `follow` dans `updateState` ?
+Ce mode passe **avant** les deux autres : proche ou loin, un fantôme terrifié reste terrifié.
 
-## Étape 5 - Fuir en mode scared
+### Boîte à outils
+
+> **Outil : l’ordre des tests dans une cascade.**
+> Autre décor, même mécanique — décider quoi mettre sur soi :
+> ```lua
+> if ilNeige then return 'doudoune' end
+> if ilPleut then return 'imperméable' end
+> return 'tee-shirt'
+> ```
+> Le premier `return` atteint arrête tout : mets en haut le cas qui doit gagner même quand les
+> autres sont vrais aussi.
+
+### 🥸 Mise en application
+
+**Ton objectif :** un fantôme qui devient bleu quand tu manges une grosse pac-gomme blanche, et
+que tu peux alors traverser sans mourir.
+
+Dans `updateState` seulement, teste les trois modes dans l’ordre `scared`, `follow`, `patrol`. Ne
+touche pas à `chooseDirection`.
+
+Tu dois obtenir ceci — il reste bleu 8 secondes, puis redevient orange ou rouge selon où tu es :
+
+![Super pac-gomme mangée, celle d’en haut à gauche a disparu : le fantôme est passé au bleu et se déplace comme avant.](img/a2-e4-bleu.gif)
+
+Il continue à patrouiller ou à te poursuivre, c’est normal : `chooseDirection` ne connaît pas
+encore ce mode.
+
+<!-- ws: {type: hint} -->
+<details><summary>Si tu es bloqué</summary>
+
+Jamais bleu ? Les petites pac-gommes orange ne comptent pas : il faut les **grosses blanches**,
+dans les quatre coins.
+
+Toujours pas ? `print(game.scaredTimer)` au début de `updateState`, et regarde le panneau
+**Console**. Si le nombre saute à 8 quand tu en manges une, le problème est dans ton `if`, pas
+dans le jeu.
+
+Bleu seulement quand tu es loin ? Ton test `scared` est passé **après** le test `follow`.
+
+</details>
+
+## Étape 5 — Fuir
 <!-- ws: {type: exercise, id: a2-fuir-scared} -->
 
-<!-- ws:resume -->
-- bloc `scared` dans `chooseDirection`, entre `patrol` et `follow`
-- règles inverses de la poursuite, sans oublier les `canGo...`
-<!-- /ws:resume -->
+En `'scared'`, le fantôme **fuit**. Là où ton arbre disait « Pac-Man est à gauche, va à gauche »,
+la fuite dit l’inverse.
 
-### Concept
+### 🥸 Mise en application
 
-En mode `'scared'`, le fantôme **fuit** Pac-Man — direction **opposée** à la poursuite.
+**Ton objectif :** un fantôme bleu qui s’écarte au lieu de te courir après, et qui reste dans les
+couloirs.
 
-### Observe le jeu
+Ajoute un bloc `scared` à côté des deux autres, avec les règles de fuite. N’oublie pas les
+`canGo...` : un fantôme paniqué ne traverse pas les murs pour autant.
 
-Après une super pac-gomme, le fantôme est bleu mais patrouille ou poursuit encore. Il doit maintenant **s'éloigner** de toi.
+Tu dois obtenir ceci :
 
-### À toi de jouer
+![Super pac-gomme mangée : le fantôme bleu applique les règles inverses et s’écarte de Pac-Man.](img/a2-e5-fuite.gif)
 
-Dans `chooseDirection`, ajoute un bloc `scared` **entre** `patrol` et `follow`. Écris les règles de fuite (inverse de la poursuite, vérifie `canGo...`).
+<!-- ws: {type: hint} -->
+<details><summary>Si tu es bloqué</summary>
 
-### Vérifie
+Il ne fuit que dans une direction ? Tu as inversé la comparaison d’un axe et oublié l’autre.
+Reprends tes quatre règles une par une : chacune a exactement une comparaison à retourner.
 
-Après super pac-gomme, fantôme bleu s'éloigne sans traverser les murs.
+Il ne bouge plus du tout en bleu ? Il est peut-être acculé — toutes les directions libres le
+rapprochent de toi, donc aucune de tes règles ne s’applique :
 
-### Réflexion
+![Pac-Man bouge, le fantôme bleu non : ses deux seules cases libres le rapprocheraient de toi.](img/a2-e5-accule.gif)
 
-Fuite = directions inverses par rapport à la poursuite ?
+Que **devrait** faire ton code dans ce cas ? Il n’y a pas une seule bonne réponse, et c’est toi
+qui décides : rester immobile et se faire manger, prendre quand même la case la moins mauvaise, ou
+repartir en patrouille. Les trois se défendent. Choisis, écris-le, regarde ce que ça donne.
 
-## Étape 6 - Défi : fantôme complet
+</details>
+
+## Étape 6 — Le fantôme complet
 <!-- ws: {type: exercise, id: a2-fantome-complet} -->
 
-<!-- ws:resume -->
-- relire et tester les étapes 1 à 5 ensemble
-- une partie complète avec les 3 modes visibles
-<!-- /ws:resume -->
+Tes trois modes existent séparément. Reste à voir s’ils s’enchaînent proprement.
 
-### Concept
+### 🥸 Mise en application
 
-Relis et teste ton code des étapes 1 à 5.
+**Ton objectif :** retrouver les six comportements ci-dessous. Pas besoin de finir la partie — tu
+provoques chaque situation exprès, en deux minutes.
 
-### Vérifie
+| Ce que tu fais | Ce que tu dois voir |
+| --- | --- |
+| Tu restes à l’autre bout de la carte | **orange**, il erre, virages toutes les ~1,5 s |
+| Tu approches à 8 cases ou moins | **rouge**, il fonce sur toi |
+| Tu manges une grosse pac-gomme blanche | **bleu**, il s’écarte pendant 8 s |
+| Tu le touches en bleu | rien, tu passes au travers |
+| Tu le touches en orange ou rouge | tu meurs, ça redémarre après 3 s |
+| À tout moment | il ne traverse aucun mur |
 
-Joue une partie complète et vérifie que ton programme se comporte correctement :
+Et si tu veux la gagner en entier — 211 pac-gommes, score **2 270** — c’est bien plus dur avec ce
+fantôme-là qu’à l’atelier 1 :
 
-- **patrol** : fantôme orange qui erre au hasard quand tu es loin (direction gardée ~1,5 s)
-- **follow** : poursuite active (rouge) quand tu t'approches
-- **scared** : fantôme bleu qui fuit après une super pac-gomme
-- Super pac-gomme : grosses pac-gommes blanches aux 4 coins
-- En mode scared, tu peux croiser le fantôme sans mourir
-- En mode patrol ou follow, toucher le fantôme = mort (redémarrage après 3 s)
-- Pas de murs traversés
-- Victoire = **toutes** les pac-gommes mangées
+![Partie gagnée. Le fantôme est rouge : il chassait au moment du dernier pac-gomme.](img/a2-e6-victoire.png)
 
-### Réflexion
+> **Tu n’as pas fini les étapes précédentes ?** Va quand même voir le bonus **Ton fantôme à toi** :
+> deux modes qui s’enchaînent se règlent aussi bien que trois.
 
-Comment rendrais-tu la patrouille plus imprévisible sans ajouter un 4e mode ?
+<!-- ws: {type: hint} -->
+<details><summary>Si tu es bloqué</summary>
 
-## Fin de l'atelier 2
+Un mode ne se déclenche jamais ? Reviens à l’étape qui l’a introduit et refais sa **Mise en
+application** toute seule. Commence par le mode que tu viens d’ajouter.
 
-Bravo, tu es arrivé au bout. Ton fantôme sait patrouiller, poursuivre et prendre peur.
+</details>
 
-Tu as utilisé deux façons de programmer un comportement : un arbre de décision, puis une machine
-à états. Ces deux idées servent bien au-delà de Pac-Man.
+## Ton fantôme à toi
+<!-- ws: {type: exercise, id: a2-ton-fantome, optional: true} -->
+
+*Tu es arrivé au bout, les trois modes s’enchaînent. Ce qui suit n’est plus un exercice : c’est
+ta récompense, et c’est la partie que personne ne fait pareil.*
+
+Ton fantôme marche, mais ses réglages sont ceux qu’on t’a donnés. Son caractère tient dans ces
+trois lignes du tableau — deux nombres et un ordre :
+
+| Ce que tu changes | Ce que ça donne |
+| --- | --- |
+| le seuil des 8 cases | un fantôme myope, ou un qui te repère de l’autre bout de la carte |
+| l’ordre des règles dans `follow` | un qui te coupe la route, ou un qui te colle au train |
+| le seuil auquel tu compares `patrolLockTimer` | `> 0` le laisse tenir sa direction 1,5 s ; `> 0.75` le fait tourner deux fois plus souvent (un nombre s’écrit avec un **point** en Lua) |
+
+Un seul de ces nombres suffit à changer son caractère. Même trajet de Pac-Man, deux fantômes opposés :
+
+![Seuil à 2 : Pac-Man lui passe devant à trois cases et il ne bouge pas d’un pixel.](img/a2-e7-myope.gif)
+
+![Seuil à 30, même trajet : il vire au rouge et le prend en chasse à travers toute la carte.](img/a2-e7-longue-vue.gif)
+
+### 🥸 Mise en application
+
+**Ton objectif :** un fantôme qui te ressemble, et une partie jouée contre lui.
+
+1. Écris son caractère en trois phrases, **en français**. Par exemple : *« Il ne me voit que de
+   très près. Mais dès qu’il me voit, il coupe au plus court. Et il ne lâche plus. »*
+2. Traduis chaque phrase en un réglage, et donne-lui un nom.
+3. Lance, joue trente secondes : ta description se vérifie-t-elle à l’écran ?
+
+Puis joue contre lui.
+
+> **Ton score de survie.** Joue jusqu’à ce qu’il t’attrape : le **Score** affiché quand
+> « Perdu ! » apparaît, c’est ce que tu as ramassé avant qu’il te tombe dessus. Plus il est bas,
+> plus ton fantôme t’a mené la vie dure.
+
+Note-le, change **un** réglage, rejoue. Trois fois.
+
+| Essai | Ce que j’ai changé | Mon score de survie |
+| --- | --- | --- |
+| 1 | (les réglages de l’atelier) | |
+| 2 | | |
+| 3 | | |
+
+C’est réussi quand tu sais dire **lequel des trois réglages** a rendu ton fantôme plus dur.
+
+<!-- ws: {type: hint} -->
+<details><summary>Si tu es bloqué</summary>
+
+Tu ne vois pas quoi changer ? Prends le seuil, et uniquement lui. Mets-le à `2`, joue trente
+secondes. Mets-le à `30`, rejoue.
+
+Ton fantôme ne ressemble pas à ta description ? Change **un** réglage à la fois et relance entre
+chaque. À deux changements d’un coup, on ne sait plus lequel a fait quoi.
+
+</details>
+
+## Défis bonus
+<!-- ws: {type: exercise, id: a2-bonus, optional: true} -->
+
+Quatre variantes de ta machine à états. Aucune correction, et rien de neuf à apprendre.
+
+1. **L’opportuniste.** Dans `updateState`, ne le laisse pas avoir peur jusqu’au bout : dès que
+   `game.scaredTimer` descend sous 2, remets-le en chasse sans attendre la fin des 8 secondes.
+   *C’est réussi si :* il repasse au rouge **avant** que la super pac-gomme soit épuisée.
+2. **Le fantôme rancunier.** En `scared`, ne fuis que si tu es proche : au-delà de 10 cases, il
+   n’a plus peur de toi et repart en patrouille, même bleu.
+   *C’est réussi si :* colle-toi à lui, il s’écarte ; éloigne-toi de dix cases, il se remet à
+   errer au hasard sans t’éviter.
+3. **Le fantôme imprévisible.** Combine les deux modes : en `patrol`, fais-le foncer sur toi une
+   fois de temps en temps, au hasard, même si tu es loin.
+   *C’est réussi si :* il t’arrive de le voir charger depuis l’autre bout de la carte.
+4. **Le fantôme de 1980.** Dans le vrai Pac-Man, les fantômes ne regardaient pas la distance : ils
+   alternaient au chronomètre. Au premier niveau, 7 secondes chacun dans son coin, puis 20 de
+   chasse — et à chaque cycle les replis raccourcissent, jusqu’à ne plus revenir du tout. Fais
+   pareil : oublie le seuil des 8 cases,
+   compte tes décisions dans une variable à toi. Le mot `local` qui la crée
+   doit être **en dehors** des trois fonctions : à l’intérieur, elle serait recréée — et donc
+   remise à zéro — à chaque appel. Puis bascule
+   `patrol` / `follow` quand le compte est atteint. Vise le même rapport qu’en 1980 : une courte pause pour une longue chasse.
+   *C’est réussi si :* il te lâche et te reprend tout seul, alors que tu n’as pas bougé.
+
+## Fin de l’atelier 2
+
+Ton fantôme sait patrouiller, poursuivre et prendre peur. Trois humeurs, trois couleurs, et c’est
+toi qui as écrit les règles de chacune.
+
+Tu as utilisé deux façons de programmer un comportement : un arbre de décision, puis une **machine
+à états**. Ce qui sépare les deux tient dans `state` et `patrolLockTimer` : ton fantôme se
+souvient de ce qu’il est en train de faire, et c’est ce souvenir qui décide de la suite.

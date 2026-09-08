@@ -1,40 +1,53 @@
 # IA du fantôme de Pac-Man
 
-**Bienvenue !** Tu vas programmer l'intelligence du fantôme de Pac-Man.
+Dans le Pac-Man original, les fantômes n’ont pas tous le même caractère. Blinky fonce droit sur
+toi. Pinky vise la case *devant* toi pour te couper la route. Clyde te suit, puis file dans son
+coin dès qu’il s’approche trop. Inky, lui, se décide en regardant où est Blinky. Rien de tout ça
+n’est du hasard : quelqu’un l’a écrit, règle par règle.
 
-Cet atelier se passe **entièrement dans le navigateur**. Le jeu est affiché à côté de ces
-instructions : tu écris ton code dans le panneau **Code**, et tu le testes dans le panneau
-**Jeu**.
+Aujourd’hui, c’est toi qui écris ces règles.
 
-Il se déroule en deux parties :
+![Le fantôme poursuit Pac-Man : c’est ton code qui décide de sa direction, case par case.](img/jeu.png)
 
-- **Atelier 1 - Arbre de décision.** Récupérer dans `buildInfos` les informations essentielles à
-  la programmation du fantôme, puis écrire dans `chooseDirection` les règles qu'il doit suivre, à
-  l'aide d'un arbre de décision.
-- **Atelier 2 - Machine à états finis.** Programmer le fantôme avec 3 modes (`patrol`, `follow`,
-  `scared`) qui changent selon la situation.
+**Dans une demi-heure, le fantôme bougera parce que tu le lui auras dit.**
 
-## Aide
+Et à la fin, tu en auras fait un vrai chasseur.
 
-**Clavier :** clique l'**éditeur** pour coder (flèches = curseur). Clique le **jeu** pour jouer
-(flèches = Pac-Man). Le contour **jaune** indique le panneau actif.
+**Deux ateliers de 2 h 30**, en **Lua**, un langage de programmation. Rien à installer, tout se fait dans ton navigateur.
 
-Le code est sauvegardé automatiquement dans ton navigateur. Les erreurs s'affichent sous
-l'éditeur.
+- **Atelier 1 — Arbre de décision.** Des règles « si… alors… », dans un ordre qui compte, et
+  un fantôme qui poursuit.
+- **Atelier 2 — Machine à états finis.** Trois modes — `patrol`, `follow`, `scared` — et un
+  fantôme qui change d’humeur.
 
-## Glossaire
+## Le fichier de départ
+
+À recoller si ton code ne fonctionne pas et te paraît illisible.
+
+```lua
+function buildInfos(ghost, pacman, map)
+  return {}
+end
+
+function chooseDirection(infos, map)
+  return nil
+end
+
+function updateState(infos, game)
+  return 'patrol'
+end
+```
+
+## Ce que le jeu te donne
+
+Ces termes viennent du jeu, pas de Lua.
 
 | Terme | Signification |
 | --- | --- |
-| `buildInfos` | Fonction où tu construis la table infos (les réponses pour le fantôme) |
-| `chooseDirection` | Fonction où tu écris les règles « si... alors... » pour choisir une direction |
-| `ghost.gridX / gridY` | Position du fantôme en cases sur la carte |
-| `pacman.gridX / gridY` | Position de Pac-Man en cases |
-| `map.isWall(x, y)` | true si la case (x, y) est un mur |
-| `if / then / end` | `if condition then return 'left' end` — si la condition est vraie, choisis cette direction |
-| `and` / `or` / `not` | Opérateurs logiques (remplacent `&&`, `\|\|`, `!`) |
-| `'left' / 'right' / 'up' / 'down'` | Les 4 directions possibles (toujours entre apostrophes) |
-| `canGoLeft` | Tu le calcules : `not map.isWall(ghost.gridX - 1, ghost.gridY)` |
-| `distanceX` | Tu le calcules : `pacman.gridX - ghost.gridX` |
-| `totalDistance` | Tu le calcules : `math.abs(distanceX) + math.abs(distanceY)` — nombre de cases entre fantôme et Pac-Man |
-| `return nil` | « Je ne bouge pas » — à mettre à la fin si aucune règle ne s'applique |
+| `buildInfos` | La fonction où tu construis la liste `infos` : les informations que tu prépares pour le fantôme |
+| `chooseDirection` | La fonction où tu écris les règles « si… alors… » qui permettent au fantôme de choisir une direction |
+| `updateState` | La fonction où tu écris les règles pour choisir l’humeur du fantôme (atelier 2) |
+| `ghost.gridX / gridY` | Position du fantôme (X,Y), en cases |
+| `pacman.gridX / gridY` | Position de Pac-Man (X,Y), en cases |
+| `map.isWall(x, y)` | `true` si la case `(x, y)` est un mur |
+| `'left'` `'right'` `'up'` `'down'` | Les quatre directions que le jeu comprend. Toujours en anglais, toujours entre apostrophes |

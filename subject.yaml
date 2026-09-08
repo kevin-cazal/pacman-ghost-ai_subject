@@ -1,6 +1,6 @@
 # Subject manifest — convention 2.0 (docs/CONTENT_CONVENTION.md §3.2).
-# Upstream: github.com/kevin-cazal/pacman-ghost-ai_new (the subject repo). This is
-# the vendored copy the platform syncs from, same as content/pypong.
+# This is the subject repo itself: github.com/kevin-cazal/pacman-ghost-ai_subject.
+# The platform syncs it with tools/sync_subject.py (see README).
 schema_version: "2.0"
 
 project:
@@ -16,7 +16,7 @@ runtime:
   engine: "pacman-ghost-ai"
   language: "lua"           # student code is Lua, executed by Fengari in-page
   id: "pacman"
-  version: "00ffe3f"        # pacman-ghost-ai_runtime commit the dist was built from
+  version: "cc2c572"        # pacman-ghost-ai_runtime commit the dist was built from
   title: "Pac-Man"
   pane:
     placement: side         # side | bottom
