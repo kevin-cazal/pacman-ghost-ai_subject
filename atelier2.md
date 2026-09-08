@@ -289,7 +289,8 @@ la fuite dit l'inverse.
 **Ton objectif :** un fantôme bleu qui s'écarte au lieu de te courir après, et qui reste dans les
 couloirs.
 
-Ajoute un bloc `scared` à côté des deux autres, avec les règles de fuite. N'oublie pas les
+Ajoute un bloc `scared` à côté des deux autres : trois blocs côte à côte, chacun avec son propre
+`return`. N'oublie pas les
 `canGo...` : un fantôme paniqué ne traverse pas les murs pour autant.
 
 Tu dois obtenir ceci :

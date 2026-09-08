@@ -5,7 +5,7 @@ toi. Pinky vise la case *devant* toi pour te couper la route. Clyde te suit, pui
 coin dès qu'il s'approche trop. Inky, lui, se décide en regardant où est Blinky.
 Rien de tout ça n'est du hasard : quelqu'un l'a écrit, règle par règle.
 
-[illustration photo des véritables fantôme du pacman original]
+<!-- illustration : photo des vrais fantômes du Pac-Man original -->
 
 Aujourd'hui c'est toi qui vas ré-écrire ces règles pour donner vie à ton premier PNJ.
 
