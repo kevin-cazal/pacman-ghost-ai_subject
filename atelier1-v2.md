@@ -378,9 +378,9 @@ l’échange n’a pas pris.
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
 
-Aucune différence ? Tu as sûrement placé Pac-Man sur la même ligne ou la même colonne : une seule
-règle est vraie, et l’ordre ne change rien. Mets-le vraiment en diagonale, 4 ou 5 cases sur
-chaque axe.
+Aucune différence ? Tu les as sûrement laissés sur la même ligne ou la même colonne : une seule
+règle est vraie, et l’ordre ne change rien. Reprends-les à la souris et mets-les vraiment dans
+deux coins opposés.
 
 </details>
 
