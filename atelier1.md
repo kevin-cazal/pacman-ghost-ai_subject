@@ -1,42 +1,32 @@
-# Atelier 1 — Arbre de décision
+# Partie 1 — Arbre de décision
 
 Un arbre de décision, c’est une suite de règles « si… alors… sinon… » testées dans un ordre précis.
 
-À la fin de cet atelier, ton fantôme poursuivra Pac-Man — et c’est ton arbre de décision qui
-lui dira comment.
+À la fin de cette partie, ton fantôme poursuivra Pac-Man et c’est ton arbre de décision qui lui dira comment.
 
-![Le fantôme de la fin de cet atelier : il coupe au plus court pour te rejoindre.](img/jeu-demo.gif)
+![Le fantôme de la fin de cette partie : il coupe au plus court pour te rejoindre.](img/jeu-demo.gif)
 
-Deux fonctions à remplir : `buildInfos`, où tu prépares les informations, et `chooseDirection`, où tu écris les règles.
-
-## Étape 1 — Découvrir le jeu et l’éditeur
+## Étape 0 — Découvrir le jeu et l’éditeur
 <!-- ws: {type: exercise, id: a1-demarrer} -->
 
-Le jeu fonctionne déjà en partie : Pac-Man se déplace et mange les pac-gommes. Le fantôme, lui,
-ne bouge pas — c’est la seule chose qui manque.
+Le jeu fonctionne déjà en partie : Pac-Man se déplace et mange les pac-gommes. Le fantôme, lui, ne bouge pas. C’est la seule chose qui manque.
 
 ### L’écran
 
 ![Le panneau Jeu est actif : contour jaune. Démarrer, encadré en rouge, charge ton code.](img/interface.png)
 
 - Contour **jaune** = le panneau qui reçoit tes touches. Clique dans le panneau **Code** pour écrire ton code, dans le panneau **Jeu** pour tester ce que tu as codé.
-- Trois fonctions dans l’éditeur. Tu ne touches pas à `updateState` pour l’instant.
-- Sous l’éditeur, une bande rouge pour les erreurs, et en dessous la **Console** : c’est là que
-  sortira ce que tu demanderas au jeu d’afficher plus tard.
+- Dans l'éditeur il y a deux fonctions à remplir : `buildInfos`, où tu prépare ton fantôme à prendre une decision, et `chooseDirection`, où tu applique cette decision. Tu ne touches pas à `updateState` pour l’instant.
+- Sous l’éditeur, la **Console** : les erreurs et les affichages du programme y sortent, et tu
+  peux y taper du code toi-même pour l’essayer — les exemples des boîtes à outils, par exemple.
 - **Écris toujours entre `function` et `end`.**
-
-![La case tout en haut à gauche, encadrée en rouge, est la case (0, 0). La flèche horizontale est l’axe X, la verticale l’axe Y : X augmente vers la droite, Y vers le bas.](img/origin.png)
-
-La carte est une grille, et le jeu te donne déjà `ghost.gridX` / `ghost.gridY`, `pacman.gridX` /
-`pacman.gridY`, et `map.isWall(x, y)`, qui vaut `true` sur un mur.
 
 ### 🥸 Mise en application
 
-**Ton objectif :** démarrer le jeu sans toucher au code, déplacer Pac-Man aux flèches, puis
-provoquer une erreur exprès pour voir ce que ça fait.
+**Ton objectif :** démarrer le jeu sans toucher au code, déplacer Pac-Man avec les flèches de ton clavier, puis provoquer une erreur exprès pour voir ce que ça fait.
 
 1. **Ouvre le panneau du jeu**, à côté de ces instructions, s’il n’est pas déjà ouvert.
-2. Clique dedans, puis sur **Démarrer**, et joue aux flèches.
+2. Clique dedans, puis sur **Démarrer**, et joue une partie rapidement.
 3. Efface le `end` de la **ligne 3**, celui qui ferme `buildInfos`, et reclique **Démarrer**.
 
 Tu dois obtenir ceci :
@@ -52,26 +42,14 @@ Les flèches ne font rien ? Le contour jaune entoure sûrement le panneau **Code
 
 </details>
 
-## Étape 2 — Faire bouger le fantôme
-<!-- ws: {type: exercise, id: a1-can-go-left} -->
+## Étape 1 — Faire bouger le fantôme
+<!-- ws: {type: exercise, id: a1-bouger} -->
 
-Pour savoir si le fantôme peut aller à gauche, tu regardes la case à sa gauche : s’il n’y a pas de mur, il peut y aller. À la fin de cette étape, il bouge tout seul vers la gauche.
-
-![En vert, les cases où le fantôme peut aller. En rouge, celle qu’un mur lui interdit.](img/canGo-v2.png)
-
-![Une case voisine, c’est la case du fantôme avec une coordonnée décalée de 1.](img/directions-v2.png)
+Le fantôme ne bouge pas, et c’est normal : `chooseDirection` renvoie `nil`, ce qui veut dire « je ne fais rien ». Commence par lui dire d’aller à gauche.
 
 ### Boîte à outils
 
-> **Outil #1 : `not` « L’inverse de ».**
-> `map.isWall(...)` dit « c’est un mur ». Ce qui t’intéresse, c’est l’inverse.
-> ```lua
-> pleut = true
-> print(not pleut)   -- false
-> ```
-> 📘 [Les opérateurs logiques](https://www.lua.org/manual/5.3/manual.html#3.4.5)
-
-> **Outil #2 : `if / then / end` « Si… alors… »**
+> **Outil : `if / then / end` « Si… alors… »**
 > ```lua
 > if ilFaitFroid then
 >   return 'manteau'
@@ -84,16 +62,16 @@ Pour savoir si le fantôme peut aller à gauche, tu regardes la case à sa gauch
 
 ### 🥸 Mise en application
 
-**Ton objectif :** un fantôme qui part vers la gauche dès que la voie est libre.
+**Ton objectif :** un fantôme qui part vers la gauche.
 
-Voici le modèle de code. Tape-le et lance-le : tu te baseras sur ce modèle pour la suite de l’atelier.
+Voici le modèle de code. Tape-le et lance-le : tu te baseras sur ce modèle pour la suite.
 
 Une ligne qui commence par `--` est un **commentaire pour toi**, pas du code : tu n’es pas obligé de la recopier pour que le programme fonctionne.
 
 ```lua
 -- dans buildInfos, à la place de return {}
 return {
-  canGoLeft = not map.isWall(ghost.gridX - 1, ghost.gridY),
+  canGoLeft = true,
 }
 ```
 
@@ -105,22 +83,75 @@ end
 return nil
 ```
 
-Les accolades `{ }` fabriquent une **liste** : la boîte où tu ranges tes informations. Tu y
-construis `canGoLeft` dans `buildInfos`, et tu le relis dans `chooseDirection` avec
-`infos.canGoLeft`.
+Tu donnes l'information `canGoLeft` dans `buildInfos`.
+Et tu récupère cette information dans `chooseDirection` avec `infos.canGoLeft`.
 
-`not map.isWall(ghost.gridX - 1, ghost.gridY)` se lit : **« la case à gauche du fantôme n’est pas un mur »**.
+Tu dois obtenir ceci :
+
+![Le fantôme part à gauche, traverse le mur du bord et disparaît de l’écran.](img/a1-e1-sort.gif)
+
+**Il traverse le mur et il s’en va pour de bon.** C’est logique : `true` veut dire « vrai, tout le temps ». Tu lui as dit qu’il pouvait aller à gauche, sans jamais regarder ce qu’il y a devant lui.
+
+<!-- ws: {type: hint} -->
+<details><summary>Si tu es bloqué</summary>
+
+Il ne bouge pas du tout ? Trois causes, dans cet ordre : tu n’as pas recliqué sur **Démarrer**, ton
+`return 'left'` est **après** le `end` au lieu d’être dedans, ou il manque la **virgule** après
+`canGoLeft = true`.
+
+</details>
+
+## Étape 2 — L’empêcher de traverser les murs
+<!-- ws: {type: exercise, id: a1-can-go-left} -->
+
+Pour savoir si le fantôme peut aller à gauche, tu regardes la case à sa gauche : s’il n’y a pas de mur, il peut y aller.
+
+![La case à gauche du fantôme est un mur : il ne peut pas y aller.](img/a1-e2-mur-gauche.png)
+
+![La même case, sans mur cette fois : il peut y aller.](img/a1-e2-libre-gauche.png)
+
+
+![Une case voisine, c’est la case du fantôme avec une coordonnée décalée de 1.](img/directions-v2.png)
+
+### Boîte à outils
+
+> **La carte est une grille.**
+
+> ![En informatique la case tout en haut à gauche, encadrée en rouge, est la case (0, 0). La flèche horizontale est l’axe X, la verticale l’axe Y : X augmente vers la droite, Y vers le bas.](img/origin.png)
+
+> Le jeu te donne déjà des outils pour récupérer la position du fantôme  sur cette grille (`ghost.X`, `ghost.Y`) et pour savoir si une case sur la grille est un mur `map.isWall(x, y)`.  
+
+> **Outil : `not` « L’inverse de ».**
+> `map.isWall(...)` dit « c’est un mur ». Ce qui t’intéresse, c’est l’inverse.
+> ```lua
+> pleut = true
+> print(not pleut)   -- false
+> ```
+> 📘 [Les opérateurs logiques](https://www.lua.org/manual/5.3/manual.html#3.4.5)
+
+### 🥸 Mise en application
+
+**Ton objectif :** le même fantôme, mais qui s’arrête au mur au lieu de le traverser.
+
+Une seule ligne change : `canGoLeft` devient une variable qui va changer selon ce qui se passe dans le programme: à force de se déplacer vers la gauche le fantôme tombera à un moment sur un mur.
+
+```lua
+-- dans buildInfos
+return {
+  canGoLeft = not map.isWall(ghost.X - 1, ghost.Y),
+}
+```
+
+
+`not map.isWall(ghost.X - 1, ghost.Y)` se lit : **« la case à gauche du fantôme n’est pas un mur »**.
 
 <details><summary><b>En détail</b></summary>
 
-Si on décompose `not map.isWall(ghost.gridX - 1, ghost.gridY)`
+Si on décompose `not map.isWall(ghost.X - 1, ghost.Y)` :
 
-| Le morceau | Ce qu’il dit |
-| --- | --- |
-| `ghost.gridX - 1` | la colonne juste **à gauche** du fantôme |
-| `ghost.gridY` | sa ligne |
-| `map.isWall(…, …)` | « est-ce que cette case-là est un mur ? » |
-| `not` | le **contraire** de la réponse |
+- `not` — le **contraire** de…
+  - `map.isWall(…, …)` — est-ce que cette case-là est un mur ? Quelle case ?
+    - `ghost.X - 1` — celle qui est à gauche du fantôme, `ghost.Y` — sur sa ligne à lui.
 
 </details>
 
@@ -131,21 +162,22 @@ Tu dois obtenir ceci :
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
 
-Il ne bouge pas ? Trois causes, dans cet ordre : tu n’as pas recliqué **Démarrer**, ton
-`return 'left'` est **après** le `end` au lieu d’être dedans, ou il manque la **virgule** après
-`canGoLeft`.
+Il sort toujours de l’écran ? Tu as laissé `canGoLeft = true` quelque part, ou tu as ajouté la
+nouvelle ligne sans effacer l’ancienne.
+
+Il ne bouge plus du tout ? Vérifie le `-` de `ghost.X - 1` et la **virgule** en fin de ligne.
 
 </details>
 
 ## Étape 3 — Savoir de quel côté est Pac-Man
 <!-- ws: {type: exercise, id: a1-distance-x} -->
 
-Ton fantôme fonce à gauche même quand tu es à droite : il lui manque de savoir de quel côté tu es.
-Une soustraction suffit.
+Ton fantôme fonce à gauche même quand tu es à droite : il lui manque de savoir de quel côté tu es. Une soustraction suffit.
 
 ![En haut, distanceX vaut +3 : Pac-Man est à droite. En bas, -3 : il est à gauche.](img/distanceX.png)
 
 `distanceX` **positif** : Pac-Man est à **droite**. **Négatif** : à **gauche**.
+Une distance est la différence entre deux positions.
 
 ### Boîte à outils
 
@@ -157,15 +189,17 @@ Une soustraction suffit.
 > ```
 > 📘 [Les opérateurs logiques](https://www.lua.org/manual/5.3/manual.html#3.4.5)
 
+> Le jeu te donne déjà les outils pour avoir la position de pacman: `pacman.X` et `pacman.Y`
+
 ### 🥸 Mise en application
 
-**Ton objectif :** un fantôme qui ne va à gauche que si tu es à sa gauche.
+**Ton objectif :** un fantôme qui ne va à gauche si: il est à gauche de toi ET tu peux aller à gauche.
 
 ```lua
 -- dans buildInfos
 return {
-  canGoLeft = not map.isWall(ghost.gridX - 1, ghost.gridY),
-  distanceX = pacman.gridX - ghost.gridX,
+  canGoLeft = not map.isWall(ghost.X - 1, ghost.Y),
+  distanceX = pacman.X - ghost.X,
 }
 ```
 
@@ -177,16 +211,12 @@ end
 return nil
 ```
 
-**Avant de lancer**, réponds dans ta tête : tu viens d’ajouter `and infos.distanceX < 0`. Si tu
-places Pac-Man **au-dessus** du fantôme, est-ce qu’il montera le chercher ? Puis vérifie.
-
 Tu dois obtenir ceci — Pac-Man à droite, le fantôme ne bouge plus :
 
 ![Pac-Man s’éloigne vers la droite, le fantôme ne bronche pas : la seule règle écrite ne s’applique jamais.](img/a1-e4-immobile.gif)
 
-Sauf qu’un fantôme immobile, ça peut aussi vouloir dire que ton code est cassé. Pour faire la
-différence, **repose Pac-Man à gauche du fantôme et relance** : il doit repartir vers lui comme à
-l’étape 2. Immobile à droite, en route à gauche — là tu es sûr de toi.
+Sauf qu’un fantôme immobile, ça peut aussi vouloir dire que ton code est cassé. Pour faire la différence, **repose Pac-Man à gauche du fantôme et relance** : il doit repartir vers lui comme à
+l’étape 2. Immobile à droite, en route à gauche, là tu es sûr de toi.
 
 Pour le déplacer, attrape-le à la souris quand le jeu est **arrêté** :
 
@@ -197,8 +227,8 @@ Pour le déplacer, attrape-le à la souris quand le jeu est **arrêté** :
 ```lua
 function buildInfos(ghost, pacman, map)
   return {
-    canGoLeft = not map.isWall(ghost.gridX - 1, ghost.gridY),
-    distanceX = pacman.gridX - ghost.gridX,
+    canGoLeft = not map.isWall(ghost.X - 1, ghost.Y),
+    distanceX = pacman.X - ghost.X,
   }
 end
 
@@ -219,23 +249,17 @@ end
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
 
-Immobile **des deux côtés** ? Ce n’est pas ta règle, c’est ton code. Compare avec le fichier
-complet ci-dessus, ligne par ligne : la virgule après `distanceX`, et le `then` en fin de `if`.
-
-Il fonce à gauche **quoi qu’il arrive** ? Ton `and infos.distanceX < 0` n’est pas dans la même
-ligne `if` que `infos.canGoLeft`.
+Immobile **des deux côtés** ? Ce n’est pas ta règle, c’est ton code. Compare avec le fichier complet ci-dessus, ligne par ligne : la virgule après `distanceX`, et le `then` en fin de `if`.
 
 </details>
 
 ## Étape 4 — La droite
 <!-- ws: {type: exercise, id: a1-directions-completes} -->
 
-La droite, c’est comme la gauche mais dans l’autre sens.
+Pour aller à droite, c’est comme pour aller à la gauche... mais dans l’autre sens.
 
-Pour la gauche, tu regardes `ghost.gridX - 1`. Pour la droite ?
-
-Et pour savoir de quel côté est Pac-Man, tu regardes si `infos.distanceX` est négatif. Pour le
-côté droit ?
+- Pour regarder ce qu'il y a gauche de ton fantôme, tu regardes `ghost.X - 1`. Pour la droite ?
+- Et pour savoir si Pac-Man est à gauche, tu regardes si `infos.distanceX` est négatif. Et pour savoir s'il est à droite ?
 
 ### Boîte à outils
 
@@ -252,7 +276,6 @@ côté droit ?
 > end
 > return nil
 > ```
-> `return nil` reste le dernier mot de la fonction : tout ce qui est écrit après lui n’est jamais
 > lu.
 
 ### 🥸 Mise en application
@@ -262,8 +285,8 @@ côté droit ?
 ```lua
 -- dans buildInfos
 return {
-  canGoLeft = not map.isWall(ghost.gridX - 1, ghost.gridY),
-  distanceX = pacman.gridX - ghost.gridX,
+  canGoLeft = not map.isWall(ghost.X - 1, ghost.Y),
+  distanceX = pacman.X - ghost.X,
   canGoRight = nil, -- remplace nil par ton code
 }
 ```
@@ -290,7 +313,7 @@ ce qui suit un `return` n’est jamais lu.
 ## Étape 5 — L’axe vertical
 <!-- ws: {type: exercise, id: a1-haut-bas} -->
 
-Même modèle, sur l’autre axe. Une seule différence, et c’est **le** piège de l’atelier : `gridY`
+Même modèle, sur l’autre axe. Une seule différence, et c’est **le** piège de la partie : `Y`
 augmente vers le **bas**. Donc `distanceY` positif veut dire que Pac-Man est **en dessous**, pas
 au-dessus.
 
@@ -299,7 +322,7 @@ au-dessus.
 Les deux directions te manquent aussi : le fantôme réagira lorsque `chooseDirection` retournera `'up'` et `'down'` (avec les apostrophes, exactement comme `return 'left'` et `return 'right'`).
 
 Fais le calcul une fois, à la main, avant d’écrire quoi que ce soit : fantôme en `(5, 3)`,
-Pac-Man en `(5, 9)`. Pac-Man est **en dessous**, et `pacman.gridY - ghost.gridY` vaut `6`, donc
+Pac-Man en `(5, 9)`. Pac-Man est **en dessous**, et `pacman.Y - ghost.Y` vaut `6`, donc
 **positif**. Retiens ce couple : *en dessous = positif*.
 
 ### 🥸 Mise en application
@@ -309,9 +332,9 @@ Pac-Man en `(5, 9)`. Pac-Man est **en dessous**, et `pacman.gridY - ghost.gridY`
 ```lua
 -- dans buildInfos
 return {
-  canGoLeft = not map.isWall(ghost.gridX - 1, ghost.gridY),
-  distanceX = pacman.gridX - ghost.gridX,
-  canGoRight = not map.isWall(ghost.gridX + 1, ghost.gridY),
+  canGoLeft = not map.isWall(ghost.X - 1, ghost.Y),
+  distanceX = pacman.X - ghost.X,
+  canGoRight = not map.isWall(ghost.X + 1, ghost.Y),
   canGoUp = nil,   -- remplace nil par ton code
   canGoDown = nil, -- idem
   distanceY = nil, -- idem
@@ -323,18 +346,6 @@ Puis **deux règles de plus** dans `chooseDirection`, sur le modèle des deux qu
 Tu dois obtenir ceci :
 
 ![Pac-Man est droit au-dessus : les deux règles horizontales sont fausses, et le fantôme monte.](img/a1-e5-suivre.gif)
-
-<!-- ws: {type: hint} -->
-<details><summary>Si tu es bloqué</summary>
-
-Il monte quand il devrait descendre ? Relis le calcul du haut de l’étape : *en dessous =
-positif*. Donc la règle « descendre » se déclenche quand `distanceY` est **positif**, et tes deux
-comparaisons verticales sont à l’envers l’une de l’autre.
-
-Une seule direction sur quatre fonctionne ? Chaque ligne finit par une **virgule**, et `canGoUp`
-regarde `ghost.gridY - 1`, pas `ghost.gridX - 1`.
-
-</details>
 
 ## Étape 6 — L’ordre des règles compte
 <!-- ws: {type: exercise, id: a1-priorite-regles} -->
@@ -374,7 +385,7 @@ Jusqu’ici tes règles sont testées dans un ordre fixé d’avance. Teste d’
 Le fantôme avance alors d’une case sur cet axe, l’écart y diminue, l’autre axe devient le plus
 grand — et il change de sens à la case suivante. C’est ce va-et-vient qui dessine l’escalier.
 
-C’est l’étape la plus lourde de l’atelier — prends ton temps.
+C’est l’étape la plus lourde de la partie — prends ton temps.
 
 ### Boîte à outils
 
@@ -473,11 +484,9 @@ recopies dans les deux branches, dans un ordre différent.
 
 - **Victoire** : **toutes** les pac-gommes, y compris celle cachée sous le fantôme au départ.
 - **Mort** : tu le touches → « **Perdu !** », et ça redémarre après 3 s.
-- Les grosses pac-gommes blanches : rien pour l’instant.
+- Les grosses pac-gommes blanches ne font rien pour l’instant.
 
-### 🥸 Mise en application
-
-**Ton objectif :** gagner une partie du début à la fin, sans erreur rouge.
+Profite de ce que tu as fait.
 
 Tu dois obtenir ceci — compteur à **0**, score à **2 270**. C’est le score exact d’une partie
 complète : si tu as gagné, tu as forcément ce nombre-là.
@@ -542,7 +551,7 @@ Et deux questions sans réponse écrite, pour celles et ceux que ça amuse : ce 
 vraiment *intelligent* ? Et trouves-tu une position de départ où il se coince derrière un mur
 alors qu’un détour l’aurait ramené sur toi ?
 
-## Fin de l’atelier 1
+## Fin de la partie 1
 
 Ton fantôme poursuit Pac-Man, et c’est **ton** ordre de règles qui lui donne sa façon de chasser.
 
@@ -551,5 +560,5 @@ et cet ordre change où tu arrives.** Un formulaire qui change selon tes répons
 d’un site quand tu cherches des baskets — quelqu’un a choisi l’ordre des questions. Comme toi à
 l’étape 6.
 
-> **Si tu enchaînes sur l’atelier 2**, ton fantôme y gagnera trois humeurs — et la grosse
+> **Si tu enchaînes sur la partie 2**, ton fantôme y gagnera trois humeurs — et la grosse
 > pac-gomme blanche servira enfin à quelque chose.

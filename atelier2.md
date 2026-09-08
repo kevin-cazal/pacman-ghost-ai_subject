@@ -1,4 +1,4 @@
-# Atelier 2 — Machine à états finis
+# Partie 2 — Machine à états finis
 
 Ton fantôme poursuit **tout le temps**, même à l’autre bout de la carte : impossible de le semer
 une seconde. Tu vas lui donner trois humeurs.
@@ -6,24 +6,24 @@ une seconde. Tu vas lui donner trois humeurs.
 | `patrol` | `follow` | `scared` |
 | --- | --- | --- |
 | ![Fantôme orange](img/etat-patrol.png) | ![Fantôme rouge](img/etat-follow.png) | ![Fantôme bleu](img/etat-scared.png) |
-| Tu es loin : il erre au hasard. | Tu es proche : il utilise ton arbre de l’atelier 1. | Tu as mangé une super pac-gomme : il fuit. |
+| Tu es loin : il erre au hasard. | Tu es proche : il utilise ton arbre de la partie 1. | Tu as mangé une super pac-gomme : il fuit. |
 
 **La couleur du fantôme te dit dans quel mode il est.** C’est comme ça que tu vérifieras ton code
 à chaque étape.
 
-**Ce qu’il te faut :** un fantôme qui bouge, où que tu te sois arrêté dans l’atelier 1.
-L’atelier 2 enveloppe ton arbre **tel qu’il est** : même un fantôme qui ne sait aller qu’à gauche
+**Ce qu’il te faut :** un fantôme qui bouge, où que tu te sois arrêté dans la partie 1.
+La partie 2 enveloppe ton arbre **tel qu’il est** : même un fantôme qui ne sait aller qu’à gauche
 prendra les trois couleurs.
 
-> 🛟 **Coincé ?** Les termes propres à cet atelier sont dans le glossaire juste en dessous.
+> 🛟 **Coincé ?** Les termes propres à cette partie sont dans le glossaire juste en dessous.
 
-<details><summary><b>Glossaire de l’atelier 2</b></summary>
+<details><summary><b>Glossaire de la partie 2</b></summary>
 
 | Terme | Signification |
 | --- | --- |
 | `updateState` | Fonction qui choisit le mode : `patrol`, `follow` ou `scared` |
 | `'patrol'` | Le fantôme erre au hasard (orange) |
-| `'follow'` | Le fantôme utilise l’arbre de décision de l’atelier 1 (rouge) |
+| `'follow'` | Le fantôme utilise l’arbre de décision de la partie 1 (rouge) |
 | `'scared'` | Le fantôme fuit (bleu) |
 | `super pac-gomme` | Grande pac-gomme blanche dans les 4 coins — effraie le fantôme 8 secondes |
 | `game.scaredTimer` | Temps restant de la super pac-gomme (> 0 = peur active) |
@@ -42,7 +42,7 @@ Une **machine à états finis** est dans une seule humeur à la fois, et elle en
 
 ![Les trois modes du fantôme, et ce qui le fait passer de l’un à l’autre.](img/machine-etats.png)
 
-Ce diagramme est le plan de tout l’atelier : `updateState` écrit les **flèches**, celles qui font
+Ce diagramme est le plan de toute la partie : `updateState` écrit les **flèches**, celles qui font
 passer d’un mode à l’autre. `chooseDirection`, lui, décide comment bouger **une fois dans un
 mode**. Pour qu’il puisse lire le mode, il faut d’abord le faire passer par `infos`.
 
@@ -62,7 +62,7 @@ return 'patrol'
 
 Tu dois obtenir ceci — il poursuit comme avant, et il est **orange**, la couleur de la patrouille.
 
-![Il poursuit comme à la fin de l’atelier 1, et il est orange — désormais cette couleur veut dire quelque chose.](img/a2-e1-orange.gif)
+![Il poursuit comme à la fin de la partie 1, et il est orange — désormais cette couleur veut dire quelque chose.](img/a2-e1-orange.gif)
 
 ## Étape 2 — Patrouiller
 <!-- ws: {type: exercise, id: a2-patrouiller} -->
@@ -80,7 +80,7 @@ décision à la suivante :
 Il descend tant que le fantôme continue tout droit, il touche **0**, et le jeu le remonte tout
 seul. **C’est quand tu lis 0 que tu tires une nouvelle direction.**
 
-Compte trois quarts d’heure : c’est le gros morceau de l’atelier. Les deux règles de la patrouille :
+Compte trois quarts d’heure : c’est le gros morceau de la partie. Les deux règles de la patrouille :
 
 1. `infos.patrolLockTimer > 0` **et** la case devant est libre → continue dans `infos.currentDirection`
 2. sinon → tire une direction **au hasard** parmi les directions libres
@@ -163,7 +163,7 @@ voir à ce stade :
 panneau **Console**, sous l’éditeur. Si le nombre reste à 0, le problème est dans tes `if`, pas
 dans le tirage.
 
-**« La case devant est libre »** — tu as déjà les quatre réponses dans `infos` depuis l’atelier 1.
+**« La case devant est libre »** — tu as déjà les quatre réponses dans `infos` depuis la partie 1.
 À toi de choisir la bonne selon `currentDirection`.
 
 **Il te poursuit encore, comme avant ?** Alors ton bloc `patrol` n’est jamais atteint : remonte
@@ -182,7 +182,7 @@ Tu tiens les deux comportements. Maintenant, lequel s’applique quand : proche 
 `'patrol'`.
 
 « Proche » se mesure en **cases** : l’écart horizontal **plus** l’écart vertical. Pas la distance
-à vol d’oiseau. Le seuil de cet atelier est **8 cases**.
+à vol d’oiseau. Le seuil de cette partie est **8 cases**.
 
 ### Boîte à outils
 
@@ -194,7 +194,7 @@ Tu tiens les deux comportements. Maintenant, lequel s’applique quand : proche 
 > Que Pac-Man soit trois cases à gauche ou trois cases à droite, il est à trois cases.
 > 📘 [`math.abs`](https://www.lua.org/manual/5.3/manual.html#pdf-math.abs)
 >
-> *(Si tu as fait l’étape 7 de l’atelier 1, tu le connais déjà.)*
+> *(Si tu as fait l’étape 7 de la partie 1, tu le connais déjà.)*
 
 ### 🥸 Mise en application
 
@@ -202,13 +202,13 @@ Tu tiens les deux comportements. Maintenant, lequel s’applique quand : proche 
 
 1. `buildInfos` — une propriété `totalDistance` qui vaut la distance en cases
 2. `updateState` — `'follow'` si elle vaut 8 cases ou moins, sinon `'patrol'`
-3. `chooseDirection` — enveloppe tout ton arbre de l’atelier 1 dans un test sur `infos.state` :
+3. `chooseDirection` — enveloppe tout ton arbre de la partie 1 dans un test sur `infos.state` :
 
 ```lua
 if infos.state == 'patrol' then
   -- ta patrouille (étape 2)
 else
-  -- tout ton arbre de l'atelier 1, tel quel
+  -- tout ton arbre de la partie 1, tel quel
 end
 ```
 
@@ -228,7 +228,7 @@ S’il devient négatif, il te manque la valeur absolue.
 
 Rouge en permanence ? Dans `updateState`, as-tu vraiment un cas qui renvoie `'patrol'` ?
 
-Rouge mais immobile ? Ton arbre de l’atelier 1 est resté **en dehors** du test sur `infos.state`,
+Rouge mais immobile ? Ton arbre de la partie 1 est resté **en dehors** du test sur `infos.state`,
 ou le `return nil` final est passé à l’intérieur.
 
 </details>
@@ -338,7 +338,7 @@ provoques chaque situation exprès, en deux minutes.
 | À tout moment | il ne traverse aucun mur |
 
 Et si tu veux la gagner en entier — 211 pac-gommes, score **2 270** — c’est bien plus dur avec ce
-fantôme-là qu’à l’atelier 1 :
+fantôme-là qu’à la partie 1 :
 
 ![Partie gagnée. Le fantôme est rouge : il chassait au moment du dernier pac-gomme.](img/a2-e6-victoire.png)
 
@@ -393,7 +393,7 @@ Note-le, change **un** réglage, rejoue. Trois fois.
 
 | Essai | Ce que j’ai changé | Mon score de survie |
 | --- | --- | --- |
-| 1 | (les réglages de l’atelier) | |
+| 1 | (les réglages de la partie) | |
 | 2 | | |
 | 3 | | |
 
@@ -435,7 +435,7 @@ Quatre variantes de ta machine à états. Aucune correction, et rien de neuf à 
    `patrol` / `follow` quand le compte est atteint. Vise le même rapport qu’en 1980 : une courte pause pour une longue chasse.
    *C’est réussi si :* il te lâche et te reprend tout seul, alors que tu n’as pas bougé.
 
-## Fin de l’atelier 2
+## Fin de la partie 2
 
 Ton fantôme sait patrouiller, poursuivre et prendre peur. Trois humeurs, trois couleurs, et c’est
 toi qui as écrit les règles de chacune.
