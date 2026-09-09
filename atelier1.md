@@ -209,7 +209,7 @@ end
 return nil
 ```
 
-Tu dois obtenir ceci. Pac-Man à droite, le fantôme ne bouge plus :
+Tu dois obtenir ceci :
 
 ![Pac-Man s'éloigne vers la droite, le fantôme ne bronche pas : la seule règle écrite ne s'applique jamais.](img/a1-e4-immobile.gif)
 
@@ -330,10 +330,6 @@ au-dessus.
 ![Fantôme en (5, 3), Pac-Man en (5, 9) : Pac-Man est en dessous, et l'écart vertical vaut +6.](img/a1-e5-axe-y.png)
 
 Les deux directions te manquent aussi : le fantôme réagira lorsque `chooseDirection` retournera `'up'` et `'down'` (avec les apostrophes, exactement comme `return 'left'` et `return 'right'`).
-
-Fais le calcul une fois, à la main, avant d'écrire quoi que ce soit : fantôme en `(5, 3)`,
-Pac-Man en `(5, 9)`. Pac-Man est **en dessous**, et `pacman.Y - ghost.Y` vaut `6`, donc
-**positif**. Retiens ce couple : *en dessous = positif*.
 
 ### 🥸 Mise en application
 
@@ -457,9 +453,8 @@ tu bouges.
 Oui, huit règles qui se ressemblent, c'est lourd. Mais c'est pratiquement toujours la même
 chose, avec un petit bout à changer à chaque fois.
 
-Réorganise `chooseDirection` sur cette ossature. Tu as à écrire : la comparaison
-du haut, puis tes quatre règles dans chacune des deux branches. Le `end` de l'ossature est déjà
-placé, tes règles, elles, gardent chacune le sien.
+Réorganise `chooseDirection` sur cette ossature. Le `end` de l'ossature est déjà placé, tes
+règles, elles, gardent chacune le sien.
 
 ```lua
 if nil then -- remplace nil par ta comparaison
