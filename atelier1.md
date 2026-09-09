@@ -498,9 +498,6 @@ recopies dans les deux branches, dans un ordre différent.
 
 Profite de ce que tu as fait.
 
-Si tu gagnes, voici l'écran : compteur à **0**, score à **2 270**. C'est le score exact d'une
-partie complète : si tu as gagné, tu as forcément ce nombre-là.
-
 ![Partie gagnée : compteur à 0, score à 2 270. Le fantôme est orange, comme depuis le début.](img/a1-e8-victoire.png)
 
 > **Tu n'as pas encore gagné de partie ?** Ce n'est pas grave. Un fantôme qui te poursuit, même
