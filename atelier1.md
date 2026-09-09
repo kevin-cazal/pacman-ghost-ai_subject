@@ -27,7 +27,7 @@ Le jeu fonctionne déjà en partie : Pac-Man se déplace et mange les pac-gommes
 
 1. **Ouvre le panneau du jeu**, à côté de ces instructions, s'il n'est pas déjà ouvert.
 2. Clique dedans, puis sur **Démarrer**, et joue une partie rapidement.
-3. Efface le `end` de la **ligne 3**, celui qui ferme `buildInfos`, et reclique **Démarrer**.
+3. Efface le `end` de la **ligne 3**, celui qui ferme `buildInfos`, puis clique **Arrêter** et **Démarrer**.
 
 Tu dois obtenir ceci :
 
@@ -90,7 +90,7 @@ Tu dois obtenir ceci :
 
 ![Le fantôme part à gauche, traverse le mur du bord et disparaît de l'écran.](img/a1-e1-sort.gif)
 
-**Il traverse le mur et il s'en va pour de bon.** C'est logique : `true` veut dire « vrai, tout le temps ». Tu lui as dit qu'il pouvait aller à gauche, sans jamais regarder ce qu'il y a devant lui.
+**Il traverse le mur et il s'en va pour de bon.** C'est logique : `true` veut dire « vrai, tout le temps ». Tu lui as dit qu'il pouvait aller à gauche, sans jamais regarder ce qu'il y a devant lui. Utilise le bouton **Réinitialiser**.
 
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
@@ -260,6 +260,15 @@ Pour aller à droite, c'est comme pour aller à gauche... mais dans l'autre sens
 - Et pour savoir si Pac-Man est à gauche, tu regardes si `infos.distanceX` est négatif. Et pour savoir s'il est à droite ?
 
 ### Boîte à outils
+
+> **Outil : `>` « plus grand que ».**
+> Sur un exemple qui n'a rien à voir, un thermomètre :
+> ```lua
+> if temperature > 30 then
+>   return 'canicule'
+> end
+> ```
+> 📘 [Les opérateurs de comparaison](https://www.lua.org/manual/5.3/manual.html#3.4.4)
 
 > **Outil : empiler une deuxième règle.**
 > Quand tu as plusieurs règles, elles se posent **l'une après l'autre**, chacune avec son propre
@@ -489,8 +498,8 @@ recopies dans les deux branches, dans un ordre différent.
 
 Profite de ce que tu as fait.
 
-Tu dois obtenir ceci : compteur à **0**, score à **2 270**. C'est le score exact d'une partie
-complète : si tu as gagné, tu as forcément ce nombre-là.
+Si tu gagnes, voici l'écran : compteur à **0**, score à **2 270**. C'est le score exact d'une
+partie complète : si tu as gagné, tu as forcément ce nombre-là.
 
 ![Partie gagnée : compteur à 0, score à 2 270. Le fantôme est orange, comme depuis le début.](img/a1-e8-victoire.png)
 

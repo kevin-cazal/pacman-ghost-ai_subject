@@ -191,6 +191,15 @@ Tu tiens les deux comportements. Maintenant, lequel s'applique quand : proche �
 >
 > *(Si tu as fait l'étape 7 de la partie 1, tu le connais déjà.)*
 
+> **Outil : `<=` « plus petit ou égal ».**
+> `a < b` est faux quand `a` vaut exactement `b`. `a <= b` est vrai dans ce cas.
+> ```lua
+> if age <= 17 then
+>   return 'tarif jeune'
+> end
+> ```
+> 📘 [Les opérateurs de comparaison](https://www.lua.org/manual/5.3/manual.html#3.4.4)
+
 ### 🥸 Mise en application
 
 **Ton objectif :** un fantôme qui te lâche quand tu t'éloignes, et te repère quand tu reviens.
