@@ -29,7 +29,7 @@ prendra les trois couleurs.
 | `game.scaredTimer` | Temps restant de la super pac-gomme (> 0 = peur active) |
 | `state` | Mode actuel, tu le recopies : `state = ghost.state` |
 | `currentDirection` | Dernière direction, tu la recopies : `currentDirection = ghost.direction` |
-| `patrolLockTimer` | Compte à rebours géré par le jeu, tu le recopies : `patrolLockTimer = ghost.patrolLockTimer` |
+| `patrolDirectionTimer` | Compte à rebours géré par le jeu, tu le recopies : `patrolDirectionTimer = ghost.patrolDirectionTimer` |
 | `totalDistance` | Tu le calcules : le nombre de cases entre le fantôme et Pac-Man |
 
 </details>
@@ -70,14 +70,14 @@ Tu dois obtenir ceci : il poursuit comme avant, et il est **orange**, la couleur
 En `'patrol'`, le fantôme erre : il choisit au hasard, sans te chercher. Mais au hasard **à chaque
 case**, il tremblerait sur place, il garde donc sa direction un moment.
 
-Ce moment, c'est le jeu qui le compte en secondes, dans `patrolLockTimer`. Toi, tu le lis.
+Ce moment, c'est le jeu qui le compte en secondes, dans `patrolDirectionTimer`. Toi, tu le lis.
 
 Il descend tant que le fantôme continue tout droit. Quand il arrive à **0**, c'est le signal :
 tu tires une nouvelle direction, et le jeu remet le compteur à 1,5 s tout seul.
 
 Compte trois quarts d'heure : c'est le gros morceau de la partie. Les deux règles de la patrouille :
 
-1. `infos.patrolLockTimer > 0` **et** la case devant est libre → continue dans `infos.currentDirection`
+1. `infos.patrolDirectionTimer > 0` **et** la case devant est libre → continue dans `infos.currentDirection`
 2. sinon → tire une direction **au hasard** parmi les directions libres
 
 ### Boîte à outils
@@ -128,7 +128,7 @@ Compte trois quarts d'heure : c'est le gros morceau de la partie. Les deux règl
 **Ton objectif :** un fantôme qui erre sans te chercher, en tenant sa direction environ une
 seconde et demie.
 
-Ajoute `currentDirection = ghost.direction` et `patrolLockTimer = ghost.patrolLockTimer` dans
+Ajoute `currentDirection = ghost.direction` et `patrolDirectionTimer = ghost.patrolDirectionTimer` dans
 `buildInfos`, puis un bloc `if infos.state == 'patrol' then` **au début** de `chooseDirection`,
 avant tes règles de poursuite, qui applique les deux règles ci-dessus.
 
@@ -152,7 +152,7 @@ voir à ce stade :
 ![Sans le timer : il tire une direction à chaque case et tremble sur place.](img/a2-e2-hasard.gif)
 
 *Moitié 2, le timer.* Ajoute devant une règle qui renvoie `currentDirection` quand
-`patrolLockTimer > 0` et que la case devant est libre.
+`patrolDirectionTimer > 0` et que la case devant est libre.
 
 **Ta liste se construit-elle ?** `print(#directionsLibres)` juste avant le tirage, et regarde le
 panneau **Console**, sous l'éditeur. Si le nombre reste à 0, le problème est dans tes `if`, pas
@@ -371,7 +371,7 @@ trois lignes du tableau : deux nombres et un ordre :
 | --- | --- |
 | le seuil des 8 cases | un fantôme myope, ou un qui te repère de l'autre bout de la carte |
 | l'ordre des règles dans `follow` | un qui te coupe la route, ou un qui te colle au train |
-| le seuil auquel tu compares `patrolLockTimer` | `> 0` le laisse tenir sa direction 1,5 s ; `> 0.75` le fait tourner deux fois plus souvent (un nombre s'écrit avec un **point** en Lua) |
+| le seuil auquel tu compares `patrolDirectionTimer` | `> 0` le laisse tenir sa direction 1,5 s ; `> 0.75` le fait tourner deux fois plus souvent (un nombre s'écrit avec un **point** en Lua) |
 
 Un seul de ces nombres suffit à changer son caractère. Même trajet de Pac-Man, deux fantômes opposés :
 
@@ -446,5 +446,5 @@ Ton fantôme sait patrouiller, poursuivre et prendre peur. Trois humeurs, trois 
 toi qui as écrit les règles de chacune.
 
 Tu as utilisé deux façons de programmer un comportement : un arbre de décision, puis une **machine
-à états**. Ce qui sépare les deux tient dans `state` et `patrolLockTimer` : ton fantôme se
+à états**. Ce qui sépare les deux tient dans `state` et `patrolDirectionTimer` : ton fantôme se
 souvient de ce qu'il est en train de faire, et c'est ce souvenir qui décide de la suite.
