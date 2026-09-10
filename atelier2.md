@@ -94,12 +94,10 @@ Compte trois quarts d'heure : c'est le gros morceau de la partie. Les deux règl
 > **Outil #2 : construire une liste petit à petit.**
 > `{}` crée une liste vide, `table.insert` y ajoute un élément à la fin.
 > ```lua
-> local desserts = {}
+> desserts = {}
 > if glaceDispo then table.insert(desserts, 'glace') end
 > if gateauDispo then table.insert(desserts, 'gâteau') end
 > ```
-> `local` crée une **variable**, un nom qui retient une valeur, et la range dans le bloc où tu
-> l'écris : ici, dans la fonction. Mets-le devant tes listes.
 > 📘 [`table.insert`](https://www.lua.org/manual/5.3/manual.html#pdf-table.insert)
 
 > **Outil #3 : aller d'un mot à la bonne réponse.**
@@ -115,7 +113,7 @@ Compte trois quarts d'heure : c'est le gros morceau de la partie. Les deux règl
 > **Outil #4 : tirer au hasard dans une liste.**
 > `#liste` donne le nombre d'éléments, `math.random(1, n)` tire un entier entre 1 et n inclus.
 > ```lua
-> local index = math.random(1, #desserts)
+> index = math.random(1, #desserts)
 > return desserts[index]
 > ```
 > **En Lua, les listes commencent à 1**, pas à 0. Et si la liste est vide (`#desserts == 0`), ne
@@ -177,7 +175,7 @@ Tu tiens les deux comportements. Maintenant, lequel s'applique quand : proche �
 `'patrol'`.
 
 « Proche » se mesure en **cases** : l'écart horizontal **plus** l'écart vertical. Pas la distance
-à vol d'oiseau. Le seuil de cette partie est **8 cases**.
+à vol d'oiseau. Le seuil de cette partie est **5 cases**.
 
 ### Boîte à outils
 
@@ -205,7 +203,7 @@ Tu tiens les deux comportements. Maintenant, lequel s'applique quand : proche �
 **Ton objectif :** un fantôme qui te lâche quand tu t'éloignes, et te repère quand tu reviens.
 
 1. `buildInfos` : une propriété `totalDistance` qui vaut la distance en cases
-2. `updateState` : `'follow'` si elle vaut 8 cases ou moins, sinon `'patrol'`
+2. `updateState` : `'follow'` si elle vaut 5 cases ou moins, sinon `'patrol'`
 3. `chooseDirection` : enveloppe tout ton arbre de la partie 1 dans un test sur `infos.state` :
 
 ```lua
@@ -216,7 +214,7 @@ else
 end
 ```
 
-Tu dois obtenir ceci : **orange** de loin, **rouge** à 8 cases ou moins, orange à nouveau quand tu
+Tu dois obtenir ceci : **orange** de loin, **rouge** à 5 cases ou moins, orange à nouveau quand tu
 t'éloignes.
 
 ![Pac-Man approche : le fantôme erre en orange, puis vire au rouge dès qu'il passe sous les huit cases.](img/a2-e3-bascule.gif)
@@ -336,7 +334,7 @@ provoques chaque situation exprès, en deux minutes.
 | Ce que tu fais | Ce que tu dois voir |
 | --- | --- |
 | Tu restes à l'autre bout de la carte | **orange**, il erre, virages toutes les ~1,5 s |
-| Tu approches à 8 cases ou moins | **rouge**, il fonce sur toi |
+| Tu approches à 5 cases ou moins | **rouge**, il fonce sur toi |
 | Tu manges une grosse pac-gomme blanche | **bleu**, il s'écarte pendant 8 s |
 | Tu le touches en bleu | rien, tu passes au travers |
 | Tu le touches en orange ou rouge | tu meurs, ça redémarre après 3 s |
@@ -369,7 +367,7 @@ trois lignes du tableau : deux nombres et un ordre :
 
 | Ce que tu changes | Ce que ça donne |
 | --- | --- |
-| le seuil des 8 cases | un fantôme myope, ou un qui te repère de l'autre bout de la carte |
+| le seuil des 5 cases | un fantôme myope, ou un qui te repère de l'autre bout de la carte |
 | l'ordre des règles dans `follow` | un qui te coupe la route, ou un qui te colle au train |
 | le seuil auquel tu compares `patrolDirectionTimer` | `> 0` le laisse tenir sa direction 1,5 s ; `> 0.75` le fait tourner deux fois plus souvent (un nombre s'écrit avec un **point** en Lua) |
 
@@ -433,10 +431,9 @@ Quatre variantes de ta machine à états. Aucune correction, et rien de neuf à 
 4. **Le fantôme de 1980.** Dans le vrai Pac-Man, les fantômes ne regardaient pas la distance : ils
    alternaient au chronomètre. Au premier niveau, 7 secondes chacun dans son coin, puis 20 de
    chasse, et à chaque cycle les replis raccourcissent, jusqu'à ne plus revenir du tout. Fais
-   pareil : oublie le seuil des 8 cases,
-   compte tes décisions dans une variable à toi. Le mot `local` qui la crée
-   doit être **en dehors** des trois fonctions : à l'intérieur, elle serait recréée, et donc
-   remise à zéro, à chaque appel. Puis bascule
+   pareil : oublie le seuil des 5 cases,
+   compte tes décisions dans une variable à toi. Elle doit être créée **en dehors** des trois
+   fonctions : à l'intérieur, elle serait remise à zéro à chaque appel. Puis bascule
    `patrol` / `follow` quand le compte est atteint. Vise le même rapport qu'en 1980 : une courte pause pour une longue chasse.
    *C'est réussi si :* il te lâche et te reprend tout seul, alors que tu n'as pas bougé.
 
