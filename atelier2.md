@@ -217,9 +217,9 @@ end
 Tu dois obtenir ceci : **orange** de loin, **rouge** à 5 cases ou moins, orange à nouveau quand tu
 t'éloignes.
 
-![Pac-Man approche : le fantôme erre en orange, puis vire au rouge dès qu'il passe sous les huit cases.](img/a2-e3-bascule.gif)
+![Pac-Man approche : le fantôme erre en orange, puis vire au rouge dès qu'il passe sous les cinq cases.](img/a2-e4-bascule.gif)
 
-![Le même instant, figé : à huit cases ou moins, le fantôme est rouge et fonce droit sur Pac-Man.](img/a2-e3-rouge.png)
+![Le même instant, figé : à cinq cases ou moins, le fantôme est rouge et fonce droit sur Pac-Man.](img/a2-e4-rouge.png)
 
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
