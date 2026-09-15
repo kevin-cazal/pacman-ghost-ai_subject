@@ -9,6 +9,15 @@ project:
   summary: "Programmez l'intelligence du fantôme de Pac-Man, en Lua."
   entrypoint: "intro.md"
 
+# How the subject shows its face on the workshop front page (convention §3.2b).
+# A sentence and some files, never a layout: the frame, the crop and the type
+# are the platform's. These paths start at the repo root, not at a document.
+cover:
+  media: img/jeu-demo.gif   # the ghost this workshop ends with, in motion
+  poster: img/jeu.png       # the same scene as a still, for reduced motion
+  tagline: "Ton fantôme ne bouge pas. À toi de lui apprendre à chasser."
+  mascot: img/fantome.png   # the sprite the platform floats on a solve
+
 # The web app shown beside the instructions (PLAN.md §14). `id` + `version`
 # select a dist built by tools/build_runtime.sh and served same-origin at
 # /runtime/<id>/<version>/ — reading this block is enough to deploy the pane.
