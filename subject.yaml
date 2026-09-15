@@ -4,7 +4,7 @@
 schema_version: "2.0"
 
 project:
-  name: "Pac-Man — IA du fantôme"
+  name: "IA du fantôme de Pac-Man"
   slug: "pacman"
   summary: "Programmez l'intelligence du fantôme de Pac-Man, en Lua."
   entrypoint: "intro.md"
@@ -15,7 +15,7 @@ project:
 cover:
   media: img/jeu-demo.gif   # the ghost this workshop ends with, in motion
   poster: img/jeu.png       # the same scene as a still, for reduced motion
-  tagline: "Ton fantôme ne bouge pas. À toi de lui apprendre à chasser."
+  tagline: "Bientôt c'est TON code qui fera bouger ce fantôme"
   mascot: img/fantome.png   # the sprite the platform floats on a solve
 
 # The web app shown beside the instructions (PLAN.md §14). `id` + `version`
