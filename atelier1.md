@@ -54,6 +54,7 @@ Le fantôme ne bouge pas, et c'est normal : `chooseDirection` renvoie `nil`, ce 
 ### Boîte à outils
 
 > 🧰 **Outil #1 : `if / then / end` « Si... alors... »**
+> Avec un exemple qui n'a rien à voir avec Pac-Man.
 > ```lua
 > if ilFaitBeau then
 >   return 'sortir'
@@ -149,7 +150,7 @@ Si on décompose `not map.isWall(ghost.X - 1, ghost.Y)` :
 
 - `not` : le **contraire** de...
   - `map.isWall(..., ...)` : est-ce que cette case-là est un mur ? Quelle case ?
-    - `ghost.X - 1` : celle qui est à gauche du fantôme, `ghost.Y` : sur sa ligne à lui.
+    - `ghost.X - 1` : celle qui est à gauche du fantôme, `ghost.Y` : la position verticale du fantôme.
 
 </details>
 
@@ -192,7 +193,7 @@ Lorsque `distanceX` est négatif : Pac-Man est à **gauche du fantôme**.
 
 ### 🥸 Mise en application
 
-**Ton objectif :** un fantôme qui ne va à gauche que si **tu** es à sa gauche, et qu'il peut y aller.
+**Ton objectif :** un fantôme qui ne va à gauche **QUE SI** Pac-Man est à sa gauche, **ET** qu'il peut y aller.
 
 ```lua
 -- dans buildInfos

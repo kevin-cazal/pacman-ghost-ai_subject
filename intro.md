@@ -23,7 +23,7 @@ Et à la fin, tu en auras fait un vrai chasseur.
 
 ## Le fichier de départ
 
-À recoller si ton code ne fonctionne pas et te paraît illisible.
+À utiliser si tu veux repartir de zéro.
 
 ```lua
 function buildInfos(ghost, pacman, map)

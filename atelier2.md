@@ -43,11 +43,11 @@ Une **machine à états finis** est dans une seule humeur à la fois, et elle en
 
 ![Les trois modes du fantôme, et ce qui le fait passer de l'un à l'autre.](img/machine-etats.png)
 
-Ce diagramme est le plan de toute la partie : `updateState` écrit les **flèches**, celles qui font passer d'un mode à l'autre. `chooseDirection`, lui, décide comment bouger **une fois dans un mode**. Pour qu'il puisse lire le mode, il faut d'abord le faire passer par `infos`.
+Ce diagramme est le plan de toute la partie : `updateState` correspond aux **flèches**, celles qui font passer d'un mode à l'autre. `chooseDirection`, lui, décide comment bouger **une fois dans un mode**. Pour qu'il puisse lire le mode, il faut d'abord le faire passer par `infos`.
 
 ### 🥸 Mise en application
 
-**Ton objectif :** brancher le fil. Rien ne changera à l'écran, c'est normal.
+**Ton objectif :** Récupérer l'état du fantôme dans `buildInfos` et accéder à `infos.state` dans `chooseDirection`. Rien ne changera à l'écran, c'est normal.
 
 ```lua
 -- dans buildInfos, une propriété de plus
@@ -59,9 +59,7 @@ state = ghost.state,
 return 'patrol'
 ```
 
-Tu dois obtenir ceci : il poursuit comme avant, et il est **orange**, la couleur de la patrouille.
-
-Orange, il l'était déjà : la couleur ne te dit donc pas si ta ligne est au bon endroit. Pour en être sûr, ajoute `print(infos.state)` au début de `chooseDirection` et regarde le panneau **Console** : il doit afficher `patrol`. S'il affiche `nil`, c'est que `state = ghost.state,` n'est pas dans ce que renvoie `buildInfos`. Retire le `print` une fois que tu as vu `patrol`.
+Pour vérifier, ajoute `print(infos.state)` au début de `chooseDirection` et regarde le panneau **Console** : il doit afficher `patrol`. Retire le `print` une fois que tu as vu `patrol`.
 
 ![Il poursuit comme à la fin de la partie 1, et il est orange, désormais cette couleur veut dire quelque chose.](img/a2-e1-orange.gif)
 
@@ -71,6 +69,20 @@ Orange, il l'était déjà : la couleur ne te dit donc pas si ta ligne est au bo
 Les quatre grosses pac-gommes blanches, dans les coins, sont des **super pac-gommes**. Quand tu en manges une, `game.scaredTimer` passe à 8 et redescend seconde après seconde. Au-dessus de 0, le fantôme a peur.
 
 Deux choses à écrire, une dans chaque fonction : `updateState` décide qu'il a peur, `chooseDirection` décide de ce qu'il fait quand il a peur. Il **fuit** : là où ton arbre disait « Pac-Man est à gauche, va à gauche », la fuite dit l'inverse.
+
+### Boîte à outils
+
+> 🧰 **Outil #1 : `==` demande « est-ce exactement ça ? »**
+> Un seul `=` stocke une valeur ; deux `==` posent une question.
+> ```lua
+> motDePasse = 'secr3t'
+> if motDePasse == 'secr3t' then
+>   print('Accès autorisé')
+> else
+>   print('Mot de passe incorrect')
+> end
+> ```
+> 📘 [Les opérateurs relationnels](https://www.lua.org/manual/5.3/manual.html#3.4.4)
 
 ### 🥸 Mise en application
 
@@ -163,7 +175,7 @@ Tu dois obtenir ceci : il erre sans traverser un seul mur, et il ne te poursuit 
 ## Étape 3 : Poursuivre seulement quand tu es proche
 <!-- ws: {type: exercise, id: a2-mode-follow} -->
 
-Tu tiens les trois comportements. Maintenant, lequel s'applique quand : proche donne `'follow'`, loin donne `'patrol'`, et la peur passe avant les deux.
+Tu tiens les trois comportements. Maintenant, lequel s'applique quand : proche donne `'follow'`, loin donne `'patrol'`, et la `scared` passe toujours avant les deux autres états.
 
 « Proche » se mesure en **cases** : l'écart horizontal **plus** l'écart vertical. Le seuil de cette partie est **5 cases**.
 
@@ -199,7 +211,7 @@ Tu tiens les trois comportements. Maintenant, lequel s'applique quand : proche d
 
 **Ton objectif :** un fantôme qui patrouille quand tu t'éloignes, et te repère quand tu reviens.
 
-Tout se joue dans `updateState`. `chooseDirection` n'a pas une ligne à changer : ton arbre de la partie 1 est déjà ce que fait le fantôme quand il n'est ni `scared` ni `patrol`.
+Tout se joue dans `updateState`. `chooseDirection` ne change pas : ton arbre de la partie 1 est déjà ce que fait le fantôme quand il n'est ni `scared` ni `patrol`.
 
 1. `buildInfos` : une propriété `totalDistance` qui vaut la distance en cases
 2. `updateState` : les trois cas dans l'ordre `scared`, `follow`, `patrol`
