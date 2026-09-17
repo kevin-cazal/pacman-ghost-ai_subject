@@ -30,8 +30,8 @@ prendra les trois couleurs.
 | super pac-gomme | Grande pac-gomme blanche dans les 4 coins, effraie le fantôme 8 secondes |
 | `game.scaredTimer` | Temps restant de la super pac-gomme (supérieur à 0 = peur active) |
 | `totalDistance` | Tu le calcules : le nombre de cases entre le fantôme et Pac-Man |
-| `me.direction` | La dernière direction que `ghost` a renvoyée. Sert au bonus **Tenir sa direction** |
-| `compteur` | Une variable à toi qui compte les appels de `ghost` : 60 appels font une seconde. Sert au bonus **Tenir sa direction** |
+| `me.direction` | La direction que le fantôme suit en ce moment, `nil` s'il est arrêté. Sert au bonus **Tenir sa direction** |
+| `compteur` | Une variable à toi qui compte les cases depuis le dernier virage. Sert au bonus **Tenir sa direction** |
 
 </details>
 
@@ -263,11 +263,11 @@ Un mode ne se déclenche jamais ? Reviens à l'étape qui l'a introduit et refai
 
 Ton fantôme erre, mais il ne va nulle part : à chaque case il retire une direction, et une fois sur quatre c'est un demi-tour. Il tourne autour de son point de départ.
 
-Il lui faut garder sa direction un moment au lieu de changer sans arrêt. Ce moment, c'est toi qui vas le compter : le jeu appelle `ghost` **60 fois par seconde**, donc compter les appels, c'est compter le temps. 90 appels font une seconde et demie.
+Il lui faut garder sa direction quelques cases au lieu de changer à chacune. Ces cases, c'est toi qui vas les compter : le jeu appelle `ghost` **à chaque case**, donc compter les appels, c'est compter les cases.
 
-Deux outils : `me.direction`, la dernière direction que `ghost` a renvoyée, et une variable à toi, `compteur`, qui augmente de 1 à chaque appel.
+Deux outils : `me.direction`, la direction que le fantôme suit en ce moment, et une variable à toi, `compteur`, qui augmente de 1 à chaque appel.
 
-La règle à poser **avant** ton tirage au hasard : si `compteur < 90` **et** que la case devant est libre, continue dans `me.direction`. Sinon, remets `compteur` à 0 et tire.
+La règle à poser **avant** ton tirage au hasard : si `compteur < 5` **et** que la case devant est libre, continue dans `me.direction`. Sinon, remets `compteur` à 0 et tire.
 
 ### Boîte à outils
 
@@ -292,16 +292,16 @@ La règle à poser **avant** ton tirage au hasard : si `compteur < 90` **et** qu
 
 ### 🥸 Mise en application
 
-**Ton objectif :** un fantôme qui tient sa direction environ une seconde et demie, et qui traverse donc vraiment la carte.
+**Ton objectif :** un fantôme qui tient sa direction cinq cases d'affilée, et qui traverse donc vraiment la carte.
 
 1. En haut du fichier, à côté de `state` : `compteur = 0`
 2. Dans ton bloc `patrol`, la règle ci-dessus **avant** le tirage au hasard, et `compteur = compteur + 1` juste avant elle
 
-`me.direction` vaut `'left'`, `'right'`, `'up'`, `'down'` ou `nil` au premier appel.
+`me.direction` vaut `'left'`, `'right'`, `'up'`, `'down'`, ou `nil` au premier appel et quand il est arrêté.
 
 Tu dois obtenir ceci :
 
-![Le fantôme orange tient sa direction environ une seconde et demie, puis tire la suivante au hasard : il traverse la carte au lieu de tourner en rond.](img/a2-e2-patrouille.gif)
+![Le fantôme orange tient sa direction plusieurs cases, puis tire la suivante au hasard : il traverse la carte au lieu de tourner en rond.](img/a2-e2-patrouille.gif)
 
 *C'est réussi si :* il file en ligne droite sur plusieurs cases avant de tourner, et qu'en vingt secondes il s'est vraiment éloigné de son point de départ.
 
@@ -316,7 +316,7 @@ Ton fantôme marche, mais ses réglages sont ceux qu'on t'a donnés. Son caract�
 | --- | --- |
 | le seuil des 5 cases | un fantôme myope, ou un qui te repère de l'autre bout de la carte |
 | l'ordre des règles dans `follow` | poursuivre ou essayer de te couper la route |
-| le nombre auquel tu compares `compteur`, si tu as fait le bonus **Tenir sa direction** | `90` le laisse tenir sa direction 1,5 s ; `45` le fait tourner deux fois plus souvent |
+| le nombre auquel tu compares `compteur`, si tu as fait le bonus **Tenir sa direction** | `5` le laisse tenir cinq cases ; `2` le fait tourner deux fois plus souvent |
 
 Un seul de ces nombres suffit à changer son caractère. Même trajet de Pac-Man, deux fantômes opposés :
 

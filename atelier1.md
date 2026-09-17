@@ -18,7 +18,7 @@ Le jeu fonctionne déjà en partie : Pac-Man se déplace et mange les pac-gommes
 ![Le panneau Jeu est actif : contour jaune. Démarrer, encadré en rouge, charge ton code.](img/interface.png)
 
 - Contour **jaune** = le panneau qui reçoit tes touches. Clique dans le panneau **Code** pour écrire ton code, dans le panneau **Jeu** pour tester ce que tu as codé.
-- Dans l'éditeur il y a une seule fonction à remplir : `ghost`. Le jeu l'appelle **60 fois par seconde**, et le fantôme part dans la direction qu'elle renvoie.
+- Dans l'éditeur il y a une seule fonction à remplir : `ghost`. Le jeu l'appelle **à chaque case** : quand le fantôme arrive au centre d'une case, il part dans la direction qu'elle renvoie.
 - Sous l'éditeur, la **Console** : les erreurs et les affichages du programme y sortent, et tu
   peux y taper du code toi-même pour l'essayer, les exemples des **boîtes à outils** par exemple.
 - **Écris toujours entre** `function` **et** `end`.
