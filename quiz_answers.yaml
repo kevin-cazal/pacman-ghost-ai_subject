@@ -4,12 +4,14 @@
 answers:
   # Partie 1, étape 0 : où on écrit.
   a1-demarrer: "A"
-  # Étape 1 : ce que fait `false`, et à quoi sert une variable.
-  a1-bouger-1: ["B", "C"]
-  a1-bouger-2: ["A", "D"]
-  # Étape 2 : `not`, et la case voisine.
+  # Étape 1 : écrire une direction, et pourquoi il traverse le mur.
+  a1-bouger-1: "A"
+  a1-bouger-2: "B"
+  # Étape 2 : `not`, la case voisine, et ce que fait `false`.
   a1-can-go-left-1: ["A", "B", "D"]
   a1-can-go-left-2: "B"
-  # Étape 3 : le sens de la soustraction, et ce qu'exige `and`.
+  a1-can-go-left-3: ["B", "C"]
+  # Étape 3 : le sens de la soustraction, ce qu'exige `and`, et à quoi sert une variable.
   a1-distance-x-1: "B"
   a1-distance-x-2: ["A", "B"]
+  a1-distance-x-3: ["A", "D"]

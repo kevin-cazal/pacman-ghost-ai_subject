@@ -132,10 +132,12 @@ En `'patrol'`, le fantôme ne te cherche pas. À chaque case, il regarde les dir
 > if gateauDispo then table.insert(desserts, 'gâteau') end
 > if cookieDispo then table.insert(desserts, 'cookie') end
 > ```
+> Tape ensuite `desserts[1]` dans la **Console** : tu lis `glace`.
 > 📘 [table.insert](https://www.lua.org/manual/5.3/manual.html#pdf-table.insert)
 
 > 🧰 **Outil #2 : tirer au hasard dans une liste**
 > `#liste` donne le nombre d'éléments, `math.random(1, n)` tire un entier entre 1 et n inclus.
+> À taper juste après l'outil #1 : il se sert du `desserts` que tu viens de construire.
 > ```lua
 > index = math.random(1, #desserts)
 > return desserts[index]
@@ -187,6 +189,7 @@ Tu tiens les trois comportements, et les deux flèches de `'scared'`. Il te manq
 > 🧰 **Outil #2 : `<=` « plus petit ou égal »**
 > `a < b` est faux quand `a` vaut exactement `b`. `a <= b` est vrai dans ce cas.
 > ```lua
+> age = 15
 > if age <= 17 then
 >   return 'tarif jeune'
 > end
@@ -196,10 +199,13 @@ Tu tiens les trois comportements, et les deux flèches de `'scared'`. Il te manq
 > 🧰 **Outil #3 : écrire une flèche du diagramme**
 > Une flèche a trois morceaux : **d'où** elle part, **quand** elle part, et **vers où** elle va.
 > ```lua
+> humeur = 'calme'
+> bruit = 80
 > if humeur == 'calme' and bruit > 50 then
 >   humeur = 'agacé'
 > end
 > ```
+> Tape ensuite `humeur` dans la **Console** : tu lis `agacé`.
 > D'où : `humeur == 'calme'`. Quand : `bruit > 50`. Vers où : `humeur = 'agacé'`.
 > Une flèche qui part de **n'importe quel** mode ne teste pas `humeur` : elle n'a que le « quand ».
 
@@ -289,6 +295,9 @@ La règle à poser **avant** ton tirage au hasard : si `compteur < 5` **et** que
 > 🧰 **Outil #2 : aller d'un mot à la bonne réponse**
 > Tu as un mot d'un côté (`'left'`), et des réponses aux noms différents de l'autre (`canGoLeft`...). Le plus direct est de poser la question cas par cas :
 > ```lua
+> animal = 'chat'
+> leChienAboie = 'ouaf'
+> leChatMiaule = 'miaou'
 > if animal == 'chien' then return leChienAboie end
 > if animal == 'chat'  then return leChatMiaule end
 > ```

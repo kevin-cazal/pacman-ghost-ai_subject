@@ -55,74 +55,66 @@ Les flèches ne font rien ? Le contour jaune entoure sûrement le panneau **Code
 ## Étape 1 : Faire bouger le fantôme
 <!-- ws: {type: exercise, id: a1-bouger, validation: quiz} -->
 
-Le fantôme ne bouge pas, et c'est normal : `ghost` renvoie `nil`, ce qui veut dire « je ne fais rien ». Commence par lui dire d'aller à gauche.
+Le fantôme ne bouge pas, et c'est normal : `ghost` renvoie `nil`, ce qui veut dire « je ne fais rien ». Remplace ce `nil` par une direction, et il partira.
 
 ### Boîte à outils
 
-> 🧰 **Outil #1 : `if / then / end` « Si... alors... »**
-> Avec un exemple qui n'a rien à voir avec Pac-Man.
+> 🧰 **Outil #1 : `return` « ma réponse est... »**
+> `return` donne la réponse de la fonction, et le jeu s'en sert comme direction. Il y en a quatre, et pas d'autres :
 > ```lua
-> if ilFaitBeau then
->   return 'sortir'
-> end
-> return nil
+> return 'left'   -- gauche
+> return 'right'  -- droite
+> return 'up'     -- haut
+> return 'down'   -- bas
 > ```
-> `if ... then` pose la question, la ligne du milieu n'est exécutée que si c'est vrai, `end` ferme la
-> règle, et `return nil` en dernier veut dire « aucune autre règle ne s'applique, je ne fais rien ».
-> 📘 [Les structures de contrôle](https://www.lua.org/manual/5.3/manual.html#3.3.4)
+> Les guillemets font partie du code, et tout s'écrit en anglais et en minuscules.
+> 📘 [L'instruction `return`](https://www.lua.org/manual/5.3/manual.html#3.3.4)
 
 ### 🥸 Mise en application
 
-**Ton objectif :** un fantôme qui part vers la gauche.
-
-Voici le modèle de code. Tape-le et lance-le : tu te baseras sur ce modèle pour la suite.
+**Ton objectif :** un fantôme qui part vers la gauche, puis dans les trois autres directions.
 
 Une ligne qui commence par `--` est un **commentaire pour toi**, pas du code : tu n'es pas obligé de la recopier pour que le programme fonctionne.
 
 ```lua
 -- dans ghost, à la place de return nil
-canGoLeft = true
-if canGoLeft then
-  return 'left'
-end
-return nil
+return 'left'
 ```
-
-`canGoLeft` est une **variable** : la première ligne y range une information, et la règle en dessous la lit.
 
 Tu dois obtenir ceci :
 
 ![Le fantôme part à gauche, traverse le mur du bord et disparaît de l'écran.](img/a1-e1-sort.gif)
 
-> ⚠️ **Attention :** il traverse le mur et il s'en va pour de bon. C'est logique : `true` veut dire « vrai, tout le temps ». Tu lui as dit qu'il pouvait aller à gauche, sans jamais regarder ce qu'il y a devant lui. Utilise le bouton **Réinitialiser**.
+> ⚠️ **Attention :** il traverse le mur et il s'en va pour de bon. C'est logique : tu lui as dit d'aller à gauche, sans jamais regarder ce qu'il y a devant lui. Utilise le bouton **Réinitialiser**.
+
+Maintenant essaie les trois autres : remplace `'left'` par `'right'`, puis par `'up'`, puis par `'down'`. Entre chaque essai, clique sur **Réinitialiser** puis sur **Démarrer**. Termine par `'left'` : c'est la direction sur laquelle tu vas continuer.
 
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
 
 Il ne bouge pas du tout ? Trois causes, dans cet ordre : tu n'as pas recliqué sur **Démarrer**, ton
-`return 'left'` est **après** le `end` au lieu d'être dedans, ou `canGoLeft` n'est pas écrit pareil
-sur les deux lignes (une majuscule change tout).
+`return 'left'` est **après** le `end` au lieu d'être dedans, ou il manque les guillemets autour de
+`left` (`Left` et `gauche` ne marchent pas non plus : c'est en anglais et en minuscules).
 
 </details>
 
-<!-- ws: {type: quiz, id: a1-bouger-1, kind: multiple} -->
-> Que se passerait-il si tu changeais le `canGoLeft = true` en `canGoLeft = false` ?
-- A. Le fantôme ira à droite
-- B. Le fantôme n'ira pas à gauche
-- C. Le fantôme ne bougera pas du tout
-- D. Le fantôme traversera les murs
+<!-- ws: {type: quiz, id: a1-bouger-1, kind: single} -->
+> Tu veux que le fantôme parte vers le haut. Qu'est-ce que tu écris ?
+- A. `return 'up'`
+- B. `return up`
+- C. `return 'haut'`
+- D. `return 'UP'`
 
-<!-- ws: {type: quiz, id: a1-bouger-2, kind: multiple} -->
-> À quoi sert une variable, en général ?
-- A. Stocker une information qui peut changer pendant que le programme tourne
-- B. Stocker une direction
-- C. Empêcher que le fantôme traverse le mur
-- D. Simplifier le code en donnant un nom (par exemple `canGoLeft`) à une valeur (`true` ou `false`)
+<!-- ws: {type: quiz, id: a1-bouger-2, kind: single} -->
+> Pourquoi le fantôme traverse-t-il le mur et sort-il de l'écran ?
+- A. Parce que le jeu est cassé
+- B. Parce que ton code ne regarde jamais ce qu'il y a devant le fantôme
+- C. Parce que `'left'` n'est pas une vraie direction
 
 ## Étape 2 : L'empêcher de traverser les murs
 <!-- ws: {type: exercise, id: a1-can-go-left, validation: quiz} -->
 
-Pour savoir si le fantôme peut aller à gauche, tu regardes la case à sa gauche : s'il n'y a pas de mur, il peut y aller.
+Ton fantôme part à gauche quoi qu'il arrive. Pour qu'il s'arrête au mur, il faut d'abord qu'il regarde la case à sa gauche : s'il n'y a pas de mur, il peut y aller.
 
 ![La case à gauche du fantôme est un mur : il ne peut pas y aller.](img/a1-e2-mur-gauche.png)
 
@@ -134,7 +126,20 @@ Pour savoir si le fantôme peut aller à gauche, tu regardes la case à sa gauch
 > ![En informatique la case tout en haut à gauche, encadrée en rouge, est la case (0, 0). La flèche horizontale est l'axe X, la verticale l'axe Y : X augmente vers la droite, Y vers le bas.](img/origin.png)
 > Le jeu te donne déjà des outils pour récupérer la position du fantôme sur cette grille (`me.X`, `me.Y`) et pour savoir si une case sur la grille est un mur : `map.isWall(x, y)`.
 
-> 🧰 **Outil #1 : `not` « L'inverse de »**
+> 🧰 **Outil #1 : `if / then / end` « Si... alors... »**
+> Avec un exemple qui n'a rien à voir avec Pac-Man.
+> ```lua
+> ilFaitBeau = true
+> if ilFaitBeau then
+>   return 'sortir'
+> end
+> return nil
+> ```
+> `if ... then` pose la question, la ligne du milieu n'est exécutée que si c'est vrai, `end` ferme la
+> règle, et `return nil` en dernier veut dire « aucune autre règle ne s'applique, je ne fais rien ».
+> 📘 [Les structures de contrôle](https://www.lua.org/manual/5.3/manual.html#3.3.4)
+
+> 🧰 **Outil #2 : `not` « L'inverse de »**
 > `map.isWall(...)` dit « c'est un mur ». Ce qui t'intéresse, c'est l'inverse.
 > ```lua
 > ilPleut = true
@@ -146,12 +151,17 @@ Pour savoir si le fantôme peut aller à gauche, tu regardes la case à sa gauch
 
 **Ton objectif :** le même fantôme, mais qui s'arrête au mur au lieu de le traverser.
 
-Une seule ligne change : `canGoLeft` ne vaut plus « vrai, tout le temps », mais quelque chose qui change selon ce qui se passe dans le programme : à force de se déplacer vers la gauche le fantôme tombera à un moment sur un mur.
+Il te faut deux choses : savoir si la case de gauche est libre, et n'aller à gauche **que si** elle l'est.
 
 ```lua
--- dans ghost, à la place de canGoLeft = true
+-- dans ghost, à la place de return 'left'
 canGoLeft = not map.isWall(me.X - 1, me.Y)
+if canGoLeft then
+  return 'left'
+end
 ```
+
+`canGoLeft` est une **variable** : la première ligne y range une information, et la règle en dessous la lit.
 
 `not map.isWall(me.X - 1, me.Y)` se lit : **« la case à gauche du fantôme n'est pas un mur »**.
 
@@ -172,10 +182,11 @@ Tu dois obtenir ceci :
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
 
-Il sort toujours de l'écran ? Tu as laissé `canGoLeft = true` quelque part, ou tu as ajouté la
-nouvelle ligne sans effacer l'ancienne.
+Il sort toujours de l'écran ? Il te reste sûrement le `return 'left'` de l'étape 1 tout seul quelque
+part, en dehors du `if`.
 
-Il ne bouge plus du tout ? Vérifie le `-` de `me.X - 1` et les deux parenthèses.
+Il ne bouge plus du tout ? Vérifie le `-` de `me.X - 1` et les deux parenthèses, et que `canGoLeft`
+est écrit pareil sur les deux lignes (une majuscule change tout).
 
 </details>
 
@@ -193,6 +204,13 @@ Il ne bouge plus du tout ? Vérifie le `-` de `me.X - 1` et les deux parenthèse
 - C. Haut
 - D. Bas
 
+<!-- ws: {type: quiz, id: a1-can-go-left-3, kind: multiple} -->
+> Que se passerait-il si `canGoLeft` valait `false` ?
+- A. Le fantôme ira à droite
+- B. Le fantôme n'ira pas à gauche
+- C. Le fantôme ne bougera pas du tout
+- D. Le fantôme traversera les murs
+
 ## Étape 3 : Savoir de quel côté est Pac-Man
 <!-- ws: {type: exercise, id: a1-distance-x, validation: quiz} -->
 
@@ -208,6 +226,8 @@ Lorsque `distanceX` est négatif : Pac-Man est à **gauche du fantôme**.
 
 > 🧰 **Outil #1 : `and` exige que deux conditions soient vraies**
 > ```lua
+> ilFaitFroid = true
+> jaiUnManteau = true
 > if ilFaitFroid and jaiUnManteau then
 >   return 'sortir'
 > end
@@ -230,7 +250,6 @@ distanceX = pacman.X - me.X
 if canGoLeft and distanceX < 0 then
   return 'left'
 end
-return nil
 ```
 
 Tu dois obtenir ceci :
@@ -251,7 +270,6 @@ function ghost()
   if canGoLeft and distanceX < 0 then
     return 'left'
   end
-  return nil
 end
 ```
 
@@ -279,6 +297,13 @@ complet ci-dessus, ligne par ligne : le `-` de `pacman.X - me.X`, et le `then` e
 - C. `distanceX` doit être positif
 - D. Une seule des deux conditions suffit
 
+<!-- ws: {type: quiz, id: a1-distance-x-3, kind: multiple} -->
+> À quoi sert une variable, en général ?
+- A. Stocker une information qui peut changer pendant que le programme tourne
+- B. Stocker une direction
+- C. Empêcher que le fantôme traverse le mur
+- D. Simplifier le code en donnant un nom (par exemple `canGoLeft`) à une valeur (`true` ou `false`)
+
 ## Étape 4 : La droite
 <!-- ws: {type: exercise, id: a1-directions-completes} -->
 
@@ -291,6 +316,7 @@ Pour aller à droite, c'est comme pour aller à gauche... mais dans l'autre sens
 
 > 🧰 **Outil #1 : `>` « plus grand que »**
 > ```lua
+> temperature = 35
 > if temperature > 30 then
 >   return 'canicule'
 > end
@@ -298,15 +324,16 @@ Pour aller à droite, c'est comme pour aller à gauche... mais dans l'autre sens
 > 📘 [Les opérateurs de comparaison](https://www.lua.org/manual/5.3/manual.html#3.4.4)
 
 > 🧰 **Outil #2 : empiler une deuxième règle**
-> Les règles se posent **l'une après l'autre**, chacune avec son propre `end`, et le `return nil` reste **tout en bas**.
+> Les règles se posent **l'une après l'autre**, chacune avec son propre `end`, et la nouvelle vient **sous** la précédente.
 > ```lua
+> jaiDuTempsLibre = false
+> jaiUnControle = true
 > if jaiDuTempsLibre then
 >   return 'jouer'
 > end
 > if jaiUnControle then
 >   return 'reviser'
 > end
-> return nil
 > ```
 
 ### 🥸 Mise en application
@@ -318,7 +345,7 @@ Pour aller à droite, c'est comme pour aller à gauche... mais dans l'autre sens
 canGoRight = nil -- remplace nil par ton code
 ```
 
-Puis **une règle de plus**, avant le `return nil` final, sans supprimer celle de gauche : « si le fantôme peut aller à droite **et** que Pac-Man est à sa droite, alors il va à droite. » (en utilisant `return 'right'` ).
+Puis **une règle de plus**, sous celle de gauche et sans la supprimer : « si le fantôme peut aller à droite **et** que Pac-Man est à sa droite, alors il va à droite. » (en utilisant `return 'right'` ).
 
 Tu dois obtenir ceci :
 
@@ -327,7 +354,8 @@ Tu dois obtenir ceci :
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
 
-Il ne va toujours qu'à gauche ? Ta nouvelle règle est peut-être **après** le `return nil`
+Il ne va toujours qu'à gauche ? Regarde ta ligne `canGoRight` : est-ce qu'il y reste un `nil` ? Et
+la case que tu testes est-elle bien celle de **droite** ?
 
 </details>
 
@@ -405,6 +433,7 @@ Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe
 > 🧰 **Outil #2 : `else`, le chemin d'à côté**
 > `else` dit quoi faire quand la condition est fausse. Un seul des deux blocs s'exécute, jamais les deux.
 > ```lua
+> heure = 8
 > if heure > 7 then
 >   print('je me réveille')
 > else
@@ -418,6 +447,11 @@ Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe
 > 🧰 **Outil #3 : des règles *dans* un `else`**
 > Chaque branche d'un `if / else` peut contenir des règles entières, avec leurs propres `end`.
 > ```lua
+> ilFaitBeau = true
+> temperature = 35
+> jaiLaClimDansLaVoiture = true
+> jaiUnParapluie = false
+> jaiUneVoiture = true
 > if ilFaitBeau then
 >   if temperature > 30 and not jaiLaClimDansLaVoiture then
 >     return 'je reste chez-moi'
@@ -433,8 +467,8 @@ Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe
 >     return 'sortir (en voiture)'
 >   end
 > end
-> return nil
 > ```
+> Change une valeur tout en haut, relance : tu obtiens une autre réponse.
 > **Compte les** `end` **de cet exemple : il y en a cinq.** Un par règle intérieure, il y en a quatre, **plus un** pour le `if / else` qui les contient, tout en bas. Et un `return` intérieur sort de la fonction entière, pas seulement de sa branche.
 
 ### 🥸 Mise en application
@@ -451,7 +485,6 @@ if nil then -- remplace nil par ta comparaison (l'écart horizontal est plus gra
 else
   -- tes 4 règles, haut / bas d'abord
 end
-return nil
 ```
 
 Tu dois obtenir ceci (cale Pac-Man en bas à gauche de l'écran et le fantôme en haut à droite pour mieux voir les mouvements):
