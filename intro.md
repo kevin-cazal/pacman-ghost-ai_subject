@@ -26,16 +26,8 @@ Et à la fin, tu en auras fait un vrai chasseur.
 À utiliser si tu veux repartir de zéro.
 
 ```lua
-function buildInfos(ghost, pacman, map)
-  return {}
-end
-
-function chooseDirection(infos, map)
+function ghost()
   return nil
-end
-
-function updateState(infos, game)
-  return 'patrol'
 end
 ```
 
@@ -45,10 +37,8 @@ Ces termes viennent du jeu, pas de Lua.
 
 | Terme | Signification |
 | --- | --- |
-| `buildInfos` | La fonction où tu construis la liste `infos` : les informations que tu prépares pour le fantôme |
-| `chooseDirection` | La fonction où tu écris les règles « si... alors... » qui permettent au fantôme de choisir une direction |
-| `updateState` | La fonction où tu écris les règles pour choisir l'humeur du fantôme (partie 2) |
-| `ghost.X` `ghost.Y` | Position du fantôme (X,Y), en cases |
+| `ghost` | La fonction où tu écris les règles « si... alors... » du fantôme. Le jeu l'appelle **60 fois par seconde**, et le fantôme part dans la direction qu'elle renvoie |
+| `me.X` `me.Y` | Position du fantôme (X,Y), en cases |
 | `pacman.X` `pacman.Y` | Position de Pac-Man (X,Y), en cases |
 | `map.isWall(x, y)` | `true` si la case `(x, y)` est un mur |
 | `'left'` `'right'` `'up'` `'down'` | Les quatre directions que le jeu comprend. Toujours en anglais, toujours entre apostrophes |

@@ -23,16 +23,15 @@ prendra les trois couleurs.
 
 | Terme | Signification |
 | --- | --- |
-| `updateState` | Fonction qui choisit le mode : `patrol`, `follow` ou `scared` |
+| `state` | La variable où tu ranges le mode : `'patrol'`, `'follow'` ou `'scared'`. Le jeu la lit après chaque appel de `ghost` et colore le fantôme |
 | `'patrol'` | Le fantôme erre au hasard (orange) |
 | `'follow'` | Le fantôme utilise l'arbre de décision de la partie 1 (rouge) |
 | `'scared'` | Le fantôme fuit (bleu) |
 | super pac-gomme | Grande pac-gomme blanche dans les 4 coins, effraie le fantôme 8 secondes |
 | `game.scaredTimer` | Temps restant de la super pac-gomme (supérieur à 0 = peur active) |
-| `state` | Mode actuel, tu le recopies : `state = ghost.state` |
 | `totalDistance` | Tu le calcules : le nombre de cases entre le fantôme et Pac-Man |
-| `currentDirection` | Dernière direction, tu la recopies : `currentDirection = ghost.direction`. Sert au bonus **Tenir sa direction** |
-| `patrolDirectionTimer` | Compte à rebours géré par le jeu, tu le recopies : `patrolDirectionTimer = ghost.patrolDirectionTimer`. Sert au bonus **Tenir sa direction** |
+| `me.direction` | La dernière direction que `ghost` a renvoyée. Sert au bonus **Tenir sa direction** |
+| `compteur` | Une variable à toi qui compte les appels de `ghost` : 60 appels font une seconde. Sert au bonus **Tenir sa direction** |
 
 </details>
 
@@ -43,23 +42,18 @@ Une **machine à états finis** est dans une seule humeur à la fois, et elle en
 
 ![Les trois modes du fantôme, et ce qui le fait passer de l'un à l'autre.](img/machine-etats.png)
 
-Ce diagramme est le plan de toute la partie : `updateState` correspond aux **flèches**, celles qui font passer d'un mode à l'autre. `chooseDirection`, lui, décide comment bouger **une fois dans un mode**. Pour qu'il puisse lire le mode, il faut d'abord le faire passer par `infos`.
+Ce diagramme est le plan de toute la partie. Le mode est une variable, `state`, que tu crées **en haut de ton fichier, en dehors de `ghost`**. Les **flèches** sont les règles qui changent `state` ; le reste de `ghost` décide comment bouger **une fois dans un mode**.
 
 ### 🥸 Mise en application
 
-**Ton objectif :** Récupérer l'état du fantôme dans `buildInfos` et accéder à `infos.state` dans `chooseDirection`. Rien ne changera à l'écran, c'est normal.
+**Ton objectif :** créer la variable `state`, et vérifier que le jeu la lit.
 
 ```lua
--- dans buildInfos, une propriété de plus
-state = ghost.state,
+-- tout en haut du fichier, avant function ghost()
+state = 'patrol'
 ```
 
-```lua
--- dans updateState, laisse
-return 'patrol'
-```
-
-Pour vérifier, ajoute `print(infos.state)` au début de `chooseDirection` et regarde le panneau **Console** : il doit afficher `patrol`. Retire le `print` une fois que tu as vu `patrol`.
+Pour vérifier, remplace `'patrol'` par `'follow'` et relance : le fantôme devient **rouge**. Remets `'patrol'` : il redevient orange. Le jeu lit ta variable après chaque appel de `ghost`, c'est elle qui donne sa couleur.
 
 ![Il poursuit comme à la fin de la partie 1, et il est orange, désormais cette couleur veut dire quelque chose.](img/a2-e1-orange.gif)
 
@@ -68,7 +62,7 @@ Pour vérifier, ajoute `print(infos.state)` au début de `chooseDirection` et re
 
 Les quatre grosses pac-gommes blanches, dans les coins, sont des **super pac-gommes**. Quand tu en manges une, `game.scaredTimer` passe à 8 et redescend seconde après seconde. Au-dessus de 0, le fantôme a peur.
 
-Deux choses à écrire, une dans chaque fonction : `updateState` décide qu'il a peur, `chooseDirection` décide de ce qu'il fait quand il a peur. Il **fuit** : là où ton arbre disait « Pac-Man est à gauche, va à gauche », la fuite dit l'inverse.
+Deux choses à écrire dans `ghost`, dans cet ordre : d'abord la règle qui décide qu'il a peur, ensuite ce qu'il fait quand il a peur. Il **fuit** : là où ton arbre disait « Pac-Man est à gauche, va à gauche », la fuite dit l'inverse.
 
 ### Boîte à outils
 
@@ -88,8 +82,8 @@ Deux choses à écrire, une dans chaque fonction : `updateState` décide qu'il a
 
 **Ton objectif :** un fantôme qui devient bleu quand tu manges une grosse pac-gomme blanche, qui s'écarte au lieu de te courir après, et que tu peux attraper sans mourir.
 
-1. `updateState` : renvoie `'scared'` quand `game.scaredTimer` est au-dessus de 0, et `'patrol'` sinon.
-2. `chooseDirection` : un bloc `if infos.state == 'scared' then` **avant** ton arbre de la partie 1, avec les mêmes quatre règles et les comparaisons retournées.
+1. **Au début de `ghost`**, deux lignes : une qui range `'patrol'` dans `state`, puis une règle qui y range `'scared'` quand `game.scaredTimer` est au-dessus de 0.
+2. **Ensuite**, un bloc `if state == 'scared' then` **avant** ton arbre de la partie 1, avec les mêmes quatre règles et les comparaisons retournées.
    - Pourquoi **avant** ton arbre de la partie 1 ?
    - Lorsqu'il a peur, le **fantôme va à gauche** uniquement si **Pacman est à sa droite ET qu'il n'y a pas de mur à gauche**
 
@@ -101,9 +95,9 @@ Tu dois obtenir ceci :
 <details><summary>Si tu es bloqué</summary>
 
 - **Coupe l'étape en deux, teste au milieu.**
-  - *Moitié 1, la couleur seule.* Écris seulement le cas dans `updateState`, puis mange une grosse pac-gomme blanche : le fantôme doit passer au bleu. Il continue à te poursuivre, c'est normal, `chooseDirection` ne connaît pas encore ce mode.
-  - *Moitié 2, la fuite.* Ajoute le bloc `scared` dans `chooseDirection`.
-- Tu peux utiliser `print(game.scaredTimer)` au début de `updateState` ou `print(infos...)` au début de `chooseDirection` et regarde le panneau **Console** pour t'aider à comprendre ce que fait ton code.
+  - *Moitié 1, la couleur seule.* Écris seulement les deux lignes qui changent `state`, puis mange une grosse pac-gomme blanche : le fantôme doit passer au bleu. Il continue à te poursuivre, c'est normal, aucune règle ne regarde encore ce mode.
+  - *Moitié 2, la fuite.* Ajoute le bloc `scared`.
+- Tu peux utiliser `print(game.scaredTimer)` ou `print(state)` au début de `ghost` et regarder le panneau **Console** pour t'aider à comprendre ce que fait ton code.
 - Essaye de bien te rappeler ce que signifie :
   - `distanceX > 0` et `distanceX < 0` : voir l'étape 3 de la partie 1
   - `distanceY > 0` et `distanceY < 0` : voir l'étape 5 de la partie 1
@@ -151,13 +145,11 @@ En `'patrol'`, le fantôme ne te cherche pas. À chaque case, il regarde les dir
 
 **Ton objectif :** un fantôme qui erre sans te chercher, et qui ne traverse aucun mur.
 
-Un bloc `if infos.state == 'patrol' then` dans `chooseDirection`, entre le bloc `scared` que tu viens d'écrire et avant tes règles de poursuite. Dedans :
+Un bloc `if state == 'patrol' then`, entre le bloc `scared` que tu viens d'écrire et tes règles de poursuite. Dedans :
 
 1. construis la liste des directions libres, en te servant des `canGo...` que tu as depuis la partie 1
    - Tu peux appeler ta liste `possibleDirections`
 2. tires-en une au hasard, et renvoie-la
-
-Tu n'as **rien** à ajouter dans `buildInfos`
 
 Tu dois obtenir ceci : il erre sans traverser un seul mur, et il ne te poursuit plus du tout, même collé à toi. C'est voulu et c'est temporaire : la poursuite revient à l'étape 3, en mieux.
 
@@ -167,7 +159,7 @@ Tu dois obtenir ceci : il erre sans traverser un seul mur, et il ne te poursuit 
 <details><summary>Si tu es bloqué</summary>
 
 - **Ta liste se construit-elle ?** `print(#possibleDirections)` juste avant le tirage, et regarde le panneau **Console**, sous l'éditeur. Si le nombre reste à 0, le problème est dans la construction de ta liste, pas dans le tirage. (Et tu risques d'avoir une erreur qui s'affiche.)
-- **Il te poursuit encore, comme avant ?** Alors ton bloc `patrol` n'est jamais atteint : remonte à l'étape 0 et vérifie que `state = ghost.state,` est bien dans `buildInfos`.
+- **Il te poursuit encore, comme avant ?** Alors ton bloc `patrol` n'est jamais atteint : vérifie que ta ligne `state = 'patrol'` est bien au début de `ghost`, et que le bloc est écrit `state == 'patrol'`, avec deux `=`.
 - **Il traverse les murs ?** Tu as mis les quatre directions dans la liste sans les filtrer. Seules les libres y entrent.
 
 </details>
@@ -199,22 +191,22 @@ Tu tiens les trois comportements. Maintenant, lequel s'applique quand : proche d
 > ```
 > 📘 [Les opérateurs de comparaison](https://www.lua.org/manual/5.3/manual.html#3.4.4)
 
-> 🧰 **Outil #3 : l'ordre des tests dans une cascade**
+> 🧰 **Outil #3 : plusieurs règles qui rangent dans la même variable**
 > ```lua
-> if ilNeige then return 'doudoune' end
-> if ilPleut then return 'imperméable' end
-> return 'tee-shirt'
+> tenue = 'tee-shirt'
+> if ilPleut then tenue = 'imperméable' end
+> if ilNeige then tenue = 'doudoune' end
 > ```
-> Le premier `return` atteint arrête tout : mets en haut le cas qui doit gagner même quand les autres sont vrais aussi.
+> La **dernière** ligne qui range gagne : mets en bas le cas qui doit l'emporter même quand les autres sont vrais aussi. S'il neige et qu'il pleut, `tenue` finit à `'doudoune'`.
 
 ### 🥸 Mise en application
 
 **Ton objectif :** un fantôme qui patrouille quand tu t'éloignes, et te repère quand tu reviens.
 
-Tout se joue dans `updateState`. `chooseDirection` ne change pas : ton arbre de la partie 1 est déjà ce que fait le fantôme quand il n'est ni `scared` ni `patrol`.
+Tout se joue dans les lignes qui changent `state`. Tes règles de déplacement ne changent pas : ton arbre de la partie 1 est déjà ce que fait le fantôme quand il n'est ni `scared` ni `patrol`.
 
-1. `buildInfos` : une propriété `totalDistance` qui vaut la distance en cases
-2. `updateState` : les trois cas dans l'ordre `scared`, `follow`, `patrol`
+1. une variable `totalDistance` qui vaut la distance en cases
+2. une règle de plus qui range `'follow'` dans `state`, placée pour que `scared` l'emporte sur `follow`, et `follow` sur `patrol`
 
 Tu dois obtenir ceci : **orange** de loin, **rouge** à 5 cases ou moins, orange à nouveau quand tu t'éloignes.
 
@@ -225,11 +217,11 @@ Tu dois obtenir ceci : **orange** de loin, **rouge** à 5 cases ou moins, orange
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
 
-Orange en permanence ? `print(infos.totalDistance)` au début de `chooseDirection`, et regarde le panneau **Console** : en te rapprochant, le nombre doit descendre vers 0 en restant **positif**. S'il devient négatif, il te manque la valeur absolue.
+Orange en permanence ? `print(totalDistance)` juste après l'avoir calculée, et regarde le panneau **Console** : en te rapprochant, le nombre doit descendre vers 0 en restant **positif**. S'il devient négatif, il te manque la valeur absolue.
 
-Rouge en permanence ? Dans `updateState`, as-tu vraiment un cas qui renvoie `'patrol'` ?
+Rouge en permanence ? As-tu bien gardé la ligne `state = 'patrol'` **avant** tes règles ? Sans elle, rien ne le fait redescendre.
 
-Plus jamais bleu ? Ton cas `scared` est passé **après** le cas `follow`. Un fantôme terrifié reste terrifié, proche ou loin : il se teste en premier.
+Plus jamais bleu ? Ta règle `scared` est passée **avant** la règle `follow`, qui l'écrase. Un fantôme terrifié reste terrifié, proche ou loin : sa règle s'écrit en dernier.
 
 Rouge mais immobile ? Ton arbre de la partie 1 est resté **dans** le bloc `patrol`, au lieu d'être à côté.
 
@@ -271,22 +263,24 @@ Un mode ne se déclenche jamais ? Reviens à l'étape qui l'a introduit et refai
 
 Ton fantôme erre, mais il ne va nulle part : à chaque case il retire une direction, et une fois sur quatre c'est un demi-tour. Il tourne autour de son point de départ.
 
-Il lui faut garder sa direction un moment au lieu de changer sans arrêt. Ce moment, c'est le jeu qui le compte en secondes, dans `patrolDirectionTimer`.
+Il lui faut garder sa direction un moment au lieu de changer sans arrêt. Ce moment, c'est toi qui vas le compter : le jeu appelle `ghost` **60 fois par seconde**, donc compter les appels, c'est compter le temps. 90 appels font une seconde et demie.
 
-Il descend tant que le fantôme continue tout droit. Quand il arrive à **0**, c'est le signal : tu tires une nouvelle direction, et le jeu remet le compteur à 1,5 s tout seul.
+Deux outils : `me.direction`, la dernière direction que `ghost` a renvoyée, et une variable à toi, `compteur`, qui augmente de 1 à chaque appel.
 
-La règle à poser **avant** ton tirage au hasard : si `infos.patrolDirectionTimer > 0` **et** que la case devant est libre, continue dans `infos.currentDirection`.
+La règle à poser **avant** ton tirage au hasard : si `compteur < 90` **et** que la case devant est libre, continue dans `me.direction`. Sinon, remets `compteur` à 0 et tire.
 
 ### Boîte à outils
 
-> 🧰 **Outil #1 : `==` demande « est-ce exactement ça ? »**
-> Un seul `=` range une valeur ; deux `==` posent une question.
+> 🧰 **Outil #1 : une variable qui survit d'un appel à l'autre**
+> Une variable créée **en dehors** de la fonction garde sa valeur entre deux appels. Dedans, elle repartirait de zéro à chaque fois.
 > ```lua
-> if dessert == 'glace' then
->   print('parfait')
+> nombreDeVisites = 0
+> function visite()
+>   nombreDeVisites = nombreDeVisites + 1
 > end
 > ```
-> 📘 [Les opérateurs relationnels](https://www.lua.org/manual/5.3/manual.html#3.4.4)
+> Appelle `visite()` trois fois dans la **Console**, puis tape `nombreDeVisites` : tu lis `3`.
+> 📘 [Les variables](https://www.lua.org/manual/5.3/manual.html#3.2)
 
 > 🧰 **Outil #2 : aller d'un mot à la bonne réponse**
 > Tu as un mot d'un côté (`'left'`), et des réponses aux noms différents de l'autre (`canGoLeft`...). Le plus direct est de poser la question cas par cas :
@@ -300,10 +294,10 @@ La règle à poser **avant** ton tirage au hasard : si `infos.patrolDirectionTim
 
 **Ton objectif :** un fantôme qui tient sa direction environ une seconde et demie, et qui traverse donc vraiment la carte.
 
-1. `buildInfos` : deux propriétés de plus, `currentDirection = ghost.direction` et `patrolDirectionTimer = ghost.patrolDirectionTimer`
-2. `chooseDirection` : dans ton bloc `patrol`, la règle ci-dessus **avant** le tirage au hasard
+1. En haut du fichier, à côté de `state` : `compteur = 0`
+2. Dans ton bloc `patrol`, la règle ci-dessus **avant** le tirage au hasard, et `compteur = compteur + 1` juste avant elle
 
-`ghost.direction` vaut `'left'`, `'right'`, `'up'`, `'down'` ou `nil` au premier tour.
+`me.direction` vaut `'left'`, `'right'`, `'up'`, `'down'` ou `nil` au premier appel.
 
 Tu dois obtenir ceci :
 
@@ -322,7 +316,7 @@ Ton fantôme marche, mais ses réglages sont ceux qu'on t'a donnés. Son caract�
 | --- | --- |
 | le seuil des 5 cases | un fantôme myope, ou un qui te repère de l'autre bout de la carte |
 | l'ordre des règles dans `follow` | poursuivre ou essayer de te couper la route |
-| le seuil auquel tu compares `patrolDirectionTimer`, si tu as fait le bonus **Tenir sa direction** | `> 0` le laisse tenir sa direction 1,5 s ; `> 0.75` le fait tourner deux fois plus souvent (un nombre s'écrit avec un **point** en Lua) |
+| le nombre auquel tu compares `compteur`, si tu as fait le bonus **Tenir sa direction** | `90` le laisse tenir sa direction 1,5 s ; `45` le fait tourner deux fois plus souvent |
 
 Un seul de ces nombres suffit à changer son caractère. Même trajet de Pac-Man, deux fantômes opposés :
 
@@ -368,7 +362,7 @@ Trois variantes de ta machine à états.
 
 ### Défi #1 : L'opportuniste
 
-Dans `updateState`, ne le laisse pas avoir peur jusqu'au bout : dès que `game.scaredTimer` descend sous 2, remets-le en chasse sans attendre la fin des 8 secondes.
+Dans ta règle `scared`, ne le laisse pas avoir peur jusqu'au bout : dès que `game.scaredTimer` descend sous 2, remets-le en chasse sans attendre la fin des 8 secondes.
 
 *C'est réussi si :* il repasse au rouge **avant** que la super pac-gomme soit épuisée.
 
