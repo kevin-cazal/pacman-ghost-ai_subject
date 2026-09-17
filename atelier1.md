@@ -309,6 +309,9 @@ complet ci-dessus, ligne par ligne : le `-` de `pacman.X - me.X`, et le `then` e
 
 Pour aller à droite, c'est comme pour aller à gauche... mais dans l'autre sens.
 
+À partir d'ici, le code ne t'est plus écrit en entier : les trois premières étapes te donnaient le
+modèle, celle-ci te demande de l'adapter. Tout ce qu'il te faut est déjà dans ton fichier.
+
 - Pour regarder ce qu'il y a à gauche de ton fantôme, tu regardes `me.X - 1`. Pour la droite ?
 - Et pour savoir si Pac-Man est à gauche, tu regardes si `distanceX` est négatif. Et pour savoir s'il est à droite ?
 
@@ -351,11 +354,21 @@ Tu dois obtenir ceci :
 
 ![La règle de droite s'applique : le fantôme s'élance et suit Pac-Man sur tout l'axe horizontal.](img/a1-e4-droite.gif)
 
+*C'est réussi si :* tu poses Pac-Man **à gauche** du fantôme et il part à gauche, **puis** à
+droite et il part à droite. Vérifie les deux : avec un seul des deux essais, une règle de droite
+qui compare dans le mauvais sens passe sans que ça se voie.
+
+À ce stade ton fichier contient **deux** variables `canGo...`, **un** `distanceX` et **deux**
+règles. Compte-les avant de lever la main.
+
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
 
-Il ne va toujours qu'à gauche ? Regarde ta ligne `canGoRight` : est-ce qu'il y reste un `nil` ? Et
-la case que tu testes est-elle bien celle de **droite** ?
+Il ne va toujours qu'à gauche ? Regarde ta ligne `canGoRight` : est-ce qu'il y reste un `nil` ?
+
+Il ne bouge pas quand Pac-Man est à droite ? Fais le calcul avec des nombres : le fantôme est en
+`me.X = 8`, Pac-Man en `pacman.X = 12`. Que vaut `distanceX` ? Relis maintenant ta nouvelle règle
+avec cette valeur, morceau par morceau : est-ce qu'elle est vraie ?
 
 </details>
 
@@ -367,6 +380,8 @@ la case que tu testes est-elle bien celle de **droite** ?
 Même modèle, sur l'autre axe. Une seule différence, et c'est **le** piège de la partie : `Y` augmente vers le **bas**. Donc `distanceY` positif veut dire que Pac-Man est **en dessous**, pas au-dessus.
 
 ![Fantôme en (5, 3), Pac-Man en (5, 9) : Pac-Man est en dessous, et l'écart vertical vaut +6.](img/a1-e5-axe-y.png)
+
+`map.isWall` prend **d'abord la colonne, ensuite la ligne** : `map.isWall(X, Y)`. Pour regarder à gauche ou à droite, c'est donc le **premier** nombre que tu décales ; pour regarder en haut ou en bas, le **second**.
 
 Les deux directions te manquent aussi : le fantôme réagira lorsque `ghost` renverra `'up'` et `'down'` (avec les apostrophes, exactement comme `return 'left'` et `return 'right'`).
 
@@ -386,6 +401,22 @@ Puis **deux règles de plus**, sur le modèle des deux que tu as déjà.
 Tu dois obtenir ceci :
 
 ![Pac-Man est droit au-dessus : les deux règles horizontales sont fausses, et le fantôme monte.](img/a1-e5-suivre.gif)
+
+*C'est réussi si :* tu poses Pac-Man **droit au-dessus** du fantôme et il monte, **puis** droit
+**en dessous** et il descend. Vérifie les deux : avec un seul des deux essais, deux règles
+verticales inversées passent sans que ça se voie.
+
+<!-- ws: {type: hint} -->
+<details><summary>Si tu es bloqué</summary>
+
+Il monte quand il devrait descendre ? Fais le calcul avec des nombres : le fantôme est en
+`me.Y = 3`, Pac-Man en `pacman.Y = 9`. Que vaut `distanceY` ? Et Pac-Man, il est au-dessus ou en
+dessous du fantôme ? Relis tes deux nouvelles règles avec cette valeur.
+
+Il ne bouge pas du tout verticalement ? Regarde tes trois nouvelles lignes : est-ce qu'il y reste
+un `nil` ?
+
+</details>
 
 > 💡 Tu trouves que tu écris quatre fois la même chose avec un mot qui change ? C'est normal, et ça s'écrit une seule fois : le **défi #3**, en bas de cette page, te montre comment.
 
@@ -408,14 +439,18 @@ Tu dois obtenir ceci : **deux trajets opposés, avec exactement les mêmes règl
 
 ![Les mêmes règles dans l'autre ordre : depuis la même case, il monte d'abord, puis traverse jusqu'à Pac-Man.](img/a1-e6-vertical-v2.gif)
 
-**C'est réussi quand tu as vu les deux.** Les deux trajets se ressemblent ? Déplace le fantôme d'une ou deux cases et recommence : depuis certaines cases une seule direction est libre, et l'ordre n'y change rien.
+**C'est réussi quand tu as vu les deux**, et tu dois pouvoir le remontrer : laisse le fantôme et
+Pac-Man dans leurs coins, jeu arrêté, et garde tes deux règles verticales juste au-dessus des
+horizontales. Les remonter ou les redescendre rejoue les deux trajets à la demande.
+
+Les deux trajets se ressemblent ? Déplace le fantôme d'une ou deux cases et recommence : depuis certaines cases une seule direction est libre, et l'ordre n'y change rien.
 
 ## Étape 7 : Couper en diagonale
 <!-- ws: {type: exercise, id: a1-optimiser-recherche} -->
 
 Jusqu'ici tes règles sont testées dans un ordre fixé d'avance. Teste d'abord l'axe où l'écart est **le plus grand**.
 
-Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe devient le plus grand, et il change de sens à la case suivante (le fantôme bouge alors en escalier).
+Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe devient le plus grand, et il change d'axe à la case suivante (le fantôme bouge alors en escalier).
 
 > ⏳ C'est l'étape la plus lourde de la partie : prends ton temps.
 
@@ -427,7 +462,12 @@ Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe
 > math.abs(-3)   -- 3
 > math.abs(-7) < 2 -- false
 > ```
-> Ici tu compares deux écarts : `-7` n'est pas « plus petit » que `2` . Tu cherches dans cette étape à avoir **l'écart**, peu importe qu'il soit positif ou négatif.
+> Et sur une variable, exactement pareil :
+> ```lua
+> distanceX = -7
+> math.abs(distanceX)   -- 7
+> ```
+> Ici tu compares deux **écarts**, pas deux nombres : `-7 < 2` est vrai, mais un écart de 7 cases est plus **grand** qu'un écart de 2 cases. Tu cherches la taille de l'écart, peu importe son signe.
 > 📘 [math.abs](https://www.lua.org/manual/5.3/manual.html#pdf-math.abs)
 
 > 🧰 **Outil #2 : `else`, le chemin d'à côté**
@@ -477,7 +517,7 @@ Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe
 
 Oui, huit règles qui se ressemblent, c'est lourd. Mais c'est pratiquement toujours la même chose, avec un petit morceau de code à changer à chaque fois.
 
-Réorganise tes règles sur cette ossature, sous tes variables. Le `end` de l'ossature est déjà placé, tes règles, elles, gardent chacune le sien.
+**Recopie** tes quatre règles dans **chacune** des deux branches de cette ossature, sous tes variables : les mêmes quatre règles des deux côtés, dans un ordre différent. C'est de là que viennent les huit. Quand tu as fini, **il ne reste plus une seule règle en dehors de l'ossature** : celles que tu avais avant sont maintenant dans les branches, pas en dessous. Le `end` de l'ossature est déjà placé, tes règles, elles, gardent chacune le sien.
 
 ```lua
 if nil then -- remplace nil par ta comparaison (l'écart horizontal est plus grand que l'écart vertical)
@@ -491,7 +531,7 @@ Tu dois obtenir ceci (cale Pac-Man en bas à gauche de l'écran et le fantôme e
 
 ![Axe le plus long d'abord : il coupe en escalier au lieu d'un seul grand trait.](img/a1-e7-escalier.gif)
 
-*C'est réussi si :* tu poses Pac-Man **exactement en diagonale** du fantôme, à autant de cases en largeur qu'en hauteur (quatre et quatre par exemple), et qu'il **change d'axe presque à chaque case** au lieu de faire toute la largeur puis toute la hauteur.
+*C'est réussi si :* tu poses Pac-Man **exactement en diagonale** du fantôme, à autant de cases en largeur qu'en hauteur (quatre et quatre par exemple), et que le fantôme **ne fait jamais plus de deux cases de suite dans la même direction**. Compte-les. Avant cette étape il en faisait quatre d'affilée, puis tournait une fois.
 
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
@@ -531,7 +571,7 @@ Un bug revient ? Fais afficher tes variables avec `print` : le texte sort dans l
 </details>
 
 ## Défis bonus - Partie 1
-<!-- ws: {type: exercise, id: a1-bonus, optional: true} -->
+<!-- ws: {type: exercise, id: a1-bonus, optional: true, requires: a1-distance-x} -->
 
 Trois pistes, sans correction. Les deux premières n'utilisent que ce que tu as déjà ; la dernière ajoute une notion. Aucune ne bloque la suite.
 

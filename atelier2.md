@@ -319,7 +319,7 @@ Tu dois obtenir ceci :
 *C'est réussi si :* il file en ligne droite sur plusieurs cases avant de tourner, et qu'en vingt secondes il s'est vraiment éloigné de son point de départ.
 
 ## Bonus : Ton fantôme à toi
-<!-- ws: {type: exercise, id: a2-ton-fantome, optional: true} -->
+<!-- ws: {type: exercise, id: a2-ton-fantome, optional: true, requires: a2-patrouiller} -->
 
 *Tu es arrivé au bout, les trois modes s'enchaînent. Ce qui suit n'est plus un exercice : c'est ta récompense, et c'est la partie que personne ne fait pareil.*
 
