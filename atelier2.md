@@ -70,6 +70,7 @@ Deux choses à écrire dans `ghost`, dans cet ordre : d'abord tes deux première
 
 > 🧰 **Outil #1 : `==` demande « est-ce exactement ça ? »**
 > Un seul `=` stocke une valeur ; deux `==` posent une question.
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > motDePasse = 'secr3t'
 > if motDePasse == 'secr3t' then
@@ -123,6 +124,7 @@ En `'patrol'`, le fantôme ne te cherche pas. À chaque case, il regarde les dir
 
 > 🧰 **Outil #1 : construire une liste petit à petit**
 > `{}` crée une liste vide, `table.insert` y ajoute un élément à la fin.
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > glaceDispo = true
 > gateauDispo = false
@@ -138,6 +140,7 @@ En `'patrol'`, le fantôme ne te cherche pas. À chaque case, il regarde les dir
 > 🧰 **Outil #2 : tirer au hasard dans une liste**
 > `#liste` donne le nombre d'éléments, `math.random(1, n)` tire un entier entre 1 et n inclus.
 > À taper juste après l'outil #1 : il se sert du `desserts` que tu viens de construire.
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > index = math.random(1, #desserts)
 > return desserts[index]
@@ -178,6 +181,7 @@ Tu tiens les trois comportements, et les deux flèches de `'scared'`. Il te manq
 ### Boîte à outils
 
 > 🧰 **Outil #1 : `math.abs` retire le signe**
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > print(math.abs(5))    -- 5
 > print(math.abs(-5))   -- 5
@@ -188,6 +192,7 @@ Tu tiens les trois comportements, et les deux flèches de `'scared'`. Il te manq
 
 > 🧰 **Outil #2 : `<=` « plus petit ou égal »**
 > `a < b` est faux quand `a` vaut exactement `b`. `a <= b` est vrai dans ce cas.
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > age = 15
 > if age <= 17 then
@@ -198,6 +203,7 @@ Tu tiens les trois comportements, et les deux flèches de `'scared'`. Il te manq
 
 > 🧰 **Outil #3 : écrire une flèche du diagramme**
 > Une flèche a trois morceaux : **d'où** elle part, **quand** elle part, et **vers où** elle va.
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > humeur = 'calme'
 > bruit = 80
@@ -283,6 +289,7 @@ La règle à poser **avant** ton tirage au hasard : si `compteur < 5` **et** que
 
 > 🧰 **Outil #1 : une variable qui survit d'un appel à l'autre**
 > Écris-la **en dehors** de la fonction, tout en haut de ton fichier : la ligne qui la met à `0` ne passe alors qu'une seule fois, et la variable garde sa valeur d'un appel au suivant. Mets cette même ligne **dans** la fonction et elle repasse à chaque appel : la variable revient à `0` à chaque case.
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > nombreDeVisites = 0
 > function visite()
@@ -293,7 +300,8 @@ La règle à poser **avant** ton tirage au hasard : si `compteur < 5` **et** que
 > 📘 [Les variables](https://www.lua.org/manual/5.3/manual.html#3.2)
 
 > 🧰 **Outil #2 : aller d'un mot à la bonne réponse**
-> Tu as un mot d'un côté (`'left'`), et des réponses aux noms différents de l'autre (`canGoLeft`...). Le plus direct est de poser la question cas par cas :
+> Tu as un mot d'un côté (`'left'`), et des réponses aux noms différents de l'autre (`canGoLeft`...). Le plus direct est de poser la question cas par cas.
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > animal = 'chat'
 > leChienAboie = 'ouaf'

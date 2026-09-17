@@ -20,18 +20,25 @@ Le jeu fonctionne déjà en partie : Pac-Man se déplace et mange les pac-gommes
 - Contour **jaune** = le panneau qui reçoit tes touches. Clique dans le panneau **Code** pour écrire ton code, dans le panneau **Jeu** pour tester ce que tu as codé.
 - Dans l'éditeur il y a une seule fonction à remplir : `ghost`. Le jeu l'appelle **à chaque case** : quand le fantôme arrive au centre d'une case, il part dans la direction que ta fonction renvoie.
 - Sous l'éditeur, la **Console** : les erreurs et les affichages du programme y sortent, et tu
-  peux y taper du code toi-même pour l'essayer, les exemples des **boîtes à outils** par exemple.
+  peux y taper du code toi-même pour l'essayer.
 - **Écris toujours entre** `function` **et** `end`.
 
 ### 🥸 Mise en application
 
-**Ton objectif :** démarrer le jeu sans toucher au code, déplacer Pac-Man avec les flèches de ton clavier, puis provoquer une erreur exprès pour voir ce que ça fait.
+**Ton objectif :** démarrer le jeu sans toucher au code, déplacer Pac-Man avec les flèches de ton clavier, taper ta première ligne de code dans la **Console**, puis provoquer une erreur exprès pour voir ce que ça fait.
 
 1. En haut de cette page, clique sur le bouton **Ouvrir Pac-Man** : le jeu s'ouvre à côté des instructions ou dans un nouvel onglet.
 2. Clique dans le panneau **Jeu**, puis sur **Démarrer**, et joue une partie rapidement.
-3. Efface le `end` de la **ligne 3**, celui qui ferme `ghost`, puis clique **Arrêter** et **Démarrer**.
+3. Clique dans la **Console**, sous l'éditeur, tape `1 + 1` et appuie sur Entrée.
+4. Efface le `end` de la **ligne 3**, celui qui ferme `ghost`, puis clique **Arrêter** et **Démarrer**.
 
-Tu dois obtenir ceci :
+La **Console** te répond :
+
+![La Console : la ligne tapée, et la réponse juste en dessous.](img/a1-e0-console.png)
+
+C'est là que tu peux essayer les exemples des **boîtes à outils** sans toucher à ton jeu. Chaque fois que tu verras ▶️ **Essaye dans la Console**, tape les lignes ici, l'une après l'autre, et regarde ce que Lua répond.
+
+Et sans son `end`, ton code, lui, ne passe plus :
 
 ![Le end de la ligne 3 effacé : le texte rouge s'affiche sous l'éditeur.](img/erreur-end.png)
 
@@ -60,7 +67,8 @@ Le fantôme ne bouge pas, et c'est normal : `ghost` renvoie `nil`, ce qui veut d
 ### Boîte à outils
 
 > 🧰 **Outil #1 : `return` « ma réponse est... »**
-> `return` donne la réponse de la fonction, et le jeu s'en sert comme direction. Il y en a quatre, et pas d'autres :
+> `return` donne la réponse de la fonction, et le jeu s'en sert comme direction. Il y en a quatre, et pas d'autres.
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > return 'left'   -- gauche
 > return 'right'  -- droite
@@ -128,6 +136,7 @@ Ton fantôme part à gauche quoi qu'il arrive. Pour qu'il s'arrête au mur, il f
 
 > 🧰 **Outil #1 : `if / then / end` « Si... alors... »**
 > Avec un exemple qui n'a rien à voir avec Pac-Man.
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > ilFaitBeau = true
 > if ilFaitBeau then
@@ -141,6 +150,7 @@ Ton fantôme part à gauche quoi qu'il arrive. Pour qu'il s'arrête au mur, il f
 
 > 🧰 **Outil #2 : `not` « L'inverse de »**
 > `map.isWall(...)` dit « c'est un mur ». Ce qui t'intéresse, c'est l'inverse.
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > ilPleut = true
 > not ilPleut   -- false
@@ -225,6 +235,7 @@ Lorsque `distanceX` est négatif : Pac-Man est à **gauche du fantôme**.
 ### Boîte à outils
 
 > 🧰 **Outil #1 : `and` exige que deux conditions soient vraies**
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > ilFaitFroid = true
 > jaiUnManteau = true
@@ -318,6 +329,7 @@ modèle, celle-ci te demande de l'adapter. Tout ce qu'il te faut est déjà dans
 ### Boîte à outils
 
 > 🧰 **Outil #1 : `>` « plus grand que »**
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > temperature = 35
 > if temperature > 30 then
@@ -328,6 +340,7 @@ modèle, celle-ci te demande de l'adapter. Tout ce qu'il te faut est déjà dans
 
 > 🧰 **Outil #2 : empiler une deuxième règle**
 > Les règles se posent **l'une après l'autre**, chacune avec son propre `end`, et la nouvelle vient **sous** la précédente.
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > jaiDuTempsLibre = false
 > jaiUnControle = true
@@ -457,6 +470,7 @@ Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe
 ### Boîte à outils
 
 > 🧰 **Outil #1 : `math.abs` retire le signe**
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > math.abs(3)    -- 3
 > math.abs(-3)   -- 3
@@ -472,6 +486,7 @@ Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe
 
 > 🧰 **Outil #2 : `else`, le chemin d'à côté**
 > `else` dit quoi faire quand la condition est fausse. Un seul des deux blocs s'exécute, jamais les deux.
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > heure = 8
 > if heure > 7 then
@@ -486,6 +501,7 @@ Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe
 
 > 🧰 **Outil #3 : des règles *dans* un `else`**
 > Chaque branche d'un `if / else` peut contenir des règles entières, avec leurs propres `end`.
+> ▶️ **Essaye dans la Console :**
 > ```lua
 > ilFaitBeau = true
 > temperature = 35
