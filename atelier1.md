@@ -106,14 +106,14 @@ sur les deux lignes (une majuscule change tout).
 </details>
 
 <!-- ws: {type: quiz, id: a1-bouger-1, kind: multiple} -->
-> Que se passerait-il si tu changeais le `canGoLeft = true` en `canGoLeft = false` (2 réponses) ?
+> Que se passerait-il si tu changeais le `canGoLeft = true` en `canGoLeft = false` ?
 - A. Le fantôme ira à droite
 - B. Le fantôme n'ira pas à gauche
 - C. Le fantôme ne bougera pas du tout
 - D. Le fantôme traversera les murs
 
 <!-- ws: {type: quiz, id: a1-bouger-2, kind: multiple} -->
-> À quoi sert une variable, en général (2 réponses) ?
+> À quoi sert une variable, en général ?
 - A. Stocker une information qui peut changer pendant que le programme tourne
 - B. Stocker une direction
 - C. Empêcher que le fantôme traverse le mur
@@ -180,7 +180,7 @@ Il ne bouge plus du tout ? Vérifie le `-` de `me.X - 1` et les deux parenthèse
 </details>
 
 <!-- ws: {type: quiz, id: a1-can-go-left-1, kind: multiple} -->
-> Quelles propositions sont vraies (3 réponses) ?
+> Quelles propositions sont vraies ?
 - A. `true`
 - B. `not false`
 - C. `not not false`
@@ -273,7 +273,7 @@ complet ci-dessus, ligne par ligne : le `-` de `pacman.X - me.X`, et le `then` e
 - D. 8
 
 <!-- ws: {type: quiz, id: a1-distance-x-2, kind: multiple} -->
-> Que faut-il pour que `if canGoLeft and distanceX < 0` soit vrai (2 réponses) ?
+> Que faut-il pour que `if canGoLeft and distanceX < 0` soit vrai ?
 - A. `canGoLeft` doit valoir `true`
 - B. `distanceX` doit être négatif
 - C. `distanceX` doit être positif
