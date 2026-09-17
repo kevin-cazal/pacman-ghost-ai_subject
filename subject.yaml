@@ -25,7 +25,7 @@ runtime:
   engine: "pacman-ghost-ai"
   language: "lua"           # student code is Lua, executed by Fengari in-page
   id: "pacman"
-  version: "c0ee1da"        # commit du dépôt runtime dont le dist est issu
+  version: "0d6e1e1"        # commit du dépôt runtime dont le dist est issu (branche explo/fonction-unique)
   title: "Pac-Man"
   pane:
     placement: side         # side | bottom
