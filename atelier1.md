@@ -18,7 +18,7 @@ Le jeu fonctionne déjà en partie : Pac-Man se déplace et mange les pac-gommes
 ![Le panneau Jeu est actif : contour jaune. Démarrer, encadré en rouge, charge ton code.](img/interface.png)
 
 - Contour **jaune** = le panneau qui reçoit tes touches. Clique dans le panneau **Code** pour écrire ton code, dans le panneau **Jeu** pour tester ce que tu as codé.
-- Dans l'éditeur il y a une seule fonction à remplir : `ghost`. Le jeu l'appelle **à chaque case** : quand le fantôme arrive au centre d'une case, il part dans la direction qu'elle renvoie.
+- Dans l'éditeur il y a une seule fonction à remplir : `ghost`. Le jeu l'appelle **à chaque case** : quand le fantôme arrive au centre d'une case, il part dans la direction que ta fonction renvoie.
 - Sous l'éditeur, la **Console** : les erreurs et les affichages du programme y sortent, et tu
   peux y taper du code toi-même pour l'essayer, les exemples des **boîtes à outils** par exemple.
 - **Écris toujours entre** `function` **et** `end`.
@@ -261,15 +261,6 @@ Pour aller à droite, c'est comme pour aller à gauche... mais dans l'autre sens
 > return nil
 > ```
 
-> 🧰 **Outil #3 : deux conditions dans la même règle**
-> `and` exige que les deux soient vraies **en même temps**.
-> ```lua
-> if ilFaitFroid and jaiUnManteau then
->   return 'sortir'
-> end
-> ```
-> 📘 [Les opérateurs logiques](https://www.lua.org/manual/5.3/manual.html#3.4.5)
-
 ### 🥸 Mise en application
 
 **Ton objectif :** un fantôme qui te suit dans les deux sens sur une ligne horizontale.
@@ -319,6 +310,8 @@ Puis **deux règles de plus**, sur le modèle des deux que tu as déjà.
 Tu dois obtenir ceci :
 
 ![Pac-Man est droit au-dessus : les deux règles horizontales sont fausses, et le fantôme monte.](img/a1-e5-suivre.gif)
+
+> 💡 Tu trouves que tu écris quatre fois la même chose avec un mot qui change ? C'est normal, et ça s'écrit une seule fois : le **défi #3**, en bas de cette page, te montre comment.
 
 ## Étape 6 : L'ordre des règles compte
 <!-- ws: {type: exercise, id: a1-priorite-regles} -->
@@ -416,6 +409,8 @@ return nil
 Tu dois obtenir ceci (cale Pac-Man en bas à gauche de l'écran et le fantôme en haut à droite pour mieux voir les mouvements):
 
 ![Axe le plus long d'abord : il coupe en escalier au lieu d'un seul grand trait.](img/a1-e7-escalier.gif)
+
+*C'est réussi si :* tu poses Pac-Man **exactement en diagonale** du fantôme, à autant de cases en largeur qu'en hauteur (quatre et quatre par exemple), et qu'il **change d'axe presque à chaque case** au lieu de faire toute la largeur puis toute la hauteur.
 
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>

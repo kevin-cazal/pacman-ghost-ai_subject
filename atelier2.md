@@ -53,6 +53,8 @@ Ce diagramme est le plan de toute la partie. Le mode est une variable, `state`, 
 state = 'patrol'
 ```
 
+C'est son humeur de **départ** : tant que tu n'as pas écrit de flèche, il gardera celle-là toute la partie.
+
 Pour vérifier, remplace `'patrol'` par `'follow'` et relance : le fantôme devient **rouge**. Remets `'patrol'` : il redevient orange. Le jeu lit ta variable après chaque appel de `ghost`, c'est elle qui donne sa couleur.
 
 ![Il poursuit comme à la fin de la partie 1, et il est orange, désormais cette couleur veut dire quelque chose.](img/a2-e1-orange.gif)
@@ -62,7 +64,7 @@ Pour vérifier, remplace `'patrol'` par `'follow'` et relance : le fantôme devi
 
 Les quatre grosses pac-gommes blanches, dans les coins, sont des **super pac-gommes**. Quand tu en manges une, `game.scaredTimer` passe à 8 et redescend seconde après seconde. Au-dessus de 0, le fantôme a peur.
 
-Deux choses à écrire dans `ghost`, dans cet ordre : d'abord la règle qui décide qu'il a peur, ensuite ce qu'il fait quand il a peur. Il **fuit** : là où ton arbre disait « Pac-Man est à gauche, va à gauche », la fuite dit l'inverse.
+Deux choses à écrire dans `ghost`, dans cet ordre : d'abord tes deux premières **flèches**, celles qui font entrer dans `'scared'` et qui en font sortir, ensuite ce qu'il fait quand il a peur. Il **fuit** : là où ton arbre disait « Pac-Man est à gauche, va à gauche », la fuite dit l'inverse.
 
 ### Boîte à outils
 
@@ -82,8 +84,8 @@ Deux choses à écrire dans `ghost`, dans cet ordre : d'abord la règle qui déc
 
 **Ton objectif :** un fantôme qui devient bleu quand tu manges une grosse pac-gomme blanche, qui s'écarte au lieu de te courir après, et que tu peux attraper sans mourir.
 
-1. **Au début de `ghost`**, deux lignes : une qui range `'patrol'` dans `state`, puis une règle qui y range `'scared'` quand `game.scaredTimer` est au-dessus de 0.
-2. **Ensuite**, un bloc `if state == 'scared' then` **avant** ton arbre de la partie 1, avec les mêmes quatre règles et les comparaisons retournées.
+1. **Au début de `ghost`**, deux flèches : une qui range `'scared'` dans `state` quand `game.scaredTimer` est au-dessus de 0, et une qui le remet à `'patrol'` quand la peur est finie (`game.scaredTimer == 0`).
+2. **Ensuite**, un bloc `if state == 'scared' then` **avant** ton arbre de la partie 1, avec **quatre** règles, une par direction, et les comparaisons retournées. Ton arbre en compte huit depuis l'étape 7 : ici, quatre suffisent.
    - Pourquoi **avant** ton arbre de la partie 1 ?
    - Lorsqu'il a peur, le **fantôme va à gauche** uniquement si **Pacman est à sa droite ET qu'il n'y a pas de mur à gauche**
 
@@ -95,7 +97,7 @@ Tu dois obtenir ceci :
 <details><summary>Si tu es bloqué</summary>
 
 - **Coupe l'étape en deux, teste au milieu.**
-  - *Moitié 1, la couleur seule.* Écris seulement les deux lignes qui changent `state`, puis mange une grosse pac-gomme blanche : le fantôme doit passer au bleu. Il continue à te poursuivre, c'est normal, aucune règle ne regarde encore ce mode.
+  - *Moitié 1, la couleur seule.* Écris seulement tes deux flèches, puis mange une grosse pac-gomme blanche : le fantôme doit passer au bleu. Il continue à te poursuivre, c'est normal, aucune règle ne regarde encore ce mode.
   - *Moitié 2, la fuite.* Ajoute le bloc `scared`.
 - Tu peux utiliser `print(game.scaredTimer)` ou `print(state)` au début de `ghost` et regarder le panneau **Console** pour t'aider à comprendre ce que fait ton code.
 - Essaye de bien te rappeler ce que signifie :
@@ -159,7 +161,7 @@ Tu dois obtenir ceci : il erre sans traverser un seul mur, et il ne te poursuit 
 <details><summary>Si tu es bloqué</summary>
 
 - **Ta liste se construit-elle ?** `print(#possibleDirections)` juste avant le tirage, et regarde le panneau **Console**, sous l'éditeur. Si le nombre reste à 0, le problème est dans la construction de ta liste, pas dans le tirage. (Et tu risques d'avoir une erreur qui s'affiche.)
-- **Il te poursuit encore, comme avant ?** Alors ton bloc `patrol` n'est jamais atteint : vérifie que ta ligne `state = 'patrol'` est bien au début de `ghost`, et que le bloc est écrit `state == 'patrol'`, avec deux `=`.
+- **Il te poursuit encore, comme avant ?** Alors ton bloc `patrol` n'est jamais atteint : vérifie que `state = 'patrol'` est bien en haut de ton fichier (étape 0), et que ton bloc s'écrit `state == 'patrol'`, avec deux `=`.
 - **Il traverse les murs ?** Tu as mis les quatre directions dans la liste sans les filtrer. Seules les libres y entrent.
 
 </details>
@@ -167,7 +169,7 @@ Tu dois obtenir ceci : il erre sans traverser un seul mur, et il ne te poursuit 
 ## Étape 3 : Poursuivre seulement quand tu es proche
 <!-- ws: {type: exercise, id: a2-mode-follow} -->
 
-Tu tiens les trois comportements. Maintenant, lequel s'applique quand : proche donne `'follow'`, loin donne `'patrol'`, et la `scared` passe toujours avant les deux autres états.
+Tu tiens les trois comportements, et les deux flèches de `'scared'`. Il te manque les deux qui relient `'patrol'` et `'follow'` : proche fait passer en `'follow'`, loin ramène en `'patrol'`.
 
 « Proche » se mesure en **cases** : l'écart horizontal **plus** l'écart vertical. Le seuil de cette partie est **5 cases**.
 
@@ -191,24 +193,26 @@ Tu tiens les trois comportements. Maintenant, lequel s'applique quand : proche d
 > ```
 > 📘 [Les opérateurs de comparaison](https://www.lua.org/manual/5.3/manual.html#3.4.4)
 
-> 🧰 **Outil #3 : plusieurs règles qui rangent dans la même variable**
+> 🧰 **Outil #3 : écrire une flèche du diagramme**
+> Une flèche a trois morceaux : **d'où** elle part, **quand** elle part, et **vers où** elle va.
 > ```lua
-> tenue = 'tee-shirt'
-> if ilPleut then tenue = 'imperméable' end
-> if ilNeige then tenue = 'doudoune' end
+> if humeur == 'calme' and bruit > 50 then
+>   humeur = 'agacé'
+> end
 > ```
-> La **dernière** ligne qui range gagne : mets en bas le cas qui doit l'emporter même quand les autres sont vrais aussi. S'il neige et qu'il pleut, `tenue` finit à `'doudoune'`.
+> D'où : `humeur == 'calme'`. Quand : `bruit > 50`. Vers où : `humeur = 'agacé'`.
+> Une flèche qui part de **n'importe quel** mode ne teste pas `humeur` : elle n'a que le « quand ».
 
 ### 🥸 Mise en application
 
 **Ton objectif :** un fantôme qui patrouille quand tu t'éloignes, et te repère quand tu reviens.
 
-Tout se joue dans les lignes qui changent `state`. Tes règles de déplacement ne changent pas : ton arbre de la partie 1 est déjà ce que fait le fantôme quand il n'est ni `scared` ni `patrol`.
+Tout se joue dans tes flèches. Tes règles de déplacement ne changent pas : ton arbre de la partie 1 est déjà ce que fait le fantôme quand il n'est ni `scared` ni `patrol`.
 
 1. une variable `totalDistance` qui vaut la distance en cases
-2. une règle de plus qui range `'follow'` dans `state`, placée pour que `scared` l'emporte sur `follow`, et `follow` sur `patrol`
+2. les deux flèches qui manquent : celle qui part de `'patrol'` quand `totalDistance` descend à 5 ou moins, et celle du retour, qui part de `'follow'` quand tu t'éloignes
 
-Tu dois obtenir ceci : **orange** de loin, **rouge** à 5 cases ou moins, orange à nouveau quand tu t'éloignes.
+Tu dois obtenir ceci : **orange** de loin, **rouge** à 5 cases ou moins, orange à nouveau quand tu t'éloignes. En rouge, le jeu le fait aussi accélérer un peu : ça ne vient pas de ton code.
 
 ![Pac-Man approche : le fantôme erre en orange, puis vire au rouge dès qu'il passe sous les cinq cases.](img/a2-e4-bascule.gif)
 
@@ -219,9 +223,9 @@ Tu dois obtenir ceci : **orange** de loin, **rouge** à 5 cases ou moins, orange
 
 Orange en permanence ? `print(totalDistance)` juste après l'avoir calculée, et regarde le panneau **Console** : en te rapprochant, le nombre doit descendre vers 0 en restant **positif**. S'il devient négatif, il te manque la valeur absolue.
 
-Rouge en permanence ? As-tu bien gardé la ligne `state = 'patrol'` **avant** tes règles ? Sans elle, rien ne le fait redescendre.
+Rouge en permanence ? Il te manque la flèche du retour : il entre en `'follow'` et rien ne l'en fait ressortir.
 
-Plus jamais bleu ? Ta règle `scared` est passée **avant** la règle `follow`, qui l'écrase. Un fantôme terrifié reste terrifié, proche ou loin : sa règle s'écrit en dernier.
+Plus jamais bleu quand il est rouge ? Ta flèche vers `'scared'` part sûrement de `'patrol'` seulement. Sur le diagramme elle part **des deux** modes : elle ne teste pas `state`, seulement `game.scaredTimer`.
 
 Rouge mais immobile ? Ton arbre de la partie 1 est resté **dans** le bloc `patrol`, au lieu d'être à côté.
 
@@ -362,7 +366,7 @@ Trois variantes de ta machine à états.
 
 ### Défi #1 : L'opportuniste
 
-Dans ta règle `scared`, ne le laisse pas avoir peur jusqu'au bout : dès que `game.scaredTimer` descend sous 2, remets-le en chasse sans attendre la fin des 8 secondes.
+Dans ta flèche de sortie de `'scared'`, ne le laisse pas avoir peur jusqu'au bout : dès que `game.scaredTimer` descend sous 2, remets-le en chasse sans attendre la fin des 8 secondes.
 
 *C'est réussi si :* il repasse au rouge **avant** que la super pac-gomme soit épuisée.
 

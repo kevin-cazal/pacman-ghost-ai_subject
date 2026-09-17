@@ -37,7 +37,7 @@ Ces termes viennent du jeu, pas de Lua.
 
 | Terme | Signification |
 | --- | --- |
-| `ghost` | La fonction où tu écris les règles « si... alors... » du fantôme. Le jeu l'appelle **à chaque case** : quand le fantôme arrive au centre d'une case, il part dans la direction qu'elle renvoie |
+| `ghost` | La fonction où tu écris les règles « si... alors... » du fantôme. Le jeu l'appelle **à chaque case** : quand le fantôme arrive au centre d'une case, il part dans la direction que ta fonction renvoie |
 | `me.X` `me.Y` | Position du fantôme (X,Y), en cases |
 | `pacman.X` `pacman.Y` | Position de Pac-Man (X,Y), en cases |
 | `map.isWall(x, y)` | `true` si la case `(x, y)` est un mur |
