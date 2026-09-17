@@ -1,0 +1,15 @@
+# Réponses des questions posées dans les étapes (docs/CONTENT_CONVENTION.md §3.7).
+# Hors du markdown, pour la même raison qu'un flag : une réponse imprimée à côté
+# de sa question n'en est plus une. Une clé par `id` de marqueur `type: quiz`.
+answers:
+  # Partie 1, étape 0 : où on écrit.
+  a1-demarrer: "A"
+  # Étape 1 : ce que fait `false`, et à quoi sert une variable.
+  a1-bouger-1: ["B", "C"]
+  a1-bouger-2: ["A", "D"]
+  # Étape 2 : `not`, et la case voisine.
+  a1-can-go-left-1: ["A", "B", "D"]
+  a1-can-go-left-2: "B"
+  # Étape 3 : le sens de la soustraction, et ce qu'exige `and`.
+  a1-distance-x-1: "B"
+  a1-distance-x-2: ["A", "B"]

@@ -9,7 +9,7 @@ Un arbre de décision, c'est une suite de règles « si... alors... sinon... » 
 ![Le fantôme de la fin de cette partie : il coupe au plus court pour te rejoindre.](img/jeu-demo.gif)
 
 ## Étape 0 : Découvrir le jeu et l'éditeur
-<!-- ws: {type: exercise, id: a1-demarrer} -->
+<!-- ws: {type: exercise, id: a1-demarrer, validation: quiz} -->
 
 Le jeu fonctionne déjà en partie : Pac-Man se déplace et mange les pac-gommes. Le fantôme, lui, ne bouge pas. C'est la seule chose qui manque.
 
@@ -46,8 +46,14 @@ Les flèches ne font rien ? Le contour jaune entoure sûrement le panneau **Code
 
 > ✅ Bravo, ton environnement est prêt.
 
+<!-- ws: {type: quiz, id: a1-demarrer, kind: single} -->
+> Où devras-tu écrire ton code ?
+- A. Dans le panneau de code entre `function ghost()` et `end`
+- B. Dans le panneau de jeu
+- C. Dans un fichier .lua sur mon ordinateur
+
 ## Étape 1 : Faire bouger le fantôme
-<!-- ws: {type: exercise, id: a1-bouger} -->
+<!-- ws: {type: exercise, id: a1-bouger, validation: quiz} -->
 
 Le fantôme ne bouge pas, et c'est normal : `ghost` renvoie `nil`, ce qui veut dire « je ne fais rien ». Commence par lui dire d'aller à gauche.
 
@@ -99,8 +105,22 @@ sur les deux lignes (une majuscule change tout).
 
 </details>
 
+<!-- ws: {type: quiz, id: a1-bouger-1, kind: multiple} -->
+> Que se passerait-il si tu changeais le `canGoLeft = true` en `canGoLeft = false` (2 réponses) ?
+- A. Le fantôme ira à droite
+- B. Le fantôme n'ira pas à gauche
+- C. Le fantôme ne bougera pas du tout
+- D. Le fantôme traversera les murs
+
+<!-- ws: {type: quiz, id: a1-bouger-2, kind: multiple} -->
+> À quoi sert une variable, en général (2 réponses) ?
+- A. Stocker une information qui peut changer pendant que le programme tourne
+- B. Stocker une direction
+- C. Empêcher que le fantôme traverse le mur
+- D. Simplifier le code en donnant un nom (par exemple `canGoLeft`) à une valeur (`true` ou `false`)
+
 ## Étape 2 : L'empêcher de traverser les murs
-<!-- ws: {type: exercise, id: a1-can-go-left} -->
+<!-- ws: {type: exercise, id: a1-can-go-left, validation: quiz} -->
 
 Pour savoir si le fantôme peut aller à gauche, tu regardes la case à sa gauche : s'il n'y a pas de mur, il peut y aller.
 
@@ -159,8 +179,22 @@ Il ne bouge plus du tout ? Vérifie le `-` de `me.X - 1` et les deux parenthèse
 
 </details>
 
+<!-- ws: {type: quiz, id: a1-can-go-left-1, kind: multiple} -->
+> Quelles propositions sont vraies (3 réponses) ?
+- A. `true`
+- B. `not false`
+- C. `not not false`
+- D. `not not true`
+
+<!-- ws: {type: quiz, id: a1-can-go-left-2, kind: single} -->
+> À quelle case correspondrait `(me.X + 1, me.Y)` ?
+- A. Gauche
+- B. Droite
+- C. Haut
+- D. Bas
+
 ## Étape 3 : Savoir de quel côté est Pac-Man
-<!-- ws: {type: exercise, id: a1-distance-x} -->
+<!-- ws: {type: exercise, id: a1-distance-x, validation: quiz} -->
 
 Ton fantôme fonce à gauche même quand tu es à droite : il lui manque de savoir de quel côté tu es. Une soustraction suffit.
 
@@ -230,6 +264,20 @@ Immobile **des deux côtés** ? Ce n'est pas ta règle, c'est ton code. Compare 
 complet ci-dessus, ligne par ligne : le `-` de `pacman.X - me.X`, et le `then` en fin de `if`.
 
 </details>
+
+<!-- ws: {type: quiz, id: a1-distance-x-1, kind: single} -->
+> Le fantôme est en `me.X = 8`, Pac-Man est en `pacman.X = 3`. Que vaut `distanceX` ?
+- A. 5
+- B. -5
+- C. 3
+- D. 8
+
+<!-- ws: {type: quiz, id: a1-distance-x-2, kind: multiple} -->
+> Que faut-il pour que `if canGoLeft and distanceX < 0` soit vrai (2 réponses) ?
+- A. `canGoLeft` doit valoir `true`
+- B. `distanceX` doit être négatif
+- C. `distanceX` doit être positif
+- D. Une seule des deux conditions suffit
 
 ## Étape 4 : La droite
 <!-- ws: {type: exercise, id: a1-directions-completes} -->
