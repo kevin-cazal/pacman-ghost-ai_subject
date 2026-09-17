@@ -282,7 +282,7 @@ La règle à poser **avant** ton tirage au hasard : si `compteur < 5` **et** que
 ### Boîte à outils
 
 > 🧰 **Outil #1 : une variable qui survit d'un appel à l'autre**
-> Une variable créée **en dehors** de la fonction garde sa valeur entre deux appels. Dedans, elle repartirait de zéro à chaque fois.
+> Écris-la **en dehors** de la fonction, tout en haut de ton fichier : la ligne qui la met à `0` ne passe alors qu'une seule fois, et la variable garde sa valeur d'un appel au suivant. Mets cette même ligne **dans** la fonction et elle repasse à chaque appel : la variable revient à `0` à chaque case.
 > ```lua
 > nombreDeVisites = 0
 > function visite()

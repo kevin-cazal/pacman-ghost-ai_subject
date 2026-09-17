@@ -359,7 +359,7 @@ droite et il part à droite. Vérifie les deux : avec un seul des deux essais, u
 qui compare dans le mauvais sens passe sans que ça se voie.
 
 À ce stade ton fichier contient **deux** variables `canGo...`, **un** `distanceX` et **deux**
-règles. Compte-les avant de lever la main.
+règles. Compte-les dans ton fichier : si le compte n'y est pas, tu sais déjà quoi chercher.
 
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
