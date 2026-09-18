@@ -548,25 +548,35 @@ C'est ce qui dessine l'escalier.
 
 ### 🥸 Mise en application
 
-**Ton objectif :** un fantôme qui coupe en diagonale au lieu de faire un grand trait puis un virage. Sur une cible qui ne bouge pas, ça ne change rien : même nombre de cases. Sauf que toi, tu bouges.
+**Ton objectif :** un fantôme qui coupe en diagonale, au lieu d'un grand trait puis un virage.
 
-Oui, huit règles qui se ressemblent, c'est lourd. Mais c'est pratiquement toujours la même chose, avec un petit morceau de code à changer à chaque fois.
+- sur une cible immobile : même nombre de cases, ça ne change rien
+- mais toi, tu bouges
 
-**Recopie** tes quatre règles dans **chacune** des deux branches de cette ossature, sous tes variables : les mêmes quatre règles des deux côtés, dans un ordre différent. C'est de là que viennent les huit. Quand tu as fini, **il ne reste plus une seule règle en dehors de l'ossature** : celles que tu avais avant sont maintenant dans les branches, pas en dessous. Le `end` de l'ossature est déjà placé, tes règles, elles, gardent chacune le sien.
+**Ce que tu écris, sous tes variables :**
+
+- recopie tes quatre règles dans **chacune** des deux branches
+- les mêmes quatre règles des deux côtés, dans un ordre différent
+- c'est de là que viennent les huit
+- à la fin, **plus une seule règle en dehors** de l'ossature
 
 ```lua
-if nil then -- remplace nil par ta comparaison (l'écart horizontal est plus grand que l'écart vertical)
-  -- tes 4 règles, Comme l'écart horizontal est plus grand: gauche / droite d'abord
+if nil then -- remplace nil par ta comparaison : l'écart horizontal est-il le plus grand ?
+  -- tes 4 règles : gauche / droite d'abord
 else
-  -- tes 4 règles, haut / bas d'abord
+  -- tes 4 règles : haut / bas d'abord
 end
 ```
 
-Tu dois obtenir ceci (cale Pac-Man en bas à gauche de l'écran et le fantôme en haut à droite pour mieux voir les mouvements):
+> 🧱 Le `end` de l'ossature est déjà placé. Chaque règle garde le sien.
+
+Oui, c'est répétitif : c'est presque toujours la même règle, avec un mot qui change.
+
+Tu dois obtenir ceci (Pac-Man en bas à gauche, le fantôme en haut à droite, pour mieux voir) :
 
 ![Axe le plus long d'abord : il coupe en escalier au lieu d'un seul grand trait.](img/a1-e7-escalier.gif)
 
-*C'est réussi si :* tu poses Pac-Man **exactement en diagonale** du fantôme, à autant de cases en largeur qu'en hauteur (quatre et quatre par exemple), et que le fantôme **ne fait jamais plus de deux cases de suite dans la même direction**. Compte-les. Avant cette étape il en faisait quatre d'affilée, puis tournait une fois.
+*C'est réussi si :* tu poses Pac-Man **exactement en diagonale** du fantôme, autant de cases en largeur qu'en hauteur, et qu'il **ne fait jamais plus de deux cases de suite dans la même direction**. Compte-les : avant cette étape, il en faisait quatre, puis tournait une fois.
 
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
