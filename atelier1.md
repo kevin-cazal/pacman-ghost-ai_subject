@@ -471,7 +471,16 @@ Les deux trajets se ressemblent ? Déplace le fantôme d'une ou deux cases et re
 
 Jusqu'ici tes règles sont testées dans un ordre fixé d'avance. Teste d'abord l'axe où l'écart est **le plus grand**.
 
-Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe devient le plus grand, et il change d'axe à la case suivante (le fantôme bouge alors en escalier).
+![Deux grilles. À gauche : l'écart horizontal vaut 4 cases, le vertical 3, et le fantôme part à droite. À droite : le trajet complet, une marche d'escalier à chaque case.](img/a1-e7-diagonale.png)
+
+À chaque case, le fantôme refait le même calcul :
+
+- il compare les deux écarts
+- il avance d'une case sur le plus grand
+- cet écart diminue, l'autre devient le plus grand
+- à la case suivante, il change d'axe
+
+C'est ce qui dessine l'escalier.
 
 > ⏳ C'est l'étape la plus lourde de la partie : prends ton temps.
 
