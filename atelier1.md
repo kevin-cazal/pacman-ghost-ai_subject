@@ -450,9 +450,12 @@ Quand Pac-Man est en diagonale, plusieurs de tes règles sont vraies en même te
 
 **Ton objectif :** faire prendre au fantôme un chemin différent, sans changer une seule de tes règles.
 
-**D'abord**, à la souris et jeu arrêté, mets le fantôme dans un coin et Pac-Man dans le coin opposé, le plus loin possible. Lance, et regarde **par quel axe (horizontal ou vertical) le fantôme démarre**.
+1. jeu arrêté, pose le fantôme dans un coin et Pac-Man dans le coin opposé, le plus loin possible
+2. lance, et regarde **par quel axe il démarre** : horizontal ou vertical
+3. échange l'ordre de tes règles horizontales et verticales, sans toucher à tes variables
+4. relance, et regarde de nouveau
 
-Puis échange l'ordre de tes règles horizontales et verticales, sans toucher à tes variables. **Ne touche à rien d'autre** : laisse le fantôme et Pac-Man exactement dans les coins où tu les as posés. Si tu les déplaces aussi, le trajet changera, mais tu ne sauras pas si c'est à cause de l'ordre ou à cause de tes coins. Relance, et regarde de nouveau.
+> ⚠️ **Ne touche à rien d'autre.** Entre les deux essais, laisse le fantôme et Pac-Man exactement dans leurs coins : si tu les déplaces aussi, le trajet changera, et tu ne sauras pas si c'est à cause de l'ordre ou de tes coins.
 
 Tu dois obtenir ceci : **deux trajets opposés, avec exactement les mêmes règles** :
 
