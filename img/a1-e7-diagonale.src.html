@@ -1,0 +1,103 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Étape 7 — schéma</title>
+<style>
+  body { margin: 0; background: #ffffff; font-family: "DejaVu Sans", "Liberation Sans", Arial, sans-serif; }
+  #sheet { width: 1180px; padding: 24px; box-sizing: border-box; }
+  .panel-title { font-size: 19px; font-weight: 700; fill: #181818; }
+  .note { font-size: 16px; fill: #333a4d; }
+  .measure { font-size: 16px; font-weight: 700; }
+  .mx { fill: #d6431f; }
+  .my { fill: #0d6efd; }
+  .verdict { font-size: 17px; font-weight: 700; fill: #181818; }
+</style>
+<div id="sheet">
+<svg width="1132" height="436" viewBox="0 0 1132 436" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="ah-x" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#d6431f"/>
+    </marker>
+    <marker id="ah-y" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#0d6efd"/>
+    </marker>
+    <marker id="ah-path" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#00c07a"/>
+    </marker>
+    <g id="grid">
+      <rect x="0" y="0" width="352" height="264" rx="8" fill="#0b0e1a"/>
+      <g fill="#3a4157">
+        <!-- pac-gommes, one per cell centre -->
+        <circle cx="22"  cy="22"  r="2.5"/><circle cx="66"  cy="22"  r="2.5"/><circle cx="110" cy="22" r="2.5"/><circle cx="154" cy="22" r="2.5"/><circle cx="198" cy="22" r="2.5"/><circle cx="242" cy="22" r="2.5"/><circle cx="286" cy="22" r="2.5"/><circle cx="330" cy="22" r="2.5"/>
+        <circle cx="22"  cy="66"  r="2.5"/><circle cx="66"  cy="66"  r="2.5"/><circle cx="110" cy="66" r="2.5"/><circle cx="154" cy="66" r="2.5"/><circle cx="198" cy="66" r="2.5"/><circle cx="242" cy="66" r="2.5"/><circle cx="286" cy="66" r="2.5"/><circle cx="330" cy="66" r="2.5"/>
+        <circle cx="22"  cy="110" r="2.5"/><circle cx="66"  cy="110" r="2.5"/><circle cx="110" cy="110" r="2.5"/><circle cx="154" cy="110" r="2.5"/><circle cx="198" cy="110" r="2.5"/><circle cx="242" cy="110" r="2.5"/><circle cx="286" cy="110" r="2.5"/><circle cx="330" cy="110" r="2.5"/>
+        <circle cx="22"  cy="154" r="2.5"/><circle cx="66"  cy="154" r="2.5"/><circle cx="110" cy="154" r="2.5"/><circle cx="154" cy="154" r="2.5"/><circle cx="198" cy="154" r="2.5"/><circle cx="242" cy="154" r="2.5"/><circle cx="286" cy="154" r="2.5"/><circle cx="330" cy="154" r="2.5"/>
+        <circle cx="22"  cy="198" r="2.5"/><circle cx="66"  cy="198" r="2.5"/><circle cx="110" cy="198" r="2.5"/><circle cx="154" cy="198" r="2.5"/><circle cx="198" cy="198" r="2.5"/><circle cx="242" cy="198" r="2.5"/><circle cx="286" cy="198" r="2.5"/><circle cx="330" cy="198" r="2.5"/>
+        <circle cx="22"  cy="242" r="2.5"/><circle cx="66"  cy="242" r="2.5"/><circle cx="110" cy="242" r="2.5"/><circle cx="154" cy="242" r="2.5"/><circle cx="198" cy="242" r="2.5"/><circle cx="242" cy="242" r="2.5"/><circle cx="286" cy="242" r="2.5"/><circle cx="330" cy="242" r="2.5"/>
+      </g>
+      <g stroke="#1b2133" stroke-width="1">
+        <path d="M44,0 V264 M88,0 V264 M132,0 V264 M176,0 V264 M220,0 V264 M264,0 V264 M308,0 V264"/>
+        <path d="M0,44 H352 M0,88 H352 M0,132 H352 M0,176 H352 M0,220 H352"/>
+      </g>
+    </g>
+    <g id="ghost">
+      <path d="M-13,9 V-3 a13,13 0 0 1 26,0 V9 l-5,-4 l-4,4 l-4,-4 l-4,4 l-4,-4 z" fill="#ffb852"/>
+      <circle cx="-5" cy="-3" r="3.6" fill="#ffffff"/><circle cx="5" cy="-3" r="3.6" fill="#ffffff"/>
+      <circle cx="-4.2" cy="-3" r="1.8" fill="#0b0e1a"/><circle cx="5.8" cy="-3" r="1.8" fill="#0b0e1a"/>
+    </g>
+    <g id="pacman">
+      <path d="M0,0 L13,-7 A14.5,14.5 0 1 0 13,7 z" fill="#ffe14d"/>
+    </g>
+  </defs>
+
+  <!-- ================= panel 1 ================= -->
+  <text class="panel-title" x="0" y="20">1. Le plus grand écart en priorité</text>
+  <g transform="translate(0,40)">
+    <use href="#grid"/>
+    <!-- ghost col 1 row 4 ; pacman col 5 row 1 -->
+    <use href="#ghost" transform="translate(66,198)"/>
+    <use href="#pacman" transform="translate(242,66)"/>
+
+    <!-- horizontal measure, under the grid -->
+    <path d="M66,284 H242" stroke="#d6431f" stroke-width="2.5"
+          marker-end="url(#ah-x)" marker-start="url(#ah-x)"/>
+    <path d="M66,270 V292 M242,270 V292" stroke="#d6431f" stroke-width="2"/>
+    <text class="measure mx" x="154" y="316" text-anchor="middle">écart horizontal : 4 cases</text>
+
+    <!-- vertical measure, right of the grid -->
+    <path d="M372,66 V198" stroke="#0d6efd" stroke-width="2.5"
+          marker-end="url(#ah-y)" marker-start="url(#ah-y)"/>
+    <path d="M358,66 H386 M358,198 H386" stroke="#0d6efd" stroke-width="2"/>
+    <text class="measure my" x="396" y="126">écart</text>
+    <text class="measure my" x="396" y="146">vertical :</text>
+    <text class="measure my" x="396" y="166">3 cases</text>
+
+    <!-- the move it picks -->
+    <path d="M88,198 H128" stroke="#00c07a" stroke-width="3" marker-end="url(#ah-path)"/>
+    <text class="verdict" x="0" y="352">4 &gt; 3 : il va à droite.</text>
+  </g>
+
+  <!-- ================= panel 2 ================= -->
+  <text class="panel-title" x="620" y="20">2. À chaque case, il recalcule</text>
+  <g transform="translate(620,40)">
+    <use href="#grid"/>
+    <use href="#ghost" transform="translate(66,198)"/>
+    <use href="#pacman" transform="translate(242,66)"/>
+
+    <!-- the staircase: x, y, x, y, x, y, x -->
+    <!-- One continuous route, so it reads as a path and not as loose arrows.
+         Cell centres: (66,198) -> (110,198) -> (110,154) -> ... -> (242,66). -->
+    <path d="M88,198 H110 V154 H154 V110 H198 V66 H226" fill="none"
+          stroke="#00c07a" stroke-width="3.5" stroke-linejoin="round"
+          marker-end="url(#ah-path)"/>
+    <g fill="#00c07a">
+      <circle cx="110" cy="198" r="3"/><circle cx="110" cy="154" r="3"/>
+      <circle cx="154" cy="154" r="3"/><circle cx="154" cy="110" r="3"/>
+      <circle cx="198" cy="110" r="3"/><circle cx="198" cy="66"  r="3"/>
+    </g>
+    <text class="note" x="0" y="298">• il avance d'une case</text>
+    <text class="note" x="0" y="322">• les deux écarts changent</text>
+    <text class="note" x="0" y="346">• le plus grand reprend la main</text>
+    <text class="verdict" x="0" y="378">Résultat : un escalier.</text>
+  </g>
+</svg>
+</div>

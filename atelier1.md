@@ -130,13 +130,13 @@ Ton fantôme part à gauche quoi qu'il arrive. Pour qu'il s'arrête au mur, il f
 
 ![La même case, sans mur cette fois : il peut y aller.](img/a1-e2-libre-gauche.png)
 
-### Boîte à outils
-
 > 🗺️ **La carte est une grille**
 > ![En informatique la case tout en haut à gauche, encadrée en rouge, est la case (0, 0). La flèche horizontale est l'axe X, la verticale l'axe Y : X augmente vers la droite, Y vers le bas.](img/origin.png)
 > Le jeu te donne déjà des outils pour récupérer la position du fantôme sur cette grille (`me.X`, `me.Y`) et pour savoir si une case sur la grille est un mur : `map.isWall(x, y)`.
 
 <!-- ws:toolbox -->
+### Boîte à outils
+
 > 🧰 **Outil #1 : `if / then / end` « Si... alors... »**
 > Avec un exemple qui n'a rien à voir avec Pac-Man.
 > ▶️ **Essaye dans la Console :**
@@ -236,6 +236,8 @@ Ici il te faut une **autre variable** `distanceX` qui va stocker la distance hor
 
 Lorsque `distanceX` est négatif : Pac-Man est à **gauche du fantôme**.
 
+> 🗺️ Le jeu te donne déjà les outils pour avoir la position de Pac-Man : `pacman.X` et `pacman.Y`.
+
 <!-- ws:toolbox -->
 ### Boîte à outils
 
@@ -250,8 +252,6 @@ Lorsque `distanceX` est négatif : Pac-Man est à **gauche du fantôme**.
 > ```
 > 📘 [Les opérateurs logiques](https://www.lua.org/manual/5.3/manual.html#3.4.5)
 <!-- /ws:toolbox -->
-
-> 🗺️ Le jeu te donne déjà les outils pour avoir la position de Pac-Man : `pacman.X` et `pacman.Y`.
 
 ### 🥸 Mise en application
 
@@ -471,7 +471,16 @@ Les deux trajets se ressemblent ? Déplace le fantôme d'une ou deux cases et re
 
 Jusqu'ici tes règles sont testées dans un ordre fixé d'avance. Teste d'abord l'axe où l'écart est **le plus grand**.
 
-Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe devient le plus grand, et il change d'axe à la case suivante (le fantôme bouge alors en escalier).
+![Deux grilles. À gauche : l'écart horizontal vaut 4 cases, le vertical 3, et le fantôme part à droite. À droite : le trajet complet, une marche d'escalier à chaque case.](img/a1-e7-diagonale.png)
+
+À chaque case, le fantôme refait le même calcul :
+
+- il compare les deux écarts
+- il avance d'une case sur le plus grand
+- cet écart diminue, l'autre devient le plus grand
+- à la case suivante, il change d'axe
+
+C'est ce qui dessine l'escalier.
 
 > ⏳ C'est l'étape la plus lourde de la partie : prends ton temps.
 
