@@ -31,6 +31,7 @@ function ghost()
 end
 ```
 
+<!-- ws:glossary -->
 ## Ce que le jeu te donne
 
 Ces termes viennent du jeu, pas de Lua.
@@ -42,3 +43,4 @@ Ces termes viennent du jeu, pas de Lua.
 | `pacman.X` `pacman.Y` | Position de Pac-Man (X,Y), en cases |
 | `map.isWall(x, y)` | `true` si la case `(x, y)` est un mur |
 | `'left'` `'right'` `'up'` `'down'` | Les quatre directions que le jeu comprend. Toujours en anglais, toujours entre apostrophes |
+<!-- /ws:glossary -->

@@ -66,6 +66,7 @@ Les quatre grosses pac-gommes blanches, dans les coins, sont des **super pac-gom
 
 Deux choses à écrire dans `ghost`, dans cet ordre : d'abord tes deux premières **flèches**, celles qui font entrer dans `'scared'` et qui en font sortir, ensuite ce qu'il fait quand il a peur. Il **fuit** : là où ton arbre disait « Pac-Man est à gauche, va à gauche », la fuite dit l'inverse.
 
+<!-- ws:toolbox -->
 ### Boîte à outils
 
 > 🧰 **Outil #1 : `==` demande « est-ce exactement ça ? »**
@@ -80,6 +81,7 @@ Deux choses à écrire dans `ghost`, dans cet ordre : d'abord tes deux première
 > end
 > ```
 > 📘 [Les opérateurs relationnels](https://www.lua.org/manual/5.3/manual.html#3.4.4)
+<!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
 
@@ -120,6 +122,7 @@ En `'patrol'`, le fantôme ne te cherche pas. À chaque case, il regarde les dir
 
 Ça donne un fantôme qui **ne va nulle part en particulier** : il tourne autour de son point de départ au lieu de traverser la carte. C'est ce que veut dire « au hasard », et c'est exactement ce qu'on veut voir ici.
 
+<!-- ws:toolbox -->
 ### Boîte à outils
 
 > 🧰 **Outil #1 : construire une liste petit à petit**
@@ -147,6 +150,7 @@ En `'patrol'`, le fantôme ne te cherche pas. À chaque case, il regarde les dir
 > ```
 > **En Lua, les listes commencent à 1**, pas à 0.
 > 📘 [math.random](https://www.lua.org/manual/5.3/manual.html#pdf-math.random) · [l'opérateur #](https://www.lua.org/manual/5.3/manual.html#3.4.7)
+<!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
 
@@ -178,6 +182,7 @@ Tu tiens les trois comportements, et les deux flèches de `'scared'`. Il te manq
 
 « Proche » se mesure en **cases** : l'écart horizontal **plus** l'écart vertical. Le seuil de cette partie est **5 cases**.
 
+<!-- ws:toolbox -->
 ### Boîte à outils
 
 > 🧰 **Outil #1 : `math.abs` retire le signe**
@@ -214,6 +219,7 @@ Tu tiens les trois comportements, et les deux flèches de `'scared'`. Il te manq
 > Tape ensuite `humeur` dans la **Console** : tu lis `agacé`.
 > D'où : `humeur == 'calme'`. Quand : `bruit > 50`. Vers où : `humeur = 'agacé'`.
 > Une flèche qui part de **n'importe quel** mode ne teste pas `humeur` : elle n'a que le « quand ».
+<!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
 
@@ -285,6 +291,7 @@ Deux outils : `me.direction`, la direction que le fantôme suit en ce moment, et
 
 La règle à poser **avant** ton tirage au hasard : si `compteur < 5` **et** que la case devant est libre, continue dans `me.direction`. Sinon, remets `compteur` à 0 et tire.
 
+<!-- ws:toolbox -->
 ### Boîte à outils
 
 > 🧰 **Outil #1 : une variable qui survit d'un appel à l'autre**
@@ -310,6 +317,7 @@ La règle à poser **avant** ton tirage au hasard : si `compteur < 5` **et** que
 > if animal == 'chat'  then return leChatMiaule end
 > ```
 > *(Il existe plus court, si tu ranges tes réponses autrement. Cherche, si ça t'amuse.)*
+<!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
 

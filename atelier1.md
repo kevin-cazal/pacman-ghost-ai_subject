@@ -64,6 +64,7 @@ Les flèches ne font rien ? Le contour jaune entoure sûrement le panneau **Code
 
 Le fantôme ne bouge pas, et c'est normal : `ghost` renvoie `nil`, ce qui veut dire « je ne fais rien ». Remplace ce `nil` par une direction, et il partira.
 
+<!-- ws:toolbox -->
 ### Boîte à outils
 
 > 🧰 **Outil #1 : `return` « ma réponse est... »**
@@ -77,6 +78,7 @@ Le fantôme ne bouge pas, et c'est normal : `ghost` renvoie `nil`, ce qui veut d
 > ```
 > Les guillemets font partie du code, et tout s'écrit en anglais et en minuscules.
 > 📘 [L'instruction `return`](https://www.lua.org/manual/5.3/manual.html#3.3.4)
+<!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
 
@@ -134,6 +136,7 @@ Ton fantôme part à gauche quoi qu'il arrive. Pour qu'il s'arrête au mur, il f
 > ![En informatique la case tout en haut à gauche, encadrée en rouge, est la case (0, 0). La flèche horizontale est l'axe X, la verticale l'axe Y : X augmente vers la droite, Y vers le bas.](img/origin.png)
 > Le jeu te donne déjà des outils pour récupérer la position du fantôme sur cette grille (`me.X`, `me.Y`) et pour savoir si une case sur la grille est un mur : `map.isWall(x, y)`.
 
+<!-- ws:toolbox -->
 > 🧰 **Outil #1 : `if / then / end` « Si... alors... »**
 > Avec un exemple qui n'a rien à voir avec Pac-Man.
 > ▶️ **Essaye dans la Console :**
@@ -156,6 +159,7 @@ Ton fantôme part à gauche quoi qu'il arrive. Pour qu'il s'arrête au mur, il f
 > not ilPleut   -- false
 > ```
 > 📘 [Les opérateurs logiques](https://www.lua.org/manual/5.3/manual.html#3.4.5)
+<!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
 
@@ -232,6 +236,7 @@ Ici il te faut une **autre variable** `distanceX` qui va stocker la distance hor
 
 Lorsque `distanceX` est négatif : Pac-Man est à **gauche du fantôme**.
 
+<!-- ws:toolbox -->
 ### Boîte à outils
 
 > 🧰 **Outil #1 : `and` exige que deux conditions soient vraies**
@@ -244,6 +249,7 @@ Lorsque `distanceX` est négatif : Pac-Man est à **gauche du fantôme**.
 > end
 > ```
 > 📘 [Les opérateurs logiques](https://www.lua.org/manual/5.3/manual.html#3.4.5)
+<!-- /ws:toolbox -->
 
 > 🗺️ Le jeu te donne déjà les outils pour avoir la position de Pac-Man : `pacman.X` et `pacman.Y`.
 
@@ -326,6 +332,7 @@ modèle, celle-ci te demande de l'adapter. Tout ce qu'il te faut est déjà dans
 - Pour regarder ce qu'il y a à gauche de ton fantôme, tu regardes `me.X - 1`. Pour la droite ?
 - Et pour savoir si Pac-Man est à gauche, tu regardes si `distanceX` est négatif. Et pour savoir s'il est à droite ?
 
+<!-- ws:toolbox -->
 ### Boîte à outils
 
 > 🧰 **Outil #1 : `>` « plus grand que »**
@@ -351,6 +358,7 @@ modèle, celle-ci te demande de l'adapter. Tout ce qu'il te faut est déjà dans
 >   return 'reviser'
 > end
 > ```
+<!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
 
@@ -467,6 +475,7 @@ Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe
 
 > ⏳ C'est l'étape la plus lourde de la partie : prends ton temps.
 
+<!-- ws:toolbox -->
 ### Boîte à outils
 
 > 🧰 **Outil #1 : `math.abs` retire le signe**
@@ -526,6 +535,7 @@ Le fantôme avance alors d'une case sur cet axe, l'écart y diminue, l'autre axe
 > ```
 > Change une valeur tout en haut, relance : tu obtiens une autre réponse.
 > **Compte les** `end` **de cet exemple : il y en a cinq.** Un par règle intérieure, il y en a quatre, **plus un** pour le `if / else` qui les contient, tout en bas. Et un `return` intérieur sort de la fonction entière, pas seulement de sa branche.
+<!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
 
