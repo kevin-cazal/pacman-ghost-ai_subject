@@ -27,7 +27,8 @@ Le jeu fonctionne déjà en partie : Pac-Man se déplace et mange les pac-gommes
 
 **Ton objectif :** démarrer le jeu sans toucher au code, déplacer Pac-Man avec les flèches de ton clavier, taper ta première ligne de code dans la **Console**, puis provoquer une erreur exprès pour voir ce que ça fait.
 
-1. En haut de cette page, clique sur le bouton **Ouvrir Pac-Man** : le jeu s'ouvre à côté des instructions ou dans un nouvel onglet.
+1. Clique sur le bouton **Pac-Man**, celui qui clignote : le jeu s'ouvre à côté des instructions ou dans un nouvel onglet.
+   <!-- ws:cue runtime -->
 2. Clique dans le panneau **Jeu**, puis sur **Démarrer**, et joue une partie rapidement.
 3. Clique dans la **Console**, sous l'éditeur, tape `1 + 1` et appuie sur Entrée.
 4. Efface le `end` de la **ligne 3**, celui qui ferme `ghost`, puis clique **Arrêter** et **Démarrer**.
