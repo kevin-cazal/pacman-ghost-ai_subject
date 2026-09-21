@@ -31,7 +31,7 @@ Le jeu fonctionne déjà en partie : Pac-Man se déplace et mange les pac-gommes
    <!-- ws:cue runtime -->
 2. Clique dans le panneau **Jeu**, puis sur **Démarrer**, et joue une partie rapidement.
 3. Clique dans la **Console**, sous l'éditeur, tape `1 + 1` et appuie sur Entrée.
-4. Efface le `end` de la **ligne 3**, celui qui ferme `ghost`, puis clique **Arrêter** et **Démarrer**.
+4. Efface le `end` de la **ligne 3**, celui qui ferme `ghost`, puis clique sur **Réinitialiser** et **Démarrer**.
 
 La **Console** te répond :
 
@@ -185,8 +185,8 @@ end
 Si on décompose `not map.isWall(me.X - 1, me.Y)` :
 
 - `not` : le **contraire** de...
-  - `map.isWall(..., ...)` : est-ce que cette case-là est un mur ? Quelle case ?
-    - `me.X - 1` : celle qui est à gauche du fantôme, `me.Y` : la position verticale du fantôme.
+  - `map.isWall(..., ...)` : est-ce que cette case-là est un mur ? **Quelle case** ?
+    - `me.X - 1` : celle qui est à **gauche du fantôme**, `me.Y` : la **position verticale du fantôme**.
 
 </details>
 
@@ -214,10 +214,10 @@ est écrit pareil sur les deux lignes (une majuscule change tout).
 
 <!-- ws: {type: quiz, id: a1-can-go-left-2, kind: single} -->
 > À quelle case correspondrait `(me.X + 1, me.Y)` ?
-- A. Gauche
-- B. Droite
-- C. Haut
-- D. Bas
+- A. La case à gauche de Pac-Man
+- B. La case à droite du fantôme
+- C. La case en haut du fantôme
+- D. La case en bas de Pac-Man
 
 <!-- ws: {type: quiz, id: a1-can-go-left-3, kind: multiple} -->
 > Que se passerait-il si `canGoLeft` valait `false` ?
@@ -256,7 +256,7 @@ Lorsque `distanceX` est négatif : Pac-Man est à **gauche du fantôme**.
 
 ### 🥸 Mise en application
 
-**Ton objectif :** un fantôme qui ne va à gauche **QUE SI** Pac-Man est à sa gauche, **ET** qu'il peut y aller.
+**Ton objectif :** un fantôme qui ne va à gauche **QUE SI** Pac-Man est à sa gauche (distanceX négatif), **ET** qu'il peut y aller (pas de mur à gauche).
 
 ```lua
 -- dans ghost, sous canGoLeft
@@ -328,7 +328,7 @@ complet ci-dessus, ligne par ligne : le `-` de `pacman.X - me.X`, et le `then` e
 Pour aller à droite, c'est comme pour aller à gauche... mais dans l'autre sens.
 
 À partir d'ici, le code ne t'est plus écrit en entier : les trois premières étapes te donnaient le
-modèle, celle-ci te demande de l'adapter. Tout ce qu'il te faut est déjà dans ton fichier.
+modèle, celle-ci te demande de l'adapter.
 
 - Pour regarder ce qu'il y a à gauche de ton fantôme, tu regardes `me.X - 1`. Pour la droite ?
 - Et pour savoir si Pac-Man est à gauche, tu regardes si `distanceX` est négatif. Et pour savoir s'il est à droite ?
@@ -376,9 +376,11 @@ Tu dois obtenir ceci :
 
 ![La règle de droite s'applique : le fantôme s'élance et suit Pac-Man sur tout l'axe horizontal.](img/a1-e4-droite.gif)
 
-*C'est réussi si :* tu poses Pac-Man **à gauche** du fantôme et il part à gauche, **puis** à
-droite et il part à droite. Vérifie les deux : avec un seul des deux essais, une règle de droite
-qui compare dans le mauvais sens passe sans que ça se voie.
+*C'est réussi si :*
+- Quand tu poses Pac-Man **à gauche** du fantôme : il part à gauche,
+- Quand tu poses Pac-Man **à droite** : il part à droite.
+
+Vérifie les deux !
 
 À ce stade ton fichier contient **deux** variables `canGo...`, **un** `distanceX` et **deux**
 règles. Compte-les dans ton fichier : si le compte n'y est pas, tu sais déjà quoi chercher.
@@ -405,7 +407,7 @@ Même modèle, sur l'autre axe. Une seule différence, et c'est **le** piège de
 
 `map.isWall` prend **d'abord la colonne, ensuite la ligne** : `map.isWall(X, Y)`. Pour regarder à gauche ou à droite, c'est donc le **premier** nombre que tu décales ; pour regarder en haut ou en bas, le **second**.
 
-Les deux directions te manquent aussi : le fantôme réagira lorsque `ghost` renverra `'up'` et `'down'` (avec les apostrophes, exactement comme `return 'left'` et `return 'right'`).
+Les deux directions te manquent aussi : souviens-toi de `return 'up'` et `return 'down'`.
 
 ### 🥸 Mise en application
 
@@ -440,7 +442,7 @@ un `nil` ?
 
 </details>
 
-> 💡 Tu trouves que tu écris quatre fois la même chose avec un mot qui change ? C'est normal, et ça s'écrit une seule fois : le **défi #3**, en bas de cette page, te montre comment.
+> 💡 Tu trouves que tu écris quatre fois le même bloc de code et que c'est redondant ? C'est normal, il est possible de synthétiser tout ça à l'aide d'une fonction (cf. **défi #3** à la fin de cet atelier).
 
 ## Étape 6 : L'ordre des règles compte
 <!-- ws: {type: exercise, id: a1-priorite-regles} -->
@@ -456,7 +458,7 @@ Quand Pac-Man est en diagonale, plusieurs de tes règles sont vraies en même te
 3. échange l'ordre de tes règles horizontales et verticales, sans toucher à tes variables
 4. relance, et regarde de nouveau
 
-> ⚠️ **Ne touche à rien d'autre.** Entre les deux essais, laisse le fantôme et Pac-Man exactement dans leurs coins : si tu les déplaces aussi, le trajet changera, et tu ne sauras pas si c'est à cause de l'ordre ou de tes coins.
+> ⚠️ **Ne touche à rien d'autre.** Entre les deux essais, laisse le fantôme et Pac-Man exactement dans leurs coins.
 
 Tu dois obtenir ceci : **deux trajets opposés, avec exactement les mêmes règles** :
 
@@ -466,9 +468,7 @@ Tu dois obtenir ceci : **deux trajets opposés, avec exactement les mêmes règl
 
 **C'est réussi quand tu as vu les deux**, et tu dois pouvoir le remontrer : laisse le fantôme et
 Pac-Man dans leurs coins, jeu arrêté, et garde tes deux règles verticales juste au-dessus des
-horizontales. Les remonter ou les redescendre rejoue les deux trajets à la demande.
-
-Les deux trajets se ressemblent ? Déplace le fantôme d'une ou deux cases et recommence : depuis certaines cases une seule direction est libre, et l'ordre n'y change rien.
+horizontales.
 
 ## Étape 7 : Couper en diagonale
 <!-- ws: {type: exercise, id: a1-optimiser-recherche} -->
@@ -554,15 +554,15 @@ C'est ce qui dessine l'escalier.
 
 **Ton objectif :** un fantôme qui coupe en diagonale, au lieu d'un grand trait puis un virage.
 
-- sur une cible immobile : même nombre de cases, ça ne change rien
-- mais toi, tu bouges
+- sur une cible immobile : le fantôme se déplacera sur le même nombre de cases, ça ne change rien
+- mais Pac-Man, lui, bouge
 
 **Ce que tu écris, sous tes variables :**
 
-- recopie tes quatre règles dans **chacune** des deux branches
-- les mêmes quatre règles des deux côtés, dans un ordre différent
-- c'est de là que viennent les huit
-- à la fin, **plus une seule règle en dehors** de l'ossature
+- Une condition : l'écart horizontal est-il le plus grand ?
+    - Si c'est le cas : les 4 règles en commençant par les règles gauche et droite.
+- Sinon :
+    - les 4 règles en commençant par les règles haut et bas.
 
 ```lua
 if nil then -- remplace nil par ta comparaison : l'écart horizontal est-il le plus grand ?
@@ -572,29 +572,29 @@ else
 end
 ```
 
-> 🧱 Le `end` de l'ossature est déjà placé. Chaque règle garde le sien.
+> 🧱 Ferme bien chaque `if ... then` par un `end`.
 
-Oui, c'est répétitif : c'est presque toujours la même règle, avec un mot qui change.
+Oui, c'est répétitif : c'est presque toujours le même bloc de code, avec une légère modification à chaque fois.
 
 Tu dois obtenir ceci (Pac-Man en bas à gauche, le fantôme en haut à droite, pour mieux voir) :
 
 ![Axe le plus long d'abord : il coupe en escalier au lieu d'un seul grand trait.](img/a1-e7-escalier.gif)
 
-*C'est réussi si :* tu poses Pac-Man **exactement en diagonale** du fantôme, autant de cases en largeur qu'en hauteur, et qu'il **ne fait jamais plus de deux cases de suite dans la même direction**. Compte-les : avant cette étape, il en faisait quatre, puis tournait une fois.
+*C'est réussi si :* tu poses Pac-Man **exactement en diagonale** du fantôme, autant de cases en largeur qu'en hauteur, et qu'il **ne fait jamais plus de deux cases de suite dans la même direction**.
 
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
 
 **Coupe l'étape en deux, teste au milieu.**
 
-*Moitié 1, la comparaison seule.* `print(math.abs(distanceX), math.abs(distanceY))` juste après tes variables. Les deux nombres s'affichent dans le panneau **Console**, sous l'éditeur. Ça défile : regarde la dernière ligne. Bougent-ils comme tu l'attends quand tu te déplaces ?
+*Moitié 1, la comparaison seule.* `print(math.abs(distanceX), math.abs(distanceY))` juste après tes variables. Les deux nombres s'affichent dans le panneau **Console**, sous l'éditeur. Ça défile : regarde la dernière ligne.
 
 *Moitié 2, la structure.* Tes règles marchent déjà : tu n'as **rien** à réécrire dedans. Tu les recopies dans les deux branches, dans un ordre différent.
 
 </details>
 
 ## Étape 8 : Jouer une partie complète
-<!-- ws: {type: exercise, id: a1-partie-complete} -->
+<!-- ws: {type: exercise, id: a1-partie-complete, optional: true} -->
 
 - **Victoire** : **toutes** les pac-gommes, y compris celle cachée sous le fantôme au départ.
 - **Mort** : tu le touches, « **Perdu !** », et ça redémarre après 3 s.
@@ -602,17 +602,12 @@ Tu dois obtenir ceci (Pac-Man en bas à gauche, le fantôme en haut à droite, p
 
 ### 🥸 Mise en application
 
-**Ton objectif :** profite de ce que tu as fait, et gagne une partie.
+**Ton objectif :** profite de ce que tu as fait, et essaye de gagner une partie.
 
 ![Partie gagnée : compteur à 0, score à 2 270.](img/a1-e8-victoire.png)
 
-> 💬 **Tu n'as pas encore gagné de partie ?** Ce n'est pas grave. Un fantôme qui te poursuit, même imparfaitement, c'est déjà ton code qui décide.
-
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
-
-Tu perds tout le temps ? Sers-toi des trois pavés bleus : ton fantôme ne sait pas contourner, un
-mur entre vous et il vient s'y coller.
 
 Un bug revient ? Fais afficher tes variables avec `print` : le texte sort dans le panneau
 **Console**, sous l'éditeur. Commence par la ligne que tu viens d'écrire.
@@ -638,7 +633,7 @@ Quand tu es sur la même ligne **ou** la même colonne que lui, fais-le s'arrêt
 
 ### Défi #3 : La règle écrite une seule fois
 
-À l'étape 7 tu as recopié tes quatre règles dans les deux branches. Une **fonction** te permet de l'écrire une fois et de t'en servir partout. C'est le seul défi de cette page qui demande une notion neuve. La voici, sur un exemple qui n'a rien à voir :
+À l'étape 7 tu as recopié tes quatre règles dans les deux branches. Une **fonction** te permet de l'écrire une fois et de t'en servir partout. C'est une nouvelle notion. La voici, sur un exemple qui n'a rien à voir :
 
 ```lua
 function ilFaitBeau(soleil, vent)
