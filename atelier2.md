@@ -1,6 +1,7 @@
 # Partie 2 : Machine à états finis
 
 ## Mise en contexte
+<!-- ws: {type: prose} -->
 
 Ton fantôme poursuit **tout le temps**, même à l'autre bout de la carte : impossible de le semer
 une seconde. Tu vas lui donner trois humeurs.

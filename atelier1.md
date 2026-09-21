@@ -1,6 +1,7 @@
 # Partie 1 : Arbre de décision
 
 ## Mise en contexte
+<!-- ws: {type: prose} -->
 
 Un arbre de décision, c'est une suite de règles « si... alors... sinon... » testées dans un ordre précis.
 
