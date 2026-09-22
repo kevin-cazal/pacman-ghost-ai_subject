@@ -15,3 +15,10 @@ answers:
   a1-distance-x-1: "B"
   a1-distance-x-2: ["A", "B"]
   a1-distance-x-3: ["A", "D"]
+  # Partie 2, étape 1 : ce qui déclenche la peur, où l'on fuit, et dans quel
+  # ordre tester. A : `game.scaredTimer` descend de 8 vers 0, la peur dure tant
+  # qu'il est au-dessus. C : Pac-Man à droite, donc fuir, c'est aller à gauche.
+  # A : la peur se teste avant la poursuite, sinon la poursuite répond d'abord.
+  a2-peur-fuite-1: "A"
+  a2-peur-fuite-2: "C"
+  a2-peur-fuite-3: "A"

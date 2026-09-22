@@ -14,10 +14,6 @@ une seconde. Tu vas lui donner trois humeurs.
 **La couleur du fantôme te dit dans quel mode il est.** C'est comme ça que tu vérifieras ton code
 à chaque étape.
 
-**Ce qu'il te faut :** un fantôme qui bouge, où que tu te sois arrêté dans la partie 1.
-La partie 2 enveloppe ton arbre **tel qu'il est** : même un fantôme qui ne sait aller qu'à gauche
-prendra les trois couleurs.
-
 > 🛟 **Coincé ?** Les termes propres à cette partie sont dans le glossaire juste en dessous.
 
 <details><summary>Glossaire de la partie 2</summary>
@@ -39,7 +35,7 @@ prendra les trois couleurs.
 ## Étape 0 : L'état du fantôme
 <!-- ws: {type: exercise, id: a2-etat-patrol} -->
 
-Une **machine à états finis** est dans une seule humeur à la fois, et elle en change quand un événement arrive.
+Une **machine à états finis** est dans un seul mode à la fois, et elle en change quand un événement arrive.
 
 ![Les trois modes du fantôme, et ce qui le fait passer de l'un à l'autre.](img/machine-etats.png)
 
@@ -56,16 +52,19 @@ state = 'patrol'
 
 C'est son humeur de **départ** : tant que tu n'as pas écrit de flèche, il gardera celle-là toute la partie.
 
-Pour vérifier, remplace `'patrol'` par `'follow'` et relance : le fantôme devient **rouge**. Remets `'patrol'` : il redevient orange. Le jeu lit ta variable après chaque appel de `ghost`, c'est elle qui donne sa couleur.
+Pour vérifier, remplace `'patrol'` par `'follow'` et relance : le fantôme devient **rouge**. Remets `'patrol'`.
 
 ![Il poursuit comme à la fin de la partie 1, et il est orange, désormais cette couleur veut dire quelque chose.](img/a2-e1-orange.gif)
 
 ## Étape 1 : Prendre peur et fuir
-<!-- ws: {type: exercise, id: a2-peur-fuite} -->
+<!-- ws: {type: exercise, id: a2-peur-fuite, validation: quiz} -->
 
 Les quatre grosses pac-gommes blanches, dans les coins, sont des **super pac-gommes**. Quand tu en manges une, `game.scaredTimer` passe à 8 et redescend seconde après seconde. Au-dessus de 0, le fantôme a peur.
 
-Deux choses à écrire dans `ghost`, dans cet ordre : d'abord tes deux premières **flèches**, celles qui font entrer dans `'scared'` et qui en font sortir, ensuite ce qu'il fait quand il a peur. Il **fuit** : là où ton arbre disait « Pac-Man est à gauche, va à gauche », la fuite dit l'inverse.
+Ce que tu vas ajouter dans `ghost` :
+- Passer en mode `scared`
+- Sortir du mode `scared`
+- Comment se déplacer quand le fantôme est en mode `scared`
 
 <!-- ws:toolbox -->
 ### Boîte à outils
@@ -88,10 +87,11 @@ Deux choses à écrire dans `ghost`, dans cet ordre : d'abord tes deux première
 
 **Ton objectif :** un fantôme qui devient bleu quand tu manges une grosse pac-gomme blanche, qui s'écarte au lieu de te courir après, et que tu peux attraper sans mourir.
 
-1. **Au début de `ghost`**, deux flèches : une qui range `'scared'` dans `state` quand `game.scaredTimer` est au-dessus de 0, et une qui le remet à `'patrol'` quand la peur est finie (`game.scaredTimer == 0`).
-2. **Ensuite**, un bloc `if state == 'scared' then` **avant** ton arbre de la partie 1, avec **quatre** règles, une par direction, et les comparaisons retournées. Ton arbre en compte huit depuis l'étape 7 : ici, quatre suffisent.
-   - Pourquoi **avant** ton arbre de la partie 1 ?
-   - Lorsqu'il a peur, le **fantôme va à gauche** uniquement si **Pacman est à sa droite ET qu'il n'y a pas de mur à gauche**
+Poses-toi les bonnes questions pour t'aider à coder cette étape :
+- Dans quelle condition le fantôme passe en mode `scared` ?
+- Dans quelle condition il en sort ?
+- Dans la partie 1, tu as un fantôme qui essaye de se rapprocher de Pac-Man, comment faire pour dire au fantôme de s'en éloigner ?
+- Dans la partie 1, tu as vu que l'ordre dans lequel ton code est exécuté a son importance, que doit faire le fantôme en priorité ?
 
 Tu dois obtenir ceci :
 
@@ -101,8 +101,6 @@ Tu dois obtenir ceci :
 <details><summary>Si tu es bloqué</summary>
 
 - **Coupe l'étape en deux, teste au milieu.**
-  - *Moitié 1, la couleur seule.* Écris seulement tes deux flèches, puis mange une grosse pac-gomme blanche : le fantôme doit passer au bleu. Il continue à te poursuivre, c'est normal, aucune règle ne regarde encore ce mode.
-  - *Moitié 2, la fuite.* Ajoute le bloc `scared`.
 - Tu peux utiliser `print(game.scaredTimer)` ou `print(state)` au début de `ghost` et regarder le panneau **Console** pour t'aider à comprendre ce que fait ton code.
 - Essaye de bien te rappeler ce que signifie :
   - `distanceX > 0` et `distanceX < 0` : voir l'étape 3 de la partie 1
@@ -114,14 +112,32 @@ Le fantôme ne bouge plus quand il a peur ? Il est peut-être acculé : toutes l
 
 ![Pac-Man bouge, le fantôme bleu non : ses deux seules cases libres le rapprocheraient de toi.](img/a2-e5-accule.gif)
 
-Que **devrait** faire ton code dans ce cas ? Il n'y a pas une seule bonne réponse, et c'est toi qui décides : rester immobile et se faire manger, prendre quand même la case la moins mauvaise, ou repartir en patrouille. Tu pourras gérer ce cas spécifique s'il te reste du temps à la fin de cet atelier.
+<!-- ws: {type: quiz, id: a2-peur-fuite-1, kind: single} -->
+> Dans quelle condition le fantôme passe en mode `scared` ?
+- A. Quand `game.scaredTimer > 0`
+- B. Quand `game.scaredTimer == 0`
+- C. Quand `game.scaredTimer < 0`
+- D. Quand Pac-Man s'approche de lui
+
+<!-- ws: {type: quiz, id: a2-peur-fuite-2, kind: single} -->
+> Lorsque le fantôme a peur et Pac-Man est à droite, où doit aller le fantôme ?
+- A. En bas
+- B. À droite
+- C. À gauche
+- D. En haut
+
+<!-- ws: {type: quiz, id: a2-peur-fuite-3, kind: single} -->
+> Dans quel ordre doit s'exécuter ton code pour que ton fantôme ait le bon comportement ?
+- A. Vérifier si le fantôme a peur. S'il a peur : fuir, sinon : se rapprocher.
+- B. Se rapprocher. Vérifier si le fantôme a peur, s'il a peur : fuir.
+- C. L'ordre d'exécution du code n'a pas d'importance
 
 ## Étape 2 : Errer au hasard
 <!-- ws: {type: exercise, id: a2-patrouiller} -->
 
 En `'patrol'`, le fantôme ne te cherche pas. À chaque case, il regarde les directions libres et en tire une au hasard.
 
-Ça donne un fantôme qui **ne va nulle part en particulier** : il tourne autour de son point de départ au lieu de traverser la carte. C'est ce que veut dire « au hasard », et c'est exactement ce qu'on veut voir ici.
+Ça donne un fantôme qui **ne va nulle part en particulier** : il tourne autour de son point de départ au lieu de traverser la carte.
 
 <!-- ws:toolbox -->
 ### Boîte à outils
@@ -155,13 +171,13 @@ En `'patrol'`, le fantôme ne te cherche pas. À chaque case, il regarde les dir
 
 ### 🥸 Mise en application
 
-**Ton objectif :** un fantôme qui erre sans te chercher, et qui ne traverse aucun mur.
+**Ton objectif :** un fantôme qui se déplace de manière aléatoire.
 
 Un bloc `if state == 'patrol' then`, entre le bloc `scared` que tu viens d'écrire et tes règles de poursuite. Dedans :
 
 1. construis la liste des directions libres, en te servant des `canGo...` que tu as depuis la partie 1
-   - Tu peux appeler ta liste `possibleDirections`
-2. tires-en une au hasard, et renvoie-la
+   - Ta liste est une variable, tu peux l'appeler `possibleDirections`
+2. tires-en une au hasard, et renvoie-la avec `return`
 
 Tu dois obtenir ceci : il erre sans traverser un seul mur, et il ne te poursuit plus du tout, même collé à toi. C'est voulu et c'est temporaire : la poursuite revient à l'étape 3, en mieux.
 
@@ -172,16 +188,16 @@ Tu dois obtenir ceci : il erre sans traverser un seul mur, et il ne te poursuit 
 
 - **Ta liste se construit-elle ?** `print(#possibleDirections)` juste avant le tirage, et regarde le panneau **Console**, sous l'éditeur. Si le nombre reste à 0, le problème est dans la construction de ta liste, pas dans le tirage. (Et tu risques d'avoir une erreur qui s'affiche.)
 - **Il te poursuit encore, comme avant ?** Alors ton bloc `patrol` n'est jamais atteint : vérifie que `state = 'patrol'` est bien en haut de ton fichier (étape 0), et que ton bloc s'écrit `state == 'patrol'`, avec deux `=`.
-- **Il traverse les murs ?** Tu as mis les quatre directions dans la liste sans les filtrer. Seules les libres y entrent.
+- **Il traverse les murs ?** Tu as mis les quatre directions dans la liste sans les filtrer. Mets uniquement les directions libres dans ta liste.
 
 </details>
 
 ## Étape 3 : Poursuivre seulement quand tu es proche
 <!-- ws: {type: exercise, id: a2-mode-follow} -->
 
-Tu tiens les trois comportements, et les deux flèches de `'scared'`. Il te manque les deux qui relient `'patrol'` et `'follow'` : proche fait passer en `'follow'`, loin ramène en `'patrol'`.
+Tu tiens les trois comportements, et les deux branches de `'scared'`. Il te manque les deux qui relient `'patrol'` et `'follow'` : proche fait passer en `'follow'`, loin ramène en `'patrol'`.
 
-« Proche » se mesure en **cases** : l'écart horizontal **plus** l'écart vertical. Le seuil de cette partie est **5 cases**.
+« Proche » se mesure en **cases** : l'écart horizontal **plus** l'écart vertical. Le seuil est de **5 cases**.
 
 <!-- ws:toolbox -->
 ### Boîte à outils
@@ -207,33 +223,20 @@ Tu tiens les trois comportements, et les deux flèches de `'scared'`. Il te manq
 > ```
 > 📘 [Les opérateurs de comparaison](https://www.lua.org/manual/5.3/manual.html#3.4.4)
 
-> 🧰 **Outil #3 : écrire une flèche du diagramme**
-> Une flèche a trois morceaux : **d'où** elle part, **quand** elle part, et **vers où** elle va.
-> ▶️ **Essaye dans la Console :**
-> ```lua
-> humeur = 'calme'
-> bruit = 80
-> if humeur == 'calme' and bruit > 50 then
->   humeur = 'agacé'
-> end
-> ```
-> Tape ensuite `humeur` dans la **Console** : tu lis `agacé`.
-> D'où : `humeur == 'calme'`. Quand : `bruit > 50`. Vers où : `humeur = 'agacé'`.
-> Une flèche qui part de **n'importe quel** mode ne teste pas `humeur` : elle n'a que le « quand ».
 <!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
 
 **Ton objectif :** un fantôme qui patrouille quand tu t'éloignes, et te repère quand tu reviens.
 
-Tout se joue dans tes flèches. Tes règles de déplacement ne changent pas : ton arbre de la partie 1 est déjà ce que fait le fantôme quand il n'est ni `scared` ni `patrol`.
+Tout se joue dans tes branches. Tes règles de déplacement ne changent pas : ton arbre de la partie 1 est déjà ce que fait le fantôme quand il n'est ni `scared` ni `patrol`.
 
 1. une variable `totalDistance` qui vaut la distance en cases
-2. les deux flèches qui manquent : celle qui part de `'patrol'` quand `totalDistance` descend à 5 ou moins, et celle du retour, qui part de `'follow'` quand tu t'éloignes
+2. les deux branches qui manquent : celle qui part de `'patrol'` quand `totalDistance` descend à 5 ou moins, et celle du retour, qui part de `'follow'` quand tu t'éloignes
 
 Tu dois obtenir ceci : **orange** de loin, **rouge** à 5 cases ou moins, orange à nouveau quand tu t'éloignes. En rouge, le jeu le fait aussi accélérer un peu : ça ne vient pas de ton code.
 
-![Pac-Man approche : le fantôme erre en orange, puis vire au rouge dès qu'il passe sous les cinq cases.](img/a2-e4-bascule.gif)
+![Pac-Man approche : le fantôme erre en orange, puis vire au rouge dès qu'il est à moins de cinq cases de Pac-Man.](img/a2-e4-bascule.gif)
 
 ![Le même instant, figé : à cinq cases ou moins, le fantôme est rouge et fonce droit sur Pac-Man.](img/a2-e4-rouge.png)
 
@@ -257,22 +260,20 @@ Tes trois modes existent séparément. Reste à voir s'ils s'enchaînent proprem
 
 ### 🥸 Mise en application
 
-**Ton objectif :** retrouver les six comportements ci-dessous. Pas besoin de finir la partie, tu provoques chaque situation exprès, en deux minutes.
+**Ton objectif :** retrouver les six comportements ci-dessous.
 
 | Ce que tu fais | Ce que tu dois voir |
 | --- | --- |
 | Tu restes à l'autre bout de la carte | **orange**, il erre au hasard sans te chercher |
 | Tu approches à 5 cases ou moins | **rouge**, il accélère et fonce sur toi |
 | Tu manges une grosse pac-gomme blanche | **bleu**, il s'écarte pendant 8 s |
-| Tu le touches en bleu | tu l'attrapes : il repart à l'autre bout de la carte, à moitié effacé, et reprend sa couleur en arrivant |
+| Tu le touches en bleu | tu l'attrapes : il repart à l'autre bout de la carte |
 | Tu le touches en orange ou rouge | tu meurs, ça redémarre après 3 s |
 | À tout moment | il ne traverse aucun mur |
 
-Et si tu veux la gagner en entier, 211 pac-gommes et un score de **2 270**, c'est bien plus dur avec ce fantôme-là qu'à la partie 1 :
+Et si tu veux la gagner en entier, 211 pac-gommes et un score de **2 270** :
 
 ![Partie gagnée. Le fantôme est rouge : il chassait au moment de la dernière pac-gomme.](img/a2-e6-victoire.png)
-
-> 💡 **Tu n'as pas fini les étapes précédentes ?** Va quand même voir le bonus **Ton fantôme à toi** : deux modes qui s'enchaînent se règlent aussi bien que trois.
 
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
@@ -284,9 +285,9 @@ Un mode ne se déclenche jamais ? Reviens à l'étape qui l'a introduit et refai
 ## Bonus : Tenir sa direction
 <!-- ws: {type: exercise, id: a2-tenir-direction, optional: true} -->
 
-Ton fantôme erre, mais il ne va nulle part : à chaque case il retire une direction, et une fois sur quatre c'est un demi-tour. Il tourne autour de son point de départ.
+En mode `patrol`, ton fantôme erre, mais il ne va nulle part : à chaque case il retire aléatoirement une direction, et une fois sur quatre c'est un demi-tour.
 
-Il lui faut garder sa direction quelques cases au lieu de changer à chacune. Ces cases, c'est toi qui vas les compter : le jeu appelle `ghost` **à chaque case**, donc compter les appels, c'est compter les cases.
+Il lui faut garder sa direction quelques cases au lieu de changer à chacune. Le jeu appelle `ghost` **à chaque case**, donc compter les appels, c'est compter les cases.
 
 Deux outils : `me.direction`, la direction que le fantôme suit en ce moment, et une variable à toi, `compteur`, qui augmente de 1 à chaque appel.
 
@@ -306,18 +307,6 @@ La règle à poser **avant** ton tirage au hasard : si `compteur < 5` **et** que
 > ```
 > Appelle `visite()` trois fois dans la **Console**, puis tape `nombreDeVisites` : tu lis `3`.
 > 📘 [Les variables](https://www.lua.org/manual/5.3/manual.html#3.2)
-
-> 🧰 **Outil #2 : aller d'un mot à la bonne réponse**
-> Tu as un mot d'un côté (`'left'`), et des réponses aux noms différents de l'autre (`canGoLeft`...). Le plus direct est de poser la question cas par cas.
-> ▶️ **Essaye dans la Console :**
-> ```lua
-> animal = 'chat'
-> leChienAboie = 'ouaf'
-> leChatMiaule = 'miaou'
-> if animal == 'chien' then return leChienAboie end
-> if animal == 'chat'  then return leChatMiaule end
-> ```
-> *(Il existe plus court, si tu ranges tes réponses autrement. Cherche, si ça t'amuse.)*
 <!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
@@ -333,7 +322,7 @@ Tu dois obtenir ceci :
 
 ![Le fantôme orange tient sa direction plusieurs cases, puis tire la suivante au hasard : il traverse la carte au lieu de tourner en rond.](img/a2-e2-patrouille.gif)
 
-*C'est réussi si :* il file en ligne droite sur plusieurs cases avant de tourner, et qu'en vingt secondes il s'est vraiment éloigné de son point de départ.
+*C'est réussi si :* il file en ligne droite sur plusieurs cases avant de tourner.
 
 ## Bonus : Ton fantôme à toi
 <!-- ws: {type: exercise, id: a2-ton-fantome, optional: true, requires: a2-patrouiller} -->
@@ -361,20 +350,6 @@ Un seul de ces nombres suffit à changer son caractère. Même trajet de Pac-Man
 1. Écris son caractère en trois phrases, **en français**. Par exemple : *« Il ne me voit que de très près. Mais dès qu'il me voit, il coupe au plus court. Et il ne lâche plus. »*
 2. Traduis chaque phrase en un réglage, et donne-lui un nom.
 3. Lance, joue trente secondes : ta description se vérifie-t-elle à l'écran ?
-
-Puis joue contre lui.
-
-> 🎯 **Ton score de survie.** Joue jusqu'à ce qu'il t'attrape : le **Score** affiché quand « Perdu ! » apparaît, c'est ce que tu as ramassé avant qu'il te tombe dessus. Plus il est bas, plus ton fantôme t'a mené la vie dure. Cela va te permettre d'équilibrer ton jeu pour qu'il ne soit ni trop dur ni trop facile.
-
-Note-le, change **un** réglage, rejoue. Trois fois.
-
-| Essai | Ce que j'ai changé | Mon score de survie |
-| --- | --- | --- |
-| 1 | (les réglages de la partie) | |
-| 2 | | |
-| 3 | | |
-
-C'est réussi quand tu sais dire **lequel des trois réglages** a rendu ton fantôme plus dur.
 
 <!-- ws: {type: hint} -->
 <details><summary>Si tu es bloqué</summary>
