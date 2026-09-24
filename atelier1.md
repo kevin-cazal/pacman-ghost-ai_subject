@@ -683,7 +683,6 @@ end
 ```
 
 
-<!-- ws: {type: hint} -->
 <details><summary>Le même code sans utiliser de fonction, plus difficile à lire</summary>
 
 ```lua
