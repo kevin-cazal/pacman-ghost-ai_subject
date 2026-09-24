@@ -634,21 +634,84 @@ Quand tu es sur la même ligne **ou** la même colonne que lui, fais-le s'arrêt
 
 ### Défi #3 : La règle écrite une seule fois
 
-À l'étape 7 tu as recopié tes quatre règles dans les deux branches. Une **fonction** te permet de l'écrire une fois et de t'en servir partout. C'est une nouvelle notion. La voici, sur un exemple qui n'a rien à voir :
+À l'étape 7 tu as recopié tes quatre règles dans les deux branches. Une **fonction** te permet de l'écrire une fois et de t'en servir partout, et rendre ton code plus lisible. C'est une nouvelle notion, voici un exemple:
+
 
 ```lua
 function ilFaitBeau(soleil, vent)
-  if soleil and vent < 20 then
-    return true
-  end
-  return false
+    if soleil and vent < 20 then
+        return true
+    end
+    return false
 end
 
--- ailleurs dans le fichier, autant de fois que tu veux :
-if ilFaitBeau(true, 5) then return 'parasol' end
+function ilFaitChaud(temperature, humidité)
+    if temperature > 25 and humidité > 50 then
+        return true
+    end
+    return false
+end
+
+function ilFaitJour(heure)
+    if heure > 7 and heure < 19 then
+        return true
+    end
+    return false
+end
+
+
+soleil = true
+vent = 32
+heure = 10
+temperature  = 28
+humidité = 60
+
+if ilFaitBeau(soleil, vent) then
+    if ilFaitChaud(temperature, humidité) and ilFaitJour(heure) then   
+        return 'plage'
+    end
+    if not ilFaitJour(heure) then
+        return 'barbecue'
+    end
+else
+    if ilFaitJour(heure) then
+        return 'aller en ville'
+    end
+    return 'soirée Netflix'
+end
+
 ```
 
-Les noms entre parenthèses de la **première** ligne sont les tiens, tu les choisis ; ceux de l'appel sont les vraies valeurs. Écris ta fonction **en dehors** de `ghost`, jamais dedans : le jeu lit ton fichier en entier et n'appelle que `ghost`.
+
+<!-- ws: {type: hint} -->
+<details><summary>Le même code sans utiliser de fonction, plus difficile à lire</summary>
+
+```lua
+soleil = true
+vent = 32
+heure = 10
+temperature  = 28
+humidité = 60
+
+if soleil and vent < 20 then
+    if temperature > 25 and humidité > 50 and heure > 7 and heure < 19 then   
+        return 'plage'
+    end
+    if heure < 7 or heure > 19 then
+        return 'barbecue'
+    end
+else
+    if heure > 7 and heure < 19 then
+        return 'aller en ville'
+    end
+    return 'soirée Netflix'
+end
+```
+
+
+</details>
+
+Écris ta fonction **en dehors** de `ghost`, jamais dedans : le jeu lit ton fichier en entier et n'appelle que `ghost`.
 
 *C'est réussi si :* ton `ghost` est plus court qu'avant, et que ton fantôme se comporte exactement comme à l'étape 7.
 

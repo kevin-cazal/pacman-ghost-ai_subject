@@ -24,6 +24,10 @@ function ghost()
 end
 ```
 
+## Le glossaire
+
+Un glossaire est disponible pour te rapeller à quoi fait référence les termes utilisés tout au long de cette partie.
+
 <!-- ws:glossary -->
 ## Ce que le jeu te donne
 
