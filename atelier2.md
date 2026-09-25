@@ -42,6 +42,7 @@ Une **machine à états finis** est dans un seul mode à la fois, et elle en cha
 Ce diagramme est le plan de toute la partie. Le mode est une variable, `state`, que tu crées **en haut de ton fichier, en dehors de `ghost`**. Les **flèches** sont les règles qui changent `state` ; le reste de `ghost` décide comment bouger **une fois dans un mode**.
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** créer la variable `state`, et vérifier que le jeu la lit.
 
@@ -84,6 +85,7 @@ Ce que tu vas ajouter dans `ghost` :
 <!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** un fantôme qui devient bleu quand tu manges une grosse pac-gomme blanche, qui s'écarte au lieu de te courir après, et que tu peux attraper sans mourir.
 
@@ -170,6 +172,7 @@ En `'patrol'`, le fantôme ne te cherche pas. À chaque case, il regarde les dir
 <!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** un fantôme qui se déplace de manière aléatoire.
 
@@ -226,6 +229,7 @@ Tu tiens les trois comportements, et les deux branches de `'scared'`. Il te manq
 <!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** un fantôme qui patrouille quand tu t'éloignes, et te repère quand tu reviens.
 
@@ -259,6 +263,7 @@ Rouge mais immobile ? Ton arbre de la partie 1 est resté **dans** le bloc `patr
 Tes trois modes existent séparément. Reste à voir s'ils s'enchaînent proprement.
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** retrouver les six comportements ci-dessous.
 
@@ -310,6 +315,7 @@ La règle à poser **avant** ton tirage au hasard : si `compteur < 5` **et** que
 <!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** un fantôme qui tient sa direction cinq cases d'affilée, et qui traverse donc vraiment la carte.
 
@@ -344,6 +350,7 @@ Un seul de ces nombres suffit à changer son caractère. Même trajet de Pac-Man
 ![Seuil à 30, même trajet : il vire au rouge et le prend en chasse à travers toute la carte.](img/a2-e7-longue-vue.gif)
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** un fantôme qui te ressemble, et une partie jouée contre lui.
 
