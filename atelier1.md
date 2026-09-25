@@ -25,6 +25,7 @@ Le jeu fonctionne déjà en partie : Pac-Man se déplace et mange les pac-gommes
 - **Écris toujours entre** `function` **et** `end`.
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** démarrer le jeu sans toucher au code, déplacer Pac-Man avec les flèches de ton clavier, taper ta première ligne de code dans la **Console**, puis provoquer une erreur exprès pour voir ce que ça fait.
 
@@ -83,6 +84,7 @@ Le fantôme ne bouge pas, et c'est normal : `ghost` renvoie `nil`, ce qui veut d
 <!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** un fantôme qui part vers la gauche, puis dans les trois autres directions.
 
@@ -164,6 +166,7 @@ Ton fantôme part à gauche quoi qu'il arrive. Pour qu'il s'arrête au mur, il f
 <!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** le même fantôme, mais qui s'arrête au mur au lieu de le traverser.
 
@@ -256,6 +259,7 @@ Lorsque `distanceX` est négatif : Pac-Man est à **gauche du fantôme**.
 <!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** un fantôme qui ne va à gauche **QUE SI** Pac-Man est à sa gauche (distanceX négatif), **ET** qu'il peut y aller (pas de mur à gauche).
 
@@ -363,6 +367,7 @@ modèle, celle-ci te demande de l'adapter.
 <!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** un fantôme qui te suit dans les deux sens sur une ligne horizontale.
 
@@ -411,6 +416,7 @@ Même modèle, sur l'autre axe. Une seule différence, et c'est **le** piège de
 Les deux directions te manquent aussi : souviens-toi de `return 'up'` et `return 'down'`.
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** un fantôme qui te suit partout, plus seulement sur une ligne.
 
@@ -451,6 +457,7 @@ un `nil` ?
 Quand Pac-Man est en diagonale, plusieurs de tes règles sont vraies en même temps. Le **premier** `if` **avec une condition valide** l'emporte, et les `if` suivants ne sont même pas lus.
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** faire prendre au fantôme un chemin différent, sans changer une seule de tes règles.
 
@@ -552,6 +559,7 @@ C'est ce qui dessine l'escalier.
 <!-- /ws:toolbox -->
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** un fantôme qui coupe en diagonale, au lieu d'un grand trait puis un virage.
 
@@ -602,6 +610,7 @@ Tu dois obtenir ceci (Pac-Man en bas à gauche, le fantôme en haut à droite, p
 - Les grosses pac-gommes blanches ne font rien pour l'instant.
 
 ### 🥸 Mise en application
+<!-- ws:doit -->
 
 **Ton objectif :** profite de ce que tu as fait, et essaye de gagner une partie.
 
